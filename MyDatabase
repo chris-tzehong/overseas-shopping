@@ -1,0 +1,186 @@
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class MyDatabaseDbHelper extends SQLiteOpenHelper {
+
+    public static final int DATABASE_VERSION = 1;
+    public static final String DATABASE_NAME = "MyDatabase.db";
+
+    public static final String TABLE_USERNAMES = "usernames";
+    public static final String TABLE_PRODUCTS = "products";
+    public static final String TABLE_ORDERS = "orders";
+    public static final String TABLE_MESSAGES = "messages";
+    public static final String TABLE_CREDIT_CARDS = "credit_cards";
+    public static final String TABLE_RATINGS = "ratings";
+
+    public static final String USER_NUMBER = "user_number";
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+    public static final String TELEPHONE = "telephone";
+    public static final String ADDRESS = "address";
+    public static final String RATING = "rating";
+    public static final String TOTAL_RATED_BY = "total_rated_by";
+    public static final String PRODUCT_NUMBER = "product_number";
+    public static final String PHOTO = "photo";
+    public static final String PRODUCT_NAME = "product_name";
+    public static final String DESCRIPTION = "description";
+    public static final String PRICE = "price";
+    public static final String ORDER_NUMBER = "order_number";
+    public static final String SELLER = "seller";
+    public static final String BUYER = "buyer";
+    public static final String TIME = "time";
+    public static final String MESSAGE_NUMBER = "message_number";
+    public static final String USER1 = "user1";
+    public static final String USER2 = "user2";
+    public static final String MESSAGE = "message";
+    public static final String CARD_ID = "card_id";
+    public static final String CARD_NUMBER = "card_number";
+    public static final String SECURITY_NUMBER = "security_number";
+    public static final String EXPIRY_DATE = "expiry_date";
+    public static final String RATING_NUMBER = "rating_number";
+    public static final String RATED_BY ="rated_by";
+
+
+    public MyDatabaseDbHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    private static final String SQL_CREATE_USERNAMES = "create table " + TABLE_USERNAMES +
+            "(" + USER_NUMBER + "integer primary key, " + USERNAME + "text, " + PASSWORD + "text, " +
+            TELEPHONE + "text, " + ADDRESS + "text, " + RATING + "integer, " + TOTAL_RATED_BY + " integer)";
+
+    private static final String SQL_CREATE_PRODUCT = "create table " + TABLE_PRODUCTS +
+            "(" + PRODUCT_NUMBER + "integer primary key, " + PHOTO + "text, " + PRODUCT_NAME + "text, " +
+            DESCRIPTION + "text, " + PRICE + "integer, " + USER_NUMBER + "integer)";
+
+    private static final String SQL_CREATE_ORDER = "create table " + TABLE_ORDERS +
+            "(" + ORDER_NUMBER + "integer primary key, " + SELLER + "text, " + BUYER + "text, " +
+            PRODUCT_NUMBER + "integer, " + TIME + "text)";
+
+    private static final String SQL_CREATE_MESSAGE = "create table " + TABLE_MESSAGES +
+            "(" + MESSAGE_NUMBER + "integer primary key, " + USER1 + "text, " + USER2 + "text, " + TIME +
+            "text, " + MESSAGE + "text)";
+
+    private static final String SQL_CREATE_CREDITCARD = "create table " + TABLE_CREDIT_CARDS +
+            "(" + CARD_ID + "integer primary key, " + CARD_NUMBER + "text, " + SECURITY_NUMBER + "text, " +
+            EXPIRY_DATE + "text, " + USER_NUMBER + "integer)";
+
+    private static final String SQL_CREATE_RATING = "create table " + TABLE_RATINGS +
+            "(" + RATING_NUMBER + "integer primary key, " + USER_NUMBER + "integer, " + RATED_BY + "text, " +
+            RATING + "integer)";
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(SQL_CREATE_USERNAMES);
+        db.execSQL(SQL_CREATE_PRODUCT);
+        db.execSQL(SQL_CREATE_ORDER);
+        db.execSQL(SQL_CREATE_MESSAGE);
+        db.execSQL(SQL_CREATE_CREDITCARD);
+        db.execSQL(SQL_CREATE_RATING);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERNAMES );
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDERS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MESSAGES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CREDIT_CARDS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_RATINGS);
+
+        onCreate(db);
+    }
+
+    public void addUser (Username username) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(USERNAME, username.getUsername());
+        values.put(PASSWORD, username.getPassword());
+        values.put(TELEPHONE, username.getTelephone());
+        values.put(ADDRESS, username.getAddress());
+        values.put(RATING, username.getRating());
+        values.put(TOTAL_RATED_BY, username.getTotalRatedBy());
+
+        db.insert(TABLE_USERNAMES, null, values);
+        db.close();
+
+    }
+
+    public Username getUsername (String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_USERNAMES, new String[]{USERNAME, PASSWORD, TELEPHONE, ADDRESS, RATING, TOTAL_RATED_BY}, USER_NUMBER + " =?",
+                new String[]{username}, null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        Username username = new Username(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
+
+        return username;
+    }
+
+    public List<Username> getAllUser() {
+        List<Username> userList = new ArrayList<>();
+
+        String selectQuery = "SELET * FROM " + TABLE_USERNAMES;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Username username = new Username();
+                username.setUsername(cursor.getString(0));
+                username.setPassword(cursor.getString(1));
+                username.setTelephone(cursor.getString(2));
+                username.setAddress(cursor.getString(3));
+                username.setRating(cursor.getString(4));
+                username.setTotalRatedBy(cursor.getString(5));
+
+            } while (cursor.moveToNext());
+        }
+
+        return userList;
+    }
+
+    public int updateUsername(Username username) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(PASSWORD, username.getPassword());
+        values.put(TELEPHONE, username.getTelephone());
+        values.put(ADDRESS, username.getAddress());
+        values.put(RATING, username.getRating());
+        values.put(TOTAL_RATED_BY, username.getTotalRatedBy());
+
+        return db.update(TABLE_USERNAMES, values, USERNAME + "=?", new String[]{username.getUsername()});
+    }
+
+    public void deleteUsername(Username username) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_USERNAMES, USERNAME + "=?", new String[]{username.getUsername()});
+        db.close();
+    }
+
+    public int getUserCount() {
+        String countQuery = "SELECT * FROM " + TABLE_USERNAMES;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.close();
+
+        return cursor.getCount();
+    }
+
+}
