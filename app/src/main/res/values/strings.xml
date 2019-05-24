@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Overseas Shopping</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="login_username_hint">Username</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_button">Login</string>
+    <string name="login_title">Login to your account!</string>
+    <string name="login_register">Don\'t have an account? Register now!</string>
+    <string name="login_empty_username">Please enter your username and password.</string>
+    <string name="ok">OK</string>
+    <string name="app_logo">Application Logo</string>
+    <string name="register_username_hint">Username</string>
+    <string name="register_password_hint">Password</string>
+    <string name="register_telephone_number_hint">Phone</string>
+    <string name="register_creditcard_number_hint">Credit Card Number</string>
+    <string name="register_creditcard_expiry_hint">Expiry Date</string>
+    <string name="register_creditcard_ccv_hint">CCV</string>
+    <string name="register_address_hint">Address</string>
+    <string name="register_button">Register</string>
+</resources>
