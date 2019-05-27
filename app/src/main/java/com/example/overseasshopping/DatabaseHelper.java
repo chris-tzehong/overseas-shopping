@@ -148,6 +148,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public User getUser(Integer user_no) {
+
+        String[] columns = {
+                COLUMN_USER_NO,
+                COLUMN_USERNAME,
+                COLUMN_PASSWORD,
+                COLUMN_TELEPHONE,
+                COLUMN_ADDRESS,
+                COLUMN_RATING,
+                COLUMN_TOTAL_RATED_BY
+        };
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_USER,
+                columns,    //columns to return
+                null,        //columns for the WHERE clause
+                null,        //The values for the WHERE clause
+                null,       //group the rows
+                null,
+                null);       //filter by row groups
+
+        if (cursor != null)
+            cursor.moveToFirst();
+                User u1 = new User();
+                u1.setUserNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO))));
+                u1.setUsername(cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)));
+                u1.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
+                u1.setTelephone(cursor.getString(cursor.getColumnIndex(COLUMN_TELEPHONE)));
+                u1.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
+                u1.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
+                u1.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
+
+
+        return u1;
+
+    }
+
     public List<User> getAllUser() {
         // array of columns to fetch
         String[] columns = {
