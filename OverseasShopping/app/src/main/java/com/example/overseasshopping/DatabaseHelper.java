@@ -196,6 +196,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         
         db.close();
+        return null;
     }
 
     public List<User> getAllUser() {
