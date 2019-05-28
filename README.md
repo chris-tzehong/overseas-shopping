@@ -1,5 +1,4 @@
 # software-management
 
-kms carrot
-String ggwp = omaewa mou shideiru
-I am idoit
+The overseas shopping folder can be opened directly using Android Studio.
+Use the test branch to commit before merging with the master branch.

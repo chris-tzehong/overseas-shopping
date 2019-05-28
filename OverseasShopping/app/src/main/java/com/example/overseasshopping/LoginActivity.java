@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.overseasshopping.Model.User;
+
 import javax.xml.datatype.Duration;
 
 public class LoginActivity extends AppCompatActivity {
@@ -77,6 +79,10 @@ public class LoginActivity extends AppCompatActivity {
                     });
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
+                } else {
+//                    try {
+//                        User user = DatabaseHelper.getUser
+//                    }
                 }
 
             }
