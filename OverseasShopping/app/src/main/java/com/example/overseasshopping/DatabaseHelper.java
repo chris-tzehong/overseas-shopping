@@ -150,6 +150,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public User getUser(User user_no) {
+        // array of columns to fetch
+        String[] columns = {
+                COLUMN_USER_NO,
+                COLUMN_USERNAME,
+                COLUMN_PASSWORD,
+                COLUMN_TELEPHONE,
+                COLUMN_ADDRESS,
+                COLUMN_RATING,
+                COLUMN_TOTAL_RATED_BY
+        };
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // query the user table
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_no,user_name,user_email,password FROM user ORDER BY user_name;
+         */
+        Cursor cursor = db.query(TABLE_USER, //Table to query
+                columns,    //columns to return
+                null,        //columns for the WHERE clause
+                null,        //The values for the WHERE clause
+                null,       //group the rows
+                null,       //filter by row groups
+                null); //The sort order
+
+
+        // Traversing through all rows and adding to list
+        if (cursor != null ) {
+            cursor.moveToFirst();
+                User user = new User();
+                user.setUserNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO))));
+                user.setUsername(cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)));
+                user.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
+                user.setTelephone(cursor.getString(cursor.getColumnIndex(COLUMN_TELEPHONE)));
+                user.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
+                user.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
+                user.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
+
+            cursor.close();
+            return user;
+        }
+        
+        db.close();
+    }
+
     public List<User> getAllUser() {
         // array of columns to fetch
         String[] columns = {
