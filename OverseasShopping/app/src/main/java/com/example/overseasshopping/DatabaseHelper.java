@@ -42,6 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PHOTO = "photo";
     private static final String COLUMN_DESCRIPTION = "description";
     private static final String COLUMN_PRICE = "price";
+    private static final String COLUMN_PRODUCT_QUANTITY = "product_quantity";
 
     private static final String COLUMN_ORDER_NO = "order_no";
     private static final String COLUMN_SELLER = "seller";
@@ -74,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_PRODUCT_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_PRODUCT_NAME + " TEXT," + COLUMN_PHOTO + " TEXT,"
             + COLUMN_DESCRIPTION + " TEXT," + COLUMN_PRICE + " INTEGER,"
-            + COLUMN_USER_NO + " INTEGER " + ")";
+            + COLUMN_USER_NO + " INTEGER " + COLUMN_PRODUCT_QUANTITY + " INTEGER " + ")";
 
     private String CREATE_ORDERS_TABLE = "CREATE TABLE " + TABLE_ORDERS + "("
             + COLUMN_ORDER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -389,6 +390,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_DESCRIPTION, product.getDescription());
         values.put(COLUMN_PRICE, product.getPrice());
         values.put(COLUMN_USER_NO, user.getUserNo());
+        values.put(COLUMN_PRODUCT_QUANTITY, product.getProductQuantity());
 
         // Inserting Row
         db.insert(TABLE_PRODUCT, null, values);
@@ -409,6 +411,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_DESCRIPTION,
                 COLUMN_PRICE,
                 COLUMN_USER_NO,
+                COLUMN_PRODUCT_QUANTITY,
 
         };
         // sorting orders
@@ -442,6 +445,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 product.setPhoto(cursor.getString(cursor.getColumnIndex(COLUMN_PHOTO)));
                 product.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION)));
                 product.setPrice(cursor.getString(cursor.getColumnIndex(COLUMN_PRICE)));
+                product.setProductQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_QUANTITY))));
                 //User.setUserNo(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO)));
                 // Adding product record to list
                 productList.add(product);
@@ -468,6 +472,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_DESCRIPTION, product.getDescription());
         values.put(COLUMN_PRICE, product.getPrice());
         values.put(COLUMN_USER_NO, user.getUserNo());
+        values.put(COLUMN_PRODUCT_QUANTITY, product.getProductQuantity());
 
         // updating row
         db.update(TABLE_PRODUCT, values, COLUMN_PRODUCT_NO + " = ?",

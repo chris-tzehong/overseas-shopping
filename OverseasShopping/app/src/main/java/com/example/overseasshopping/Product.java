@@ -6,6 +6,9 @@ public class Product {
     private String productName;
     private String photo;
     private String description;
+    private String price;
+    private int productQuantity;
+
 
     public int getProductNo() {
         return productNo;
@@ -47,9 +50,11 @@ public class Product {
         this.price = price;
     }
 
-    private String price;
+    public int getProductQuantity () {
+        return productQuantity;
+    }
 
-
+    public void setProductQuantity(int productQuantity){
+        this.productQuantity = productQuantity;
+    }
 }
-
-
