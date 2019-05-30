@@ -19,4 +19,13 @@
     <string name="register_creditcard_ccv_hint">CCV</string>
     <string name="register_address_hint">Address</string>
     <string name="register_button">Register</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_name_hint">Enter product name.</string>
+    <string name="product_price">Price</string>
+    <string name="product_price_hint">Enter product"'"s price per unit.</string>
+    <string name="product_quantity">Quantity Available</string>
+    <string name="product_quantity_hint">Enter the amount of the product you want to put up for sale.</string>
+    <string name="product_description">Description</string>
+    <string name="product_description_hint">Enter a short description about the product.</string>
+    <string name="post_product_label">Post Product</string>
 </resources>

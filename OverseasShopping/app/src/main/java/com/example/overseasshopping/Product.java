@@ -6,7 +6,7 @@ public class Product {
     private String productName;
     private String photo;
     private String description;
-    private String price;
+    private int price;
     private int productQuantity;
 
 
@@ -42,11 +42,11 @@ public class Product {
         this.description = description;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

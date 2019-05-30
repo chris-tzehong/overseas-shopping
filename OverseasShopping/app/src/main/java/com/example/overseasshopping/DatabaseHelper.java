@@ -444,7 +444,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 product.setProductName(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NAME)));
                 product.setPhoto(cursor.getString(cursor.getColumnIndex(COLUMN_PHOTO)));
                 product.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION)));
-                product.setPrice(cursor.getString(cursor.getColumnIndex(COLUMN_PRICE)));
+                product.setPrice(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PRICE))));
                 product.setProductQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_QUANTITY))));
                 //User.setUserNo(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO)));
                 // Adding product record to list
