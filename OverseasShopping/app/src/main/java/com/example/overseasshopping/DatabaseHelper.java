@@ -6,6 +6,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.overseasshopping.Model.CreditCard;
+import com.example.overseasshopping.Model.Order;
+import com.example.overseasshopping.Model.Product;
+import com.example.overseasshopping.Model.Rating;
 import com.example.overseasshopping.Model.User;
 
 import java.sql.Date;
@@ -70,14 +74,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_USER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_USERNAME + " TEXT," + COLUMN_PASSWORD + " TEXT,"
             + COLUMN_TELEPHONE + " TEXT," + COLUMN_ADDRESS + " TEXT,"
-            + COLUMN_RATING + "INTEGER" + COLUMN_TOTAL_RATED_BY + "INTEGER" + ")";
+            + COLUMN_RATING + " INTEGER, " + COLUMN_TOTAL_RATED_BY + " INTEGER" + ")";
 
     private String CREATE_PRODUCT_TABLE = "CREATE TABLE " + TABLE_PRODUCT + "("
             + COLUMN_PRODUCT_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_PRODUCT_NAME + " TEXT," + COLUMN_PHOTO + " TEXT,"
             + COLUMN_DESCRIPTION + " TEXT," + COLUMN_PRICE + " INTEGER,"
-            + COLUMN_USER_NO + " INTEGER," + COLUMN_PRODUCT_QUANTITY + "INTEGER" + ")";
-
+            + COLUMN_USER_NO + " INTEGER," + COLUMN_PRODUCT_QUANTITY + " INTEGER" + ")";
+    
     private String CREATE_ORDERS_TABLE = "CREATE TABLE " + TABLE_ORDERS + "("
             + COLUMN_ORDER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_SELLER + " TEXT," + COLUMN_BUYER + " TEXT,"
@@ -153,7 +157,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public User getUser(User user_no) {
+    public User getUser(String username) {
         // array of columns to fetch
         String[] columns = {
                 COLUMN_USER_NO,
@@ -175,31 +179,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
          */
         Cursor cursor = db.query(TABLE_USER, //Table to query
                 columns,    //columns to return
-                null,        //columns for the WHERE clause
-                null,        //The values for the WHERE clause
+                COLUMN_USERNAME + " =?",        //columns for the WHERE clause
+                new String[]{username},        //The values for the WHERE clause
                 null,       //group the rows
                 null,       //filter by row groups
                 null); //The sort order
 
-
-        // Traversing through all rows and adding to list
         if (cursor != null ) {
             cursor.moveToFirst();
-                User user = new User();
-                user.setUserNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO))));
-                user.setUsername(cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)));
-                user.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
-                user.setTelephone(cursor.getString(cursor.getColumnIndex(COLUMN_TELEPHONE)));
-                user.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
-                user.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
-                user.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
 
-            cursor.close();
-            return user;
         }
-        
+
+        User user = new User();
+        user.setUserNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO))));
+        user.setUsername(cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)));
+        user.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
+        user.setTelephone(cursor.getString(cursor.getColumnIndex(COLUMN_TELEPHONE)));
+        user.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
+        user.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
+        user.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
+
+        cursor.close();
         db.close();
-        return null;
+
+        return user;
+
     }
 
     public List<User> getAllUser() {

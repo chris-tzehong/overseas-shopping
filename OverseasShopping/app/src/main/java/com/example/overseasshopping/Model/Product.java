@@ -1,4 +1,4 @@
-package com.example.overseasshopping;
+package com.example.overseasshopping.Model;
 
 public class Product {
 
@@ -13,8 +13,9 @@ public class Product {
 
     }
 
-    public Product(String productName, String description, int price, int productQuantity) {
+    public Product(String productName, String photo, String description, int price, int productQuantity) {
         this.productName = productName;
+        this.photo = photo;
         this.description = description;
         this.price = price;
         this.productQuantity = productQuantity;
