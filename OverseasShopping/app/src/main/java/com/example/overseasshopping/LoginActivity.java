@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.overseasshopping.Model.Product;
 import com.example.overseasshopping.Model.User;
 
 import javax.xml.datatype.Duration;
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button mButtonLogin;
     private TextView mTextViewRegisterNew;
     private SpannableString ss;
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,11 @@ public class LoginActivity extends AppCompatActivity {
         mEditTextLoginPassword = (EditText) findViewById(R.id.editTextLoginPassword);
         mButtonLogin = (Button) findViewById(R.id.buttonLogin);
         mTextViewRegisterNew = (TextView) findViewById(R.id.textViewRegisterNew);
+        db = new DatabaseHelper(this);
+        User user = new User("ki", "ki", "la", "la", 3, 2);
+        db.addUser(user);
+        Product product = new Product("he", "he", "XD", 2, 3);
+        db.addProduct(product, user);
 
         ss = new SpannableString(getResources().getString(R.string.login_register));
         ForegroundColorSpan fcs = new ForegroundColorSpan(Color.BLUE);
@@ -81,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                     alertDialog.show();
                 } else {
 //                    try {
-//                        User user = DatabaseHelper.getUser
+//                        User user = db.getUser(mEditTextLoginUsername.getText().toString());
 //                    }
                 }
 

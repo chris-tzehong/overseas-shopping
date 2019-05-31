@@ -5,6 +5,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.overseasshopping.Model.CreditCard;
+import com.example.overseasshopping.Model.Order;
+import com.example.overseasshopping.Model.Product;
+import com.example.overseasshopping.Model.Rating;
 import com.example.overseasshopping.Model.User;
 
 import java.sql.Date;
@@ -42,6 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PHOTO = "photo";
     private static final String COLUMN_DESCRIPTION = "description";
     private static final String COLUMN_PRICE = "price";
+    private static final String COLUMN_PRODUCT_QUANTITY = "product_quantity";
 
     private static final String COLUMN_ORDER_NO = "order_no";
     private static final String COLUMN_SELLER = "seller";
@@ -68,13 +73,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_USER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_USERNAME + " TEXT," + COLUMN_PASSWORD + " TEXT,"
             + COLUMN_TELEPHONE + " TEXT," + COLUMN_ADDRESS + " TEXT,"
-            + COLUMN_RATING + "INTEGER" + COLUMN_TOTAL_RATED_BY + "INTEGER" + ")";
+            + COLUMN_RATING + " INTEGER, " + COLUMN_TOTAL_RATED_BY + " INTEGER" + ")";
 
     private String CREATE_PRODUCT_TABLE = "CREATE TABLE " + TABLE_PRODUCT + "("
             + COLUMN_PRODUCT_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_PRODUCT_NAME + " TEXT," + COLUMN_PHOTO + " TEXT,"
             + COLUMN_DESCRIPTION + " TEXT," + COLUMN_PRICE + " INTEGER,"
-            + COLUMN_USER_NO + " INTEGER " + ")";
+            + COLUMN_USER_NO + " INTEGER," + COLUMN_PRODUCT_QUANTITY + " INTEGER" + ")";
 
     private String CREATE_ORDERS_TABLE = "CREATE TABLE " + TABLE_ORDERS + "("
             + COLUMN_ORDER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -148,6 +153,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Inserting Row
         db.insert(TABLE_USER, null, values);
         db.close();
+    }
+
+    public User getUser(String username) {
+        // array of columns to fetch
+        String[] columns = {
+                COLUMN_USER_NO,
+                COLUMN_USERNAME,
+                COLUMN_PASSWORD,
+                COLUMN_TELEPHONE,
+                COLUMN_ADDRESS,
+                COLUMN_RATING,
+                COLUMN_TOTAL_RATED_BY
+        };
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // query the user table
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_no,user_name,user_email,password FROM user ORDER BY user_name;
+         */
+        Cursor cursor = db.query(TABLE_USER, //Table to query
+                columns,    //columns to return
+                COLUMN_USERNAME + " =?",        //columns for the WHERE clause
+                new String[]{username},        //The values for the WHERE clause
+                null,       //group the rows
+                null,       //filter by row groups
+                null); //The sort order
+
+        if (cursor != null ) {
+            cursor.moveToFirst();
+
+        }
+
+        User user = new User();
+        user.setUserNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO))));
+        user.setUsername(cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)));
+        user.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
+        user.setTelephone(cursor.getString(cursor.getColumnIndex(COLUMN_TELEPHONE)));
+        user.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
+        user.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
+        user.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
+
+        cursor.close();
+        db.close();
+
+        return user;
+
     }
 
     public List<User> getAllUser() {
@@ -340,6 +394,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_DESCRIPTION, product.getDescription());
         values.put(COLUMN_PRICE, product.getPrice());
         values.put(COLUMN_USER_NO, user.getUserNo());
+        values.put(COLUMN_PRODUCT_QUANTITY, product.getProductQuantity());
 
         // Inserting Row
         db.insert(TABLE_PRODUCT, null, values);
@@ -360,6 +415,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_DESCRIPTION,
                 COLUMN_PRICE,
                 COLUMN_USER_NO,
+                COLUMN_PRODUCT_QUANTITY,
 
         };
         // sorting orders
@@ -392,7 +448,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 product.setProductName(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NAME)));
                 product.setPhoto(cursor.getString(cursor.getColumnIndex(COLUMN_PHOTO)));
                 product.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION)));
-                product.setPrice(cursor.getString(cursor.getColumnIndex(COLUMN_PRICE)));
+                product.setPrice(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PRICE))));
+                product.setProductQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_QUANTITY))));
                 //User.setUserNo(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO)));
                 // Adding product record to list
                 productList.add(product);
@@ -419,6 +476,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_DESCRIPTION, product.getDescription());
         values.put(COLUMN_PRICE, product.getPrice());
         values.put(COLUMN_USER_NO, user.getUserNo());
+        values.put(COLUMN_PRODUCT_QUANTITY, product.getProductQuantity());
 
         // updating row
         db.update(TABLE_PRODUCT, values, COLUMN_PRODUCT_NO + " = ?",

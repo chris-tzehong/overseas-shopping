@@ -1,4 +1,4 @@
-package com.example.overseasshopping;
+package com.example.overseasshopping.Model;
 
 public class Rating {
 
