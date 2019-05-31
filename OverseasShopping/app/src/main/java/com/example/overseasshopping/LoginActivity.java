@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.overseasshopping.Model.Product;
 import com.example.overseasshopping.Model.User;
 
 import javax.xml.datatype.Duration;
@@ -44,6 +45,10 @@ public class LoginActivity extends AppCompatActivity {
         mButtonLogin = (Button) findViewById(R.id.buttonLogin);
         mTextViewRegisterNew = (TextView) findViewById(R.id.textViewRegisterNew);
         db = new DatabaseHelper(this);
+        User user = new User("ki", "ki", "la", "la", 3, 2);
+        db.addUser(user);
+        Product product = new Product("he", "he", "XD", 2, 3);
+        db.addProduct(product, user);
 
         ss = new SpannableString(getResources().getString(R.string.login_register));
         ForegroundColorSpan fcs = new ForegroundColorSpan(Color.BLUE);

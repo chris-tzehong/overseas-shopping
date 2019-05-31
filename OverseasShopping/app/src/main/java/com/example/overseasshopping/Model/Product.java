@@ -9,6 +9,16 @@ public class Product {
     private int price;
     private int productQuantity;
 
+    public Product() {
+    }
+
+    public Product(String productName, String photo, String description, int price, int productQuantity) {
+        this.productName = productName;
+        this.photo = photo;
+        this.description = description;
+        this.price = price;
+        this.productQuantity = productQuantity;
+    }
 
     public int getProductNo() {
         return productNo;
