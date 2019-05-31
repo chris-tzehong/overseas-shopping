@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.overseasshopping.Model.Product;
+import com.example.overseasshopping.Model.User;
 
 public class ProductFragment extends Fragment {
     private Product mProduct;
@@ -21,6 +22,7 @@ public class ProductFragment extends Fragment {
     private EditText mProductQuantity;
     private EditText mProductDescription;
     private Button mPostProductButton;
+    private DatabaseHelper db;
 
     DatabaseHelper mDatabaseHelper;
 
@@ -48,7 +50,11 @@ public class ProductFragment extends Fragment {
         mProduct = new Product();
         mDatabaseHelper = new DatabaseHelper(getActivity());
         Log.w("Hello", "KMS");
-
+        db = new DatabaseHelper(getActivity());
+        User user = new User("ki", "ki", "la", "la", 3, 2);
+        db.addUser(user);
+        Product product = new Product("he", "he", "XD", 2, 3);
+        db.addProduct(product);
         mProductName = (EditText) v.findViewById(R.id.product_name);
         mProductName.addTextChangedListener(new TextWatcher() {
             @Override

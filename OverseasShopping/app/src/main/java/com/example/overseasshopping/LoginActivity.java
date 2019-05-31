@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         User user = new User("ki", "ki", "la", "la", 3, 2);
         db.addUser(user);
         Product product = new Product("he", "he", "XD", 2, 3);
-        db.addProduct(product, user);
+        db.addProduct(product);
 
         ss = new SpannableString(getResources().getString(R.string.login_register));
         ForegroundColorSpan fcs = new ForegroundColorSpan(Color.BLUE);
