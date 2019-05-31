@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class ProductFragment extends Fragment {
     private Product mProduct;
@@ -20,15 +22,32 @@ public class ProductFragment extends Fragment {
     private EditText mProductDescription;
     private Button mPostProductButton;
 
+    DatabaseHelper mDatabaseHelper;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mProduct = new Product();
+
+    }
+
+    public void AddProduct(Product p) {
+
+         mDatabaseHelper.addProduct(p);
+
+//        if (insertData) {
+//            toastMessage("Product Added Successfully.");
+//        } else {
+//            toastMessage("Something went wrong");
+//        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.fragment_product, container, false);
+
+        mProduct = new Product();
+        mDatabaseHelper = new DatabaseHelper(getActivity());
+        Log.w("Hello", "KMS");
 
         mProductName = (EditText) v.findViewById(R.id.product_name);
         mProductName.addTextChangedListener(new TextWatcher() {
@@ -105,6 +124,19 @@ public class ProductFragment extends Fragment {
         mPostProductButton = (Button) v.findViewById(R.id.post_product_button);
         mPostProductButton.setEnabled(true);
 
+        mPostProductButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.w("Product Status", mProduct.getProductName() + String.valueOf(mProduct.getProductQuantity()));
+                AddProduct(mProduct);
+            }
+        });
+
         return v;
     }
+
+    private void toastMessage(String message){
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
 }

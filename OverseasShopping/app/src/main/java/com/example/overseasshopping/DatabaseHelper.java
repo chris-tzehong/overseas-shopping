@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.overseasshopping.Model.User;
 
@@ -75,7 +76,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_PRODUCT_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_PRODUCT_NAME + " TEXT," + COLUMN_PHOTO + " TEXT,"
             + COLUMN_DESCRIPTION + " TEXT," + COLUMN_PRICE + " INTEGER,"
-            + COLUMN_USER_NO + " INTEGER " + COLUMN_PRODUCT_QUANTITY + " INTEGER " + ")";
+            + COLUMN_USER_NO + " INTEGER," + COLUMN_PRODUCT_QUANTITY + "INTEGER" + ")";
 
     private String CREATE_ORDERS_TABLE = "CREATE TABLE " + TABLE_ORDERS + "("
             + COLUMN_ORDER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -118,6 +119,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_MESSAGE_TABLE);
         db.execSQL(CREATE_CREDITCARD_TABLE);
         db.execSQL(CREATE_RATING_TABLE);
+        Log.w("OnCreate", "Table created");
     }
 
     @Override
@@ -381,15 +383,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //----------------------------------------Product Database----------------------------------------//
 
-    public void addProduct(Product product, User user) {
+    public void addProduct(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
+        Log.w("Database creation", "Kappa");
 
         ContentValues values = new ContentValues();
         values.put(COLUMN_PRODUCT_NAME, product.getProductName());
-        values.put(COLUMN_PHOTO, product.getPhoto());
+        values.put(COLUMN_PHOTO, "lol");
         values.put(COLUMN_DESCRIPTION, product.getDescription());
         values.put(COLUMN_PRICE, product.getPrice());
-        values.put(COLUMN_USER_NO, user.getUserNo());
+        values.put(COLUMN_USER_NO, 2);
         values.put(COLUMN_PRODUCT_QUANTITY, product.getProductQuantity());
 
         // Inserting Row
