@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button mButtonLogin;
     private TextView mTextViewRegisterNew;
     private SpannableString ss;
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         mEditTextLoginPassword = (EditText) findViewById(R.id.editTextLoginPassword);
         mButtonLogin = (Button) findViewById(R.id.buttonLogin);
         mTextViewRegisterNew = (TextView) findViewById(R.id.textViewRegisterNew);
+        db = new DatabaseHelper(this);
 
         ss = new SpannableString(getResources().getString(R.string.login_register));
         ForegroundColorSpan fcs = new ForegroundColorSpan(Color.BLUE);
@@ -81,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                     alertDialog.show();
                 } else {
 //                    try {
-//                        User user = DatabaseHelper.getUser
+//                        User user = db.getUser(mEditTextLoginUsername.getText().toString());
 //                    }
                 }
 

@@ -5,6 +5,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.overseasshopping.Model.CreditCard;
+import com.example.overseasshopping.Model.Order;
+import com.example.overseasshopping.Model.Product;
+import com.example.overseasshopping.Model.Rating;
 import com.example.overseasshopping.Model.User;
 
 import java.sql.Date;
@@ -75,7 +79,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_PRODUCT_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_PRODUCT_NAME + " TEXT," + COLUMN_PHOTO + " TEXT,"
             + COLUMN_DESCRIPTION + " TEXT," + COLUMN_PRICE + " INTEGER,"
-            + COLUMN_USER_NO + " INTEGER " + COLUMN_PRODUCT_QUANTITY + " INTEGER " + ")";
+            + COLUMN_USER_NO + " INTEGER," + COLUMN_PRODUCT_QUANTITY + " INTEGER " + ")";
 
     private String CREATE_ORDERS_TABLE = "CREATE TABLE " + TABLE_ORDERS + "("
             + COLUMN_ORDER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -151,7 +155,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public User getUser(User user_no) {
+    public User getUser(String username) {
         // array of columns to fetch
         String[] columns = {
                 COLUMN_USER_NO,
