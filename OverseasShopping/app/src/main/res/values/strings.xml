@@ -8,7 +8,9 @@
     <string name="login_button">Login</string>
     <string name="login_title">Login to your account!</string>
     <string name="login_register">Don\'t have an account? Register now!</string>
-    <string name="login_empty_username">Please enter your username and password.</string>
+    <string name="login_error_empty_username">Please enter your username and password.</string>
+    <string name="login_error_incorrect_password">Your password does not match your username.</string>
+    <string name="login_error_invalid_username">Your username is not found.</string>
     <string name="ok">OK</string>
     <string name="app_logo">Application Logo</string>
     <string name="register_username_hint">Username</string>
