@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.overseasshopping.Model.Product;
+import com.example.overseasshopping.Model.User;
 
 public class ProductFragment extends Fragment {
     private Product mProduct;
@@ -19,6 +20,7 @@ public class ProductFragment extends Fragment {
     private EditText mProductQuantity;
     private EditText mProductDescription;
     private Button mPostProductButton;
+    private DatabaseHelper db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,12 @@ public class ProductFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.fragment_product, container, false);
+
+        db = new DatabaseHelper(getActivity());
+        User user = new User("ki", "ki", "la", "la", 23, 23);
+        db.addUser(user);
+        Product product = new Product("ha", "ha", "XD", 21, 32);
+        db.addProduct(product, user);
 
         mProductName = (EditText) v.findViewById(R.id.product_name);
         mProductName.addTextChangedListener(new TextWatcher() {
