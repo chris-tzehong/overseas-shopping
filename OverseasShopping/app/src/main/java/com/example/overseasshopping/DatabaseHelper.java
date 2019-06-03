@@ -134,7 +134,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //----------------------------------------User Database----------------------------------------//
 
-    public void addUser(User user, CreditCard creditCard) {
+    public void addUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -145,15 +145,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_RATING, user.getRating());
         values.put(COLUMN_TOTAL_RATED_BY, user.getTotalRatedBy());
 
-        ContentValues valuesCreditCard = new ContentValues();
-        valuesCreditCard.put(COLUMN_CREDITCARD_NO, creditCard.getCreditCardNo());
-        valuesCreditCard.put(COLUMN_SECURITY_NO, creditCard.getSecurityNo());
-        valuesCreditCard.put(COLUMN_EXPIRY_DATE, String.valueOf(creditCard.getExpiryDate()));
-        valuesCreditCard.put(COLUMN_USER_NO, user.getUserNo());
-
         // Inserting Row
         db.insert(TABLE_USER, null, values);
-        db.insert(TABLE_CREDITCARD, null, values);
         db.close();
     }
 
