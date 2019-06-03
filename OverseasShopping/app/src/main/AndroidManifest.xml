@@ -13,6 +13,9 @@
             android:name=".ProductActivity">
         </activity>
         <activity
+            android:name=".ProductListActivity">
+        </activity>
+        <activity
             android:name=".RegisterActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
