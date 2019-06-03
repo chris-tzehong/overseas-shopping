@@ -10,6 +10,17 @@ public class CreditCard {
     private Date expiryDate;
     private String message;
 
+    public CreditCard() {
+    }
+
+    public CreditCard(int creditCardId, int creditCardNo, int securityNo, Date expiryDate, String message) {
+        this.creditCardId = creditCardId;
+        this.creditCardNo = creditCardNo;
+        this.securityNo = securityNo;
+        this.expiryDate = expiryDate;
+        this.message = message;
+    }
+
     public int getCreditCardNo() {
         return creditCardNo;
     }

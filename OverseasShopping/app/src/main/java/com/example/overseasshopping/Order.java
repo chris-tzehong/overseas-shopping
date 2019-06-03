@@ -10,6 +10,16 @@ public class Order {
     private String buyer;
     private Date time;
 
+    public Order() {
+    }
+
+    public Order(int orderNo, String seller, String buyer, Date time) {
+        this.orderNo = orderNo;
+        this.seller = seller;
+        this.buyer = buyer;
+        this.time = time;
+    }
+
     public int getOrderNo() {
         return orderNo;
     }

@@ -7,6 +7,17 @@ public class Product {
     private String photo;
     private String description;
 
+    public Product() {
+    }
+
+    public Product(int productNo, String productName, String photo, String description, String price) {
+        this.productNo = productNo;
+        this.productName = productName;
+        this.photo = photo;
+        this.description = description;
+        this.price = price;
+    }
+
     public int getProductNo() {
         return productNo;
     }
