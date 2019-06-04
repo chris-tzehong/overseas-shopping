@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="50dp"
@@ -21,10 +21,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/register_button"
+            android:textColor="@color/colorWhite"
+            android:textSize="40sp"
+            app:fontFamily="@font/bubblegum_sans"
+            android:layout_marginStart="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"/>
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/editTextRegisterUsername"
             style="@style/RegisterField"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -37,7 +52,7 @@
             tools:targetApi="o" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/editTextRegisterPassword"
             style="@style/RegisterField"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -50,7 +65,7 @@
             tools:targetApi="o" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/editTextRegisterPhone"
             style="@style/RegisterField"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -59,11 +74,11 @@
             android:drawableLeft="@drawable/ic_phone_light_icon"
             android:ems="10"
             android:hint="@string/register_telephone_number_hint"
-            android:inputType="number"
+            android:inputType="number|phone"
             tools:targetApi="o" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/editTextRegisterCreditCardNo"
             style="@style/RegisterField"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -81,7 +96,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/editText7"
+                android:id="@+id/editTextRegisterCreditCardExpiryDate"
                 style="@style/RegisterField"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -91,11 +106,11 @@
                 android:autofillHints=""
                 android:ems="10"
                 android:hint="@string/register_creditcard_expiry_hint"
-                android:inputType="number"
+                android:inputType="number|datetime"
                 tools:targetApi="o" />
 
             <EditText
-                android:id="@+id/editText8"
+                android:id="@+id/editTextRegisterCreditCardCcv"
                 style="@style/RegisterField"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -111,7 +126,7 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/editTextRegisterAddress"
             style="@style/RegisterField"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -124,7 +139,7 @@
             tools:targetApi="o" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
@@ -138,34 +153,4 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:contentDescription="@string/app_logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/app_logo" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="@string/register_button"
-        android:textColor="@color/colorWhite"
-        android:textSize="40sp"
-        app:fontFamily="@font/bubblegum_sans"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 </android.support.constraint.ConstraintLayout>
