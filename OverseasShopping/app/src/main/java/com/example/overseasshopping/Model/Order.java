@@ -11,6 +11,7 @@ public class Order {
     private Date time;
 
     public Order() {
+        
     }
 
     public Order(int orderNo, String seller, String buyer, Date time) {

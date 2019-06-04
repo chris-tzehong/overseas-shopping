@@ -17,10 +17,10 @@ public class User {
     private int totalRatedBy;
 
     public User() {
+
     }
 
-    public User(int userNo, String username, String password, String telephone, String address, int creditCardNo, int securityNo, Date expiryDate, int rating, int totalRatedBy) {
-        this.userNo = userNo;
+    public User(String username, String password, String telephone, String address, int creditCardNo, int securityNo, Date expiryDate, int rating, int totalRatedBy) {
         this.username = username;
         this.password = password;
         this.telephone = telephone;

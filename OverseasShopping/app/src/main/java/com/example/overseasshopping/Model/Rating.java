@@ -7,6 +7,7 @@ public class Rating {
     private String ratedBy;
 
     public Rating() {
+
     }
 
     public Rating(int ratingNo, int rating, String ratedBy) {

@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.overseasshopping.Model.CreditCard;
 import com.example.overseasshopping.Model.Order;
 import com.example.overseasshopping.Model.Product;
 import com.example.overseasshopping.Model.Rating;
@@ -174,6 +173,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
+        // query the user table
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_no,user_name,user_email,password FROM user ORDER BY user_name;
+         */
         Cursor cursor = db.query(TABLE_USER,
                 columns,    //columns to return
                 selection,        //columns for the WHERE clause
@@ -182,57 +187,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null,
                 sortOrder);       //filter by row groups
 
-        if (cursor != null)
             cursor.moveToFirst();
-                User u1 = new User();
-                u1.setUserNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO))));
-                u1.setUsername(cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)));
-                u1.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
-                u1.setTelephone(cursor.getString(cursor.getColumnIndex(COLUMN_TELEPHONE)));
-                u1.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
-                u1.setCreditCardNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO))));
-                u1.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
-                u1.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
-                u1.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
-                u1.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
+            User u1 = new User();
+            u1.setUserNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO))));
+            u1.setUsername(cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)));
+            u1.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
+            u1.setTelephone(cursor.getString(cursor.getColumnIndex(COLUMN_TELEPHONE)));
+            u1.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
+            u1.setCreditCardNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO))));
+            u1.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
+            u1.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
+            u1.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
+            u1.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
 
-
-        return u1;
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        // query the user table
-        /**
-         * Here query function is used to fetch records from user table this function works like we use sql query.
-         * SQL query equivalent to this query function is
-         * SELECT user_no,user_name,user_email,password FROM user ORDER BY user_name;
-         */
-        Cursor cursor = db.query(TABLE_USER, //Table to query
-                columns,    //columns to return
-                COLUMN_USERNAME + " =?",        //columns for the WHERE clause
-                new String[]{username},        //The values for the WHERE clause
-                null,       //group the rows
-                null,       //filter by row groups
-                null); //The sort order
-
-        if (cursor != null ) {
-            cursor.moveToFirst();
+         return u1;
 
         }
-
-        User user = new User();
-        user.setUserNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO))));
-        user.setUsername(cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)));
-        user.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
-        user.setTelephone(cursor.getString(cursor.getColumnIndex(COLUMN_TELEPHONE)));
-        user.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
-        user.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
-        user.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
-
-        cursor.close();
-        db.close();
-
-        return user;
-    }
 
     public List<User> getAllUser() {
         // array of columns to fetch
