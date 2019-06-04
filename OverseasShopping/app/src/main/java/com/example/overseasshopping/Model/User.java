@@ -20,7 +20,7 @@ public class User {
 
     }
 
-    public User(String username, String password, String telephone, String address, int creditCardNo, int securityNo, Date expiryDate, int rating, int totalRatedBy) {
+    public User(String username, String password, String telephone, String address, int creditCardNo, int securityNo, Date expiryDate) {
         this.username = username;
         this.password = password;
         this.telephone = telephone;
@@ -28,8 +28,6 @@ public class User {
         this.creditCardNo = creditCardNo;
         this.securityNo = securityNo;
         this.expiryDate = expiryDate;
-        this.rating = rating;
-        this.totalRatedBy = totalRatedBy;
     }
 
     public int getUserNo() {

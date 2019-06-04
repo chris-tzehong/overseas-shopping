@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.overseasshopping.Model.CreditCard;
 import com.example.overseasshopping.Model.User;
 
 import java.util.regex.Matcher;
@@ -41,8 +40,6 @@ public class RegisterActivity extends AppCompatActivity {
         mButtonRegister = (Button) findViewById(R.id.buttonRegister);
         mWarningIcon = (Drawable) getResources().getDrawable(R.drawable.ic_alert_red_icon);
         mDatabaseHelper = new DatabaseHelper(this);
-        User user = new User();
-        CreditCard creditCard = new CreditCard();
 
         mWarningIcon.setBounds(0,0, mWarningIcon.getIntrinsicWidth(), mWarningIcon.getIntrinsicHeight());
 
