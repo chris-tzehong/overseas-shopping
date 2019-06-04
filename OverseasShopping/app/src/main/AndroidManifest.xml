@@ -13,12 +13,14 @@
             android:name=".ProductActivity">
         </activity>
         <activity
+            android:name=".ProductListActivity">
+        </activity>
+        <activity
             android:name=".RegisterActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

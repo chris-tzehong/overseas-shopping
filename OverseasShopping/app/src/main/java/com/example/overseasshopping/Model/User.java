@@ -1,5 +1,7 @@
 package com.example.overseasshopping.Model;
 
+import java.sql.Date;
+
 public class User {
 
     private int userNo;
@@ -7,17 +9,25 @@ public class User {
     private String password;
     private String telephone;
     private String address;
+    private int creditCardNo;
+    private int securityNo;
+    private Date expiryDate;
+
     private int rating;
     private int totalRatedBy;
 
     public User() {
     }
 
-    public User(String username, String password, String telephone, String address, int rating, int totalRatedBy) {
+    public User(int userNo, String username, String password, String telephone, String address, int creditCardNo, int securityNo, Date expiryDate, int rating, int totalRatedBy) {
+        this.userNo = userNo;
         this.username = username;
         this.password = password;
         this.telephone = telephone;
         this.address = address;
+        this.creditCardNo = creditCardNo;
+        this.securityNo = securityNo;
+        this.expiryDate = expiryDate;
         this.rating = rating;
         this.totalRatedBy = totalRatedBy;
     }
@@ -60,6 +70,30 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getCreditCardNo() {
+        return creditCardNo;
+    }
+
+    public void setCreditCardNo(int creditCardNo) {
+        this.creditCardNo = creditCardNo;
+    }
+
+    public int getSecurityNo() {
+        return securityNo;
+    }
+
+    public void setSecurityNo(int securityNo) {
+        this.securityNo = securityNo;
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
     }
 
     public int getRating() {
