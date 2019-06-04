@@ -198,7 +198,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         return u1;
-        SQLiteDatabase db = this.getReadableDatabase();
 
         // query the user table
         /**
