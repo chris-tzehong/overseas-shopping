@@ -29,7 +29,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_PRODUCT = "product";
     private static final String TABLE_ORDERS = "orders";
     private static final String TABLE_MESSAGE = "message";
-    private static final String TABLE_CREDITCARD = "creditCard";
     private static final String TABLE_RATING = "rating";
 
     // User Table Columns names
@@ -38,6 +37,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_TELEPHONE = "telephone";
     private static final String COLUMN_ADDRESS = "address";
+    private static final String COLUMN_CREDITCARD_NO = "creditcard_no";
+    private static final String COLUMN_SECURITY_NO = "security_no";
+    private static final String COLUMN_EXPIRY_DATE = "expiry_date";
     private static final String COLUMN_RATING = "rating";
     private static final String COLUMN_TOTAL_RATED_BY = "totalRatedBy";
 
@@ -59,11 +61,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_MESSAGE_TIME = "message_time";
     private static final String COLUMN_MESSAGE = "MESSAGE";
 
-    private static final String COLUMN_CREDITCARD_ID = "creditcard_id";
-    private static final String COLUMN_CREDITCARD_NO = "creditcard_no";
-    private static final String COLUMN_SECURITY_NO = "security_no";
-    private static final String COLUMN_EXPIRY_DATE = "expiry_date";
-
     private static final String COLUMN_RATING_NO = "rating_no";
     private static final String COLUMN_RATED_BY = "rated_by";
 
@@ -73,7 +70,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_USER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_USERNAME + " TEXT," + COLUMN_PASSWORD + " TEXT,"
             + COLUMN_TELEPHONE + " TEXT," + COLUMN_ADDRESS + " TEXT,"
-            + COLUMN_RATING + " INTEGER, " + COLUMN_TOTAL_RATED_BY + " INTEGER" + ")";
+            + COLUMN_CREDITCARD_NO + " INTEGER," + COLUMN_SECURITY_NO + " INTEGER,"
+            + COLUMN_EXPIRY_DATE + " DATE," + COLUMN_RATING + "INTEGER,"
+            + COLUMN_TOTAL_RATED_BY + "INTEGER, " + COLUMN_RATING + " INTEGER, " 
+            + COLUMN_TOTAL_RATED_BY + " INTEGER" + ")";
 
     private String CREATE_PRODUCT_TABLE = "CREATE TABLE " + TABLE_PRODUCT + "("
             + COLUMN_PRODUCT_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -91,11 +91,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_USER1 + " INTEGER," + COLUMN_USER2 + " INTEGER,"
             + COLUMN_MESSAGE_TIME + " DATETIME," + COLUMN_MESSAGE + " TEXT" + ")";
 
-    private String CREATE_CREDITCARD_TABLE = "CREATE TABLE " + TABLE_CREDITCARD + "("
-            + COLUMN_CREDITCARD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COLUMN_CREDITCARD_NO + " INTEGER," + COLUMN_SECURITY_NO + " INTEGER,"
-            + COLUMN_EXPIRY_DATE + " DATE," + COLUMN_USER_NO + " INTEGER " + ")";
-
     private String CREATE_RATING_TABLE = "CREATE TABLE " + TABLE_RATING + "("
             + COLUMN_RATING_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_USER_NO + " INTEGER, " + COLUMN_RATING + " INTEGER,"
@@ -106,7 +101,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String DROP_PRODUCT_TABLE = "DROP TABLE IF EXISTS " + TABLE_PRODUCT;
     private String DROP_ORDERS_TABLE = "DROP TABLE IF EXISTS " + TABLE_ORDERS;
     private String DROP_MESSAGE_TABLE = "DROP TABLE IF EXISTS " + TABLE_MESSAGE;
-    private String DROP_CREDITCARD_TABLE = "DROP TABLE IF EXISTS " + TABLE_CREDITCARD;
     private String DROP_RATING_TABLE = "DROP TABLE IF EXISTS " + TABLE_RATING;
 
     public DatabaseHelper(Context context) {
@@ -120,7 +114,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_PRODUCT_TABLE);
         db.execSQL(CREATE_ORDERS_TABLE);
         db.execSQL(CREATE_MESSAGE_TABLE);
-        db.execSQL(CREATE_CREDITCARD_TABLE);
         db.execSQL(CREATE_RATING_TABLE);
     }
 
@@ -132,7 +125,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DROP_PRODUCT_TABLE);
         db.execSQL(DROP_ORDERS_TABLE);
         db.execSQL(DROP_MESSAGE_TABLE);
-        db.execSQL(DROP_CREDITCARD_TABLE);
         db.execSQL(DROP_RATING_TABLE);
         onCreate(db);
     }
@@ -147,6 +139,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_PASSWORD, user.getPassword());
         values.put(COLUMN_TELEPHONE, user.getTelephone());
         values.put(COLUMN_ADDRESS, user.getAddress());
+        values.put(COLUMN_CREDITCARD_NO, user.getCreditCardNo());
+        values.put(COLUMN_SECURITY_NO, user.getSecurityNo());
+        values.put(COLUMN_EXPIRY_DATE, String.valueOf(user.getExpiryDate()));
         values.put(COLUMN_RATING, user.getRating());
         values.put(COLUMN_TOTAL_RATED_BY, user.getTotalRatedBy());
 
@@ -156,6 +151,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public User getUser(String username) {
+
         // array of columns to fetch
         String[] columns = {
                 COLUMN_USER_NO,
@@ -163,10 +159,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_PASSWORD,
                 COLUMN_TELEPHONE,
                 COLUMN_ADDRESS,
+                COLUMN_CREDITCARD_NO,
+                COLUMN_SECURITY_NO,
+                COLUMN_EXPIRY_DATE,
                 COLUMN_RATING,
                 COLUMN_TOTAL_RATED_BY
         };
 
+        String sortOrder = COLUMN_USER_NO + " ASC";
+
+        String selection = COLUMN_USERNAME + " = ?";
+
+        String[] selectionArgs = {username};
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_USER,
+                columns,    //columns to return
+                selection,        //columns for the WHERE clause
+                selectionArgs,        //The values for the WHERE clause
+                null,       //group the rows
+                null,
+                sortOrder);       //filter by row groups
+
+        if (cursor != null)
+            cursor.moveToFirst();
+                User u1 = new User();
+                u1.setUserNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO))));
+                u1.setUsername(cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)));
+                u1.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
+                u1.setTelephone(cursor.getString(cursor.getColumnIndex(COLUMN_TELEPHONE)));
+                u1.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
+                u1.setCreditCardNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO))));
+                u1.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
+                u1.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
+                u1.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
+                u1.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
+
+
+        return u1;
         SQLiteDatabase db = this.getReadableDatabase();
 
         // query the user table
@@ -201,7 +232,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return user;
-
     }
 
     public List<User> getAllUser() {
@@ -212,6 +242,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_PASSWORD,
                 COLUMN_TELEPHONE,
                 COLUMN_ADDRESS,
+                COLUMN_CREDITCARD_NO,
+                COLUMN_SECURITY_NO,
+                COLUMN_EXPIRY_DATE,
                 COLUMN_RATING,
                 COLUMN_TOTAL_RATED_BY
         };
@@ -246,6 +279,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 user.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
                 user.setTelephone(cursor.getString(cursor.getColumnIndex(COLUMN_TELEPHONE)));
                 user.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
+                user.setCreditCardNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO))));
+                user.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
+                user.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
                 user.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
                 user.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
                 // Adding user record to list
@@ -272,6 +308,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_PASSWORD, user.getPassword());
         values.put(COLUMN_TELEPHONE, user.getTelephone());
         values.put(COLUMN_ADDRESS, user.getAddress());
+        values.put(COLUMN_CREDITCARD_NO, user.getCreditCardNo());
+        values.put(COLUMN_SECURITY_NO, user.getSecurityNo());
+        values.put(COLUMN_EXPIRY_DATE, String.valueOf(user.getExpiryDate()));
         values.put(COLUMN_RATING, user.getRating());
         values.put(COLUMN_TOTAL_RATED_BY, user.getTotalRatedBy());
 
@@ -692,158 +731,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //----------------------------------------Message Database----------------------------------------//
-
-
-    //----------------------------------------CreditCard Database----------------------------------------//
-
-    public void addCreditCard(CreditCard creditCard, User user) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_CREDITCARD_NO, creditCard.getCreditCardNo());
-        values.put(COLUMN_SECURITY_NO, creditCard.getSecurityNo());
-        values.put(COLUMN_EXPIRY_DATE, String.valueOf(creditCard.getExpiryDate()));
-        values.put(COLUMN_USER_NO, user.getUserNo());
-
-        // Inserting Row
-        db.insert(TABLE_CREDITCARD, null, values);
-        db.close();
-    }
-
-    /**
-     * This method is to fetch all product and return the list of product records
-     *
-     * @return list
-     */
-    public List<CreditCard> getAllCreditCard() {
-        // array of columns to fetch
-        String[] columns = {
-                COLUMN_CREDITCARD_ID,
-                COLUMN_CREDITCARD_NO,
-                COLUMN_SECURITY_NO,
-                COLUMN_EXPIRY_DATE,
-                COLUMN_USER_NO,
-
-        };
-        // sorting orders
-        String sortOrder =
-                COLUMN_CREDITCARD_NO + " ASC";
-        List<CreditCard> creditCardList = new ArrayList<CreditCard>();
-
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        // query the creditCard table
-        /**
-         * Here query function is used to fetch records from product table this function works like we use sql query.
-         * SQL query equivalent to this query function is
-         * SELECT product_no,product_name, FROM product ORDER BY product_name;
-         */
-        Cursor cursor = db.query(TABLE_CREDITCARD, //Table to query
-                columns,    //columns to return
-                null,        //columns for the WHERE clause
-                null,        //The values for the WHERE clause
-                null,       //group the rows
-                null,       //filter by row groups
-                sortOrder); //The sort order
-
-
-        // Traversing through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                CreditCard creditCard = new CreditCard();
-                creditCard.setCreditCardId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_ID))));
-                creditCard.setCreditCardNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO))));
-                creditCard.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
-                creditCard.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
-                //Iser.setUserNo(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO)));
-                // Adding product record to list
-                creditCardList.add(creditCard);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-
-        // return product list
-        return creditCardList;
-    }
-
-    /**
-     * This method to update product record
-     *
-     * @param creditCard
-     */
-    public void updateCreditCard(CreditCard creditCard, User user) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_CREDITCARD_NO, creditCard.getCreditCardNo());
-        values.put(COLUMN_SECURITY_NO, creditCard.getSecurityNo());
-        values.put(COLUMN_EXPIRY_DATE, String.valueOf(creditCard.getExpiryDate()));
-        values.put(COLUMN_USER_NO, user.getUserNo());
-
-        // updating row
-        db.update(TABLE_CREDITCARD, values, COLUMN_CREDITCARD_ID + " = ?",
-                new String[]{String.valueOf(creditCard.getCreditCardId())});
-        db.close();
-    }
-
-    /**
-     * This method is to delete product record
-     *
-     * @param creditCard
-     */
-    public void deleteCreditCard(CreditCard creditCard) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        // delete creditCard record by id
-        db.delete(TABLE_CREDITCARD, COLUMN_CREDITCARD_ID + " = ?",
-                new String[]{String.valueOf(creditCard.getCreditCardId())});
-        db.close();
-    }
-
-    /**
-     * This method to check product exist or not
-     *
-     * @param creditCard
-     * @return true/false
-     */
-    public boolean checkCreditCard(String creditCard) {
-
-        // array of columns to fetch
-        String[] columns = {
-                COLUMN_CREDITCARD_ID
-        };
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        // selection criteria
-        String selection = COLUMN_CREDITCARD_NO + " = ?";
-
-        // selection argument
-        String[] selectionArgs = {creditCard};
-
-        // query creditCard table with condition
-        /**
-         * Here query function is used to fetch records from creditCard table this function works like we use sql query.
-         * SQL query equivalent to this query function is
-         * SELECT product_no FROM product WHERE product_name = 'Phone';
-         */
-        Cursor cursor = db.query(TABLE_CREDITCARD, //Table to query
-                columns,                    //columns to return
-                selection,                  //columns for the WHERE clause
-                selectionArgs,              //The values for the WHERE clause
-                null,                       //group the rows
-                null,                      //filter by row groups
-                null);                      //The sort order
-        int cursorCount = cursor.getCount();
-        cursor.close();
-        db.close();
-
-        if (cursorCount > 0) {
-            return true;
-        }
-
-        return false;
-
-    }
 
     //----------------------------------------Rating Database----------------------------------------//
 
