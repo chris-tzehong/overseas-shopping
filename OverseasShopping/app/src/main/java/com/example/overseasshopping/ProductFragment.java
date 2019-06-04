@@ -33,9 +33,9 @@ public class ProductFragment extends Fragment {
         View v= inflater.inflate(R.layout.fragment_product, container, false);
 
         db = new DatabaseHelper(getActivity());
-        User user = new User("ki", "ki", "la", "la", 23, 23);
+        User user = new User("ki", "kim", "la", "la", 3, 2);
         db.addUser(user);
-        Product product = new Product("ha", "ha", "XD", 21, 32);
+        Product product = new Product("he", "he", "XD", 2, 3);
         db.addProduct(product, user);
 
         mProductName = (EditText) v.findViewById(R.id.product_name);

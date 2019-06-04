@@ -6,15 +6,6 @@ public class Rating {
     private int rating;
     private String ratedBy;
 
-    public Rating() {
-    }
-
-    public Rating(int ratingNo, int rating, String ratedBy) {
-        this.ratingNo = ratingNo;
-        this.rating = rating;
-        this.ratedBy = ratedBy;
-    }
-
     public int getRatingNo() {
         return ratingNo;
     }

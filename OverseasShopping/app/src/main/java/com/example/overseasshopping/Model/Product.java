@@ -20,17 +20,6 @@ public class Product {
         this.productQuantity = productQuantity;
     }
 
-    public Product() {
-    }
-
-    public Product(int productNo, String productName, String photo, String description, String price) {
-        this.productNo = productNo;
-        this.productName = productName;
-        this.photo = photo;
-        this.description = description;
-        this.price = price;
-    }
-
     public int getProductNo() {
         return productNo;
     }
