@@ -21,6 +21,15 @@
     <string name="register_creditcard_ccv_hint">CCV</string>
     <string name="register_address_hint">Address</string>
     <string name="register_button">Register</string>
+    <string name="register_error_empty_username">Please fill in your username.</string>
+    <string name="register_error_empty_password">Please fill in your password.</string>
+    <string name="register_error_empty_phone">Please fill in your phone number.</string>
+    <string name="register_error_empty_credit_card_no">Please fill in your credit card number.</string>
+    <string name="register_error_empty_credit_card_expiry_date">Please fill in the expiry date for your credit card.</string>
+    <string name="register_error_empty_credit_card_ccv">Please fill in the CCV number for your credit card.</string>
+    <string name="register_error_empty_address">Please fill in your address.</string>
+    <string name="register_error_password_no_number">Your password should include at least one number.</string>
+    <string name="register_error_password_length">Your password should be between 8 to 20 characters.</string>
     <string name="product_name">Product Name</string>
     <string name="product_name_hint">Enter product name.</string>
     <string name="product_price">Price</string>

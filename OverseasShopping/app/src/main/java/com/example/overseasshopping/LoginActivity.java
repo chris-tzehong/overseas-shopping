@@ -22,8 +22,8 @@ import com.example.overseasshopping.Model.User;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static String username = "user";
-    public static String password = "user";
+//    public static String username = "user";
+//    public static String password = "user";
 
     private EditText mEditTextLoginUsername;
     private EditText mEditTextLoginPassword;
@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getWindow().setBackgroundDrawableResource(R.drawable.login_background);
 
         mEditTextLoginUsername = (EditText) findViewById(R.id.editTextLoginUserName);
         mEditTextLoginPassword = (EditText) findViewById(R.id.editTextLoginPassword);
