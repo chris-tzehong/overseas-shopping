@@ -63,7 +63,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_RATING_NO = "rating_no";
     private static final String COLUMN_RATED_BY = "rated_by";
 
-
     // create table sql query
     private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
             + COLUMN_USER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
