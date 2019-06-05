@@ -70,8 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_USERNAME + " TEXT," + COLUMN_PASSWORD + " TEXT,"
             + COLUMN_TELEPHONE + " TEXT," + COLUMN_ADDRESS + " TEXT,"
             + COLUMN_CREDITCARD_NO + " INTEGER," + COLUMN_SECURITY_NO + " INTEGER,"
-            + COLUMN_EXPIRY_DATE + " DATE," + COLUMN_RATING + "INTEGER,"
-            + COLUMN_TOTAL_RATED_BY + "INTEGER, " + COLUMN_RATING + " INTEGER, " 
+            + COLUMN_EXPIRY_DATE + " LONG," + COLUMN_RATING + " INTEGER, "
             + COLUMN_TOTAL_RATED_BY + " INTEGER" + ")";
 
     private String CREATE_PRODUCT_TABLE = "CREATE TABLE " + TABLE_PRODUCT + "("
@@ -167,7 +166,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String sortOrder = COLUMN_USER_NO + " ASC";
 
-        String selection = COLUMN_USERNAME + " = ?";
+        String selection = COLUMN_USERNAME + " =?";
 
         String[] selectionArgs = {username};
 
@@ -187,7 +186,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null,
                 sortOrder);       //filter by row groups
 
-            cursor.moveToFirst();
+            if (cursor != null) {
+                cursor.moveToFirst();
+            }
             User u1 = new User();
             u1.setUserNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO))));
             u1.setUsername(cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)));
@@ -196,7 +197,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             u1.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
             u1.setCreditCardNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO))));
             u1.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
-            u1.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
+            u1.setExpiryDate(new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
             u1.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
             u1.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
 
