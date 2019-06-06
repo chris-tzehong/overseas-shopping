@@ -2,40 +2,38 @@ package com.example.overseasshopping;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.overseasshopping.Model.Chat;
-import com.example.overseasshopping.Model.User;
 
 public class ChatFragment extends Fragment {
-    private View ChatsView;
-    private RecyclerView chatsList;
-
+    private Chat mChat;
+    private String mReceiverId;
+    private String mSenderId;
     private DatabaseHelper db;
-    private Integer currentUserID;
 
-    public ChatFragment() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    mChat = new Chat();
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ChatsView = inflater.inflate(R.layout.fragment_chat, container, false);
+        View v = inflater.inflate(R.layout.fragment_chat_user, container, false);
 
-        db = new DatabaseHelper(getActivity());
-        User user = new User("1", "1", "1", "1", "1", "1", null, 0, 0);
-        Chat cM = new Chat("GGWP", 1, 2, null);
-        String currentUser = user.getUsername();
-        currentUserID = db.getUser(currentUser).getUserNo();
+        db = new DatabaseHelper(getContext());
 
-        chatsList = (RecyclerView) ChatsView.findViewById(R.id.chats_list);
-        chatsList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        return ChatsView;
+
+        return v;
+    }
+
+    public void chatVerify(){
+        if()
     }
 
 }
