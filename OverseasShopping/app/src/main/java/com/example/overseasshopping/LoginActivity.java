@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         mButtonLogin = (Button) findViewById(R.id.buttonLogin);
         mTextViewRegisterNew = (TextView) findViewById(R.id.textViewRegisterNew);
         db = new DatabaseHelper(this);
+
 //        User user = new User("ki", "ki", "la", "la", 3, 2);
 //        db.addUser(user);
 //        Product product = new Product("he", "he", "XD", 2, 3);
