@@ -23,8 +23,7 @@ import com.example.overseasshopping.Model.User;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static String username = "user";
-    public static String password = "user";
+    public static String username;
 
     private EditText mEditTextLoginUsername;
     private EditText mEditTextLoginPassword;
@@ -86,11 +85,9 @@ public class LoginActivity extends AppCompatActivity {
                     alertDialog.show();
                 } else {
                     try {
-                        Log.d("Received username", mEditTextLoginUsername.getText().toString());
                         User user = db.getUser(mEditTextLoginUsername.getText().toString());
-                        Log.d("Username", user.getUsername());
                         if (user.getPassword().equals(mEditTextLoginPassword.getText().toString())) {
-                            Intent i2 = new Intent(LoginActivity.this, MainActivity.class);
+                            Intent i2 = MainActivity.newIntent(LoginActivity.this, mEditTextLoginUsername.getText().toString());
                             startActivity(i2);
                         } else {
                             AlertDialog.Builder alertDialogBuilder_2 = new AlertDialog.Builder(LoginActivity.this);
