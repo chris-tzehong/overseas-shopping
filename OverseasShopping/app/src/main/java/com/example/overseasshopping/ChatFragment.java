@@ -12,6 +12,8 @@ public class ChatFragment extends Fragment {
     private Chat mChat;
     private String mReceiverId;
     private String mSenderId;
+    public String currentUserNo;
+    public String otherUserNo;
     private DatabaseHelper db;
 
     @Override
@@ -24,16 +26,21 @@ public class ChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_chat_user, container, false);
+        currentUserNo = getArguments().getString("userNo");
+
 
         db = new DatabaseHelper(getContext());
 
-
+        displayChats();
 
         return v;
     }
 
-    public void chatVerify(){
-        if()
+    public void displayChats(){
+        if(currentUserNo.equals(mSenderId) || currentUserNo.equals(mReceiverId) ) {
+            db.getUserChats(otherUserNo, currentUserNo);
+
+        }
     }
 
 }

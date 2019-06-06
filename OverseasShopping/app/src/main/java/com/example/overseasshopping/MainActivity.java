@@ -1,5 +1,6 @@
 package com.example.overseasshopping;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -8,8 +9,11 @@ import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.overseasshopping.Model.User;
+
 public class MainActivity extends SingleFragmentActivity {
     private TextView mTextMessage;
+    public String currentUserNo;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -39,6 +43,10 @@ public class MainActivity extends SingleFragmentActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         mTextMessage = findViewById(R.id.message);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        Bundle bundle = getIntent().getExtras();
+        ChatFragment cF = new ChatFragment();
+        cF.setArguments(bundle);
     }
 
 
@@ -47,4 +55,5 @@ public class MainActivity extends SingleFragmentActivity {
         return new ProductFragment();
 
     }
+
 }
