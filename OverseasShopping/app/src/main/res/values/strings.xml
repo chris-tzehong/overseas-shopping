@@ -39,4 +39,7 @@
     <string name="product_description">Description</string>
     <string name="product_description_hint">Enter a short description about the product.</string>
     <string name="post_product_label">Post Product</string>
+    <string name="user_name">user name</string>
+    <string name="chatmessagetime">Last Reply :</string>
+
 </resources>

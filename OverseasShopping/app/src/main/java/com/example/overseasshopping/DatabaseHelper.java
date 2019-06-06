@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.overseasshopping.Model.Chat;
 import com.example.overseasshopping.Model.Order;
 import com.example.overseasshopping.Model.Product;
 import com.example.overseasshopping.Model.Rating;
@@ -27,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_USER = "user";
     private static final String TABLE_PRODUCT = "product";
     private static final String TABLE_ORDERS = "orders";
-    private static final String TABLE_MESSAGE = "message";
+    private static final String TABLE_CHATMESSAGE = "chatmessage";
     private static final String TABLE_RATING = "rating";
 
     // User Table Columns names
@@ -54,11 +55,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_BUYER = "buyer";
     private static final String COLUMN_TIME = "time";
 
-    private static final String COLUMN_MESSAGE_NO = "message_no";
-    private static final String COLUMN_USER1 = "user1";
-    private static final String COLUMN_USER2 = "user2";
-    private static final String COLUMN_MESSAGE_TIME = "message_time";
-    private static final String COLUMN_MESSAGE = "MESSAGE";
+    private static final String COLUMN_SENDER_ID = "sender_id";
+    private static final String COLUMN_RECEIVER_ID = "receiver_id";
+    private static final String COLUMN_CHATMESSAGE_TIME = "chatmessage_time";
+    private static final String COLUMN_CHATMESSAGE = "chatmessage";
 
     private static final String COLUMN_RATING_NO = "rating_no";
     private static final String COLUMN_RATED_BY = "rated_by";
@@ -68,7 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_USER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_USERNAME + " TEXT," + COLUMN_PASSWORD + " TEXT,"
             + COLUMN_TELEPHONE + " TEXT," + COLUMN_ADDRESS + " TEXT,"
-            + COLUMN_CREDITCARD_NO + " INTEGER," + COLUMN_SECURITY_NO + " INTEGER,"
+            + COLUMN_CREDITCARD_NO + " TEXT," + COLUMN_SECURITY_NO + " TEXT,"
             + COLUMN_EXPIRY_DATE + " DATE," + COLUMN_RATING + "INTEGER,"
             + COLUMN_TOTAL_RATED_BY + "INTEGER, " + COLUMN_RATING + " INTEGER, " 
             + COLUMN_TOTAL_RATED_BY + " INTEGER" + ")";
@@ -84,10 +84,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_SELLER + " TEXT," + COLUMN_BUYER + " TEXT,"
             + COLUMN_TIME + " DATETIME," + COLUMN_PRODUCT_NO + " INTEGER" + ")";
 
-    private String CREATE_MESSAGE_TABLE = "CREATE TABLE " + TABLE_MESSAGE + "("
-            + COLUMN_MESSAGE_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COLUMN_USER1 + " INTEGER," + COLUMN_USER2 + " INTEGER,"
-            + COLUMN_MESSAGE_TIME + " DATETIME," + COLUMN_MESSAGE + " TEXT" + ")";
+    private String CREATE_CHATMESSAGE_TABLE = "CREATE TABLE " + TABLE_CHATMESSAGE + "("
+            + COLUMN_CHATMESSAGE + " TEXT," + COLUMN_SENDER_ID + " INTEGER,"
+            + COLUMN_RECEIVER_ID + " INTEGER," + COLUMN_CHATMESSAGE_TIME + " DATETIME,"
+            + COLUMN_USER_NO + "INTEGER" + ")";
 
     private String CREATE_RATING_TABLE = "CREATE TABLE " + TABLE_RATING + "("
             + COLUMN_RATING_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -98,7 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
     private String DROP_PRODUCT_TABLE = "DROP TABLE IF EXISTS " + TABLE_PRODUCT;
     private String DROP_ORDERS_TABLE = "DROP TABLE IF EXISTS " + TABLE_ORDERS;
-    private String DROP_MESSAGE_TABLE = "DROP TABLE IF EXISTS " + TABLE_MESSAGE;
+    private String DROP_CHATMESSAGE_TABLE = "DROP TABLE IF EXISTS " + TABLE_CHATMESSAGE;
     private String DROP_RATING_TABLE = "DROP TABLE IF EXISTS " + TABLE_RATING;
 
     public DatabaseHelper(Context context) {
@@ -111,7 +111,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_USER_TABLE);
         db.execSQL(CREATE_PRODUCT_TABLE);
         db.execSQL(CREATE_ORDERS_TABLE);
-        db.execSQL(CREATE_MESSAGE_TABLE);
+        db.execSQL(CREATE_CHATMESSAGE_TABLE);
         db.execSQL(CREATE_RATING_TABLE);
     }
 
@@ -122,7 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DROP_USER_TABLE);
         db.execSQL(DROP_PRODUCT_TABLE);
         db.execSQL(DROP_ORDERS_TABLE);
-        db.execSQL(DROP_MESSAGE_TABLE);
+        db.execSQL(DROP_CHATMESSAGE_TABLE);
         db.execSQL(DROP_RATING_TABLE);
         onCreate(db);
     }
@@ -193,8 +193,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             u1.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
             u1.setTelephone(cursor.getString(cursor.getColumnIndex(COLUMN_TELEPHONE)));
             u1.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
-            u1.setCreditCardNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO))));
-            u1.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
+            u1.setCreditCardNo(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO)));
+            u1.setSecurityNo(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO)));
             u1.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
             u1.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
             u1.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
@@ -248,8 +248,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 user.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
                 user.setTelephone(cursor.getString(cursor.getColumnIndex(COLUMN_TELEPHONE)));
                 user.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
-                user.setCreditCardNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO))));
-                user.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
+                user.setCreditCardNo(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO)));
+                user.setSecurityNo(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO)));
                 user.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
                 user.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
                 user.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
@@ -699,7 +699,110 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    //----------------------------------------Message Database----------------------------------------//
+    //----------------------------------------Chat Database----------------------------------------//
+
+    public void addChatMessage(Chat chat) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CHATMESSAGE, chat.getChat());
+        values.put(COLUMN_SENDER_ID, chat.getSenderId());
+        values.put(COLUMN_RECEIVER_ID, chat.getReceiverId());
+        values.put(COLUMN_CHATMESSAGE_TIME, String.valueOf(chat.getChatMessage_time()));
+        //values.put(COLUMN_USER_NO, user.getUserNo());
+
+        db.insert(TABLE_CHATMESSAGE, null, values);
+        db.close();
+    }
+
+    public List<Chat> getAllChat() {
+
+        List<Chat> chats = new ArrayList<>();
+
+        String[] columns = {
+                COLUMN_CHATMESSAGE,
+                COLUMN_SENDER_ID,
+                COLUMN_RECEIVER_ID,
+                COLUMN_CHATMESSAGE_TIME
+        };
+
+        String sortOrder = COLUMN_CHATMESSAGE_TIME + " ASC";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_ORDERS, //Table to query
+                columns,                    //columns to return
+                null,                  //columns for the WHERE clause
+                null,              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                      //filter by row groups
+                sortOrder);
+
+        if(cursor.moveToFirst()) {
+            do {
+                Chat cM = new Chat();
+                cM.setChatMessage(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE)));
+                cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDER_ID))));
+                cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVER_ID))));
+                cM.setChatMessage_time(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE_TIME))));
+                //Product.setProductNo(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO)));
+                // Adding order record to list
+                chats.add(cM);
+            } while (cursor.moveToNext());
+        }
+
+        db.close();
+        cursor.close();
+
+        return chats;
+    }
+
+    public List<Chat> getUserChat(Chat chat) {
+
+        List<Chat> chats = new ArrayList<>();
+
+        String[] columns = {
+                COLUMN_CHATMESSAGE,
+                COLUMN_SENDER_ID,
+                COLUMN_RECEIVER_ID,
+                COLUMN_CHATMESSAGE_TIME
+        };
+
+        String sortOrder = COLUMN_CHATMESSAGE_TIME + " ASC";
+
+        String selection = "( " + COLUMN_SENDER_ID + " = ?" + " AND" + COLUMN_RECEIVER_ID + " = ?" + " ) OR " +
+                           "( " + COLUMN_SENDER_ID + " = ?" + " AND" + COLUMN_RECEIVER_ID + " = ?" + " )";
+
+        String[] selectionArgs ={String.valueOf(chat.getSenderId()), String.valueOf(chat.getReceiverId()),
+                                 String.valueOf(chat.getSenderId()), String.valueOf(chat.getReceiverId())};
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_ORDERS, //Table to query
+                columns,                    //columns to return
+                selection,                  //columns for the WHERE clause
+                selectionArgs,              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                      //filter by row groups
+                sortOrder);
+
+        if(cursor.moveToFirst())
+            do {
+                Chat cM = new Chat();
+                cM.setChatMessage(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE)));
+                cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDER_ID))));
+                cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVER_ID))));
+                cM.setChatMessage_time(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE_TIME))));
+                //Product.setProductNo(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO)));
+                // Adding order record to list
+                chats.add(cM);
+            }while(cursor.moveToNext());
+
+
+        return chats;
+    }
+
+
 
     //----------------------------------------Rating Database----------------------------------------//
 

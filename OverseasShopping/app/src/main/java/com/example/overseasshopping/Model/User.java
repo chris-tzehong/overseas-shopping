@@ -9,8 +9,8 @@ public class User {
     private String password;
     private String telephone;
     private String address;
-    private int creditCardNo;
-    private int securityNo;
+    private String creditCardNo;
+    private String securityNo;
     private Date expiryDate;
 
     private int rating;
@@ -20,7 +20,7 @@ public class User {
 
     }
 
-    public User(String username, String password, String telephone, String address, int creditCardNo, int securityNo, Date expiryDate, int rating, int totalRatedBy) {
+    public User(String username, String password, String telephone, String address, String creditCardNo, String securityNo, Date expiryDate, int rating, int totalRatedBy) {
         this.username = username;
         this.password = password;
         this.telephone = telephone;
@@ -72,19 +72,19 @@ public class User {
         this.address = address;
     }
 
-    public int getCreditCardNo() {
+    public String getCreditCardNo() {
         return creditCardNo;
     }
 
-    public void setCreditCardNo(int creditCardNo) {
+    public void setCreditCardNo(String creditCardNo) {
         this.creditCardNo = creditCardNo;
     }
 
-    public int getSecurityNo() {
+    public String getSecurityNo() {
         return securityNo;
     }
 
-    public void setSecurityNo(int securityNo) {
+    public void setSecurityNo(String securityNo) {
         this.securityNo = securityNo;
     }
 
