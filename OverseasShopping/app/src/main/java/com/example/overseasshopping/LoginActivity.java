@@ -12,6 +12,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,8 +23,7 @@ import com.example.overseasshopping.Model.User;
 
 public class LoginActivity extends AppCompatActivity {
 
-//    public static String username = "user";
-//    public static String password = "user";
+    public static String username;
 
     private EditText mEditTextLoginUsername;
     private EditText mEditTextLoginPassword;
@@ -42,7 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         mEditTextLoginPassword = (EditText) findViewById(R.id.editTextLoginPassword);
         mButtonLogin = (Button) findViewById(R.id.buttonLogin);
         mTextViewRegisterNew = (TextView) findViewById(R.id.textViewRegisterNew);
-//        db = new DatabaseHelper(this);
+        db = new DatabaseHelper(this);
+
 //        User user = new User("ki", "ki", "la", "la", 3, 2);
 //        db.addUser(user);
 //        Product product = new Product("he", "he", "XD", 2, 3);
@@ -89,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (user.getPassword().equals(mEditTextLoginPassword.getText().toString())) {
                             Intent i2 = new Intent(LoginActivity.this, MainActivity.class);
                             i2.putExtra("UserNo", user.getUserNo());
+                            Intent i2 = MainActivity.newIntent(LoginActivity.this, mEditTextLoginUsername.getText().toString());
                             startActivity(i2);
                         } else {
                             AlertDialog.Builder alertDialogBuilder_2 = new AlertDialog.Builder(LoginActivity.this);
@@ -103,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                             alertDialog_2.show();
                         }
                     } catch (RuntimeException e1) {
+                        e1.printStackTrace();
                         AlertDialog.Builder alertDialogBuilder_3 = new AlertDialog.Builder(LoginActivity.this);
                         alertDialogBuilder_3.setMessage(getResources().getString(R.string.login_error_invalid_username));
                         alertDialogBuilder_3.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {

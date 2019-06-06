@@ -55,6 +55,14 @@ public class ProductListFragment extends Fragment {
         ProductLab productLab = ProductLab.get(getActivity());
         List<Product> products = productLab.getProducts();
 
+        if (mAdapter == null){
+            mAdapter = new ProductAdapter(products);
+            mProductRecyclerView.setAdapter(mAdapter);
+        }else{
+            mAdapter.setProducts(products);
+            mAdapter.notifyDataSetChanged();
+        }
+
 
     }
     //Adapter

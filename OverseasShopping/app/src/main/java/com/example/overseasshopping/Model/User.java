@@ -1,6 +1,6 @@
 package com.example.overseasshopping.Model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class User {
 
@@ -20,7 +20,8 @@ public class User {
 
     }
 
-    public User(String username, String password, String telephone, String address, String creditCardNo, String securityNo, Date expiryDate, int rating, int totalRatedBy) {
+
+    public User(String username, String password, String telephone, String address, String creditCardNo, int securityNo, Date expiryDate) {
         this.username = username;
         this.password = password;
         this.telephone = telephone;
@@ -28,9 +29,20 @@ public class User {
         this.creditCardNo = creditCardNo;
         this.securityNo = securityNo;
         this.expiryDate = expiryDate;
-        this.rating = rating;
-        this.totalRatedBy = totalRatedBy;
     }
+
+    // public User(int userNo, String username, String password, String telephone, String address, int creditCardNo, int securityNo, Date expiryDate, int rating, int totalRatedBy) {
+    //     this.userNo = userNo;
+    //     this.username = username;
+    //     this.password = password;
+    //     this.telephone = telephone;
+    //     this.address = address;
+    //     this.creditCardNo = creditCardNo;
+    //     this.securityNo = securityNo;
+    //     this.expiryDate = expiryDate;
+    //     this.rating = rating;
+    //     this.totalRatedBy = totalRatedBy;
+    // }
 
     public int getUserNo() {
         return userNo;
