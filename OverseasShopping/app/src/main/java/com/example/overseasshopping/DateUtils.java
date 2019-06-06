@@ -21,7 +21,7 @@ public class DateUtils {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
 
         if (month <= 9 ) {
@@ -30,7 +30,7 @@ public class DateUtils {
             displayMonth = Integer.toString(month);
         }
 
-        displayYear = (Integer.toString(year)).substring(2, 3);
+        displayYear = (Integer.toString(year)).substring(2, 4);
 
         displayDate = displayMonth + "/" + displayYear;
 

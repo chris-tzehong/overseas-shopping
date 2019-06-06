@@ -46,4 +46,19 @@
     <string name="product_description">Description</string>
     <string name="product_description_hint">Enter a short description about the product.</string>
     <string name="post_product_label">Post Product</string>
+    <string name="profile_photo_placeholder">Profile Photo</string>
+    <string name="profile_name_placeholder">Username</string>
+    <string name="profile_rating">Rating</string>
+    <string name="profile_rating_placeholder">Rating Int</string>
+    <string name="profile_rated_by">Rated by</string>
+    <string name="profile_rated_by_placeholder">Rated by User</string>
+    <string name="profile_phone_placeholder">Phone</string>
+    <string name="profile_credit_card_no_placeholder">Credit Card Number</string>
+    <string name="profile_credit_card_expiry_date_placeholder">Expiry Date</string>
+    <string name="profile_credit_card_ccv_placeholder">CCV</string>
+    <string name="profile_address_placeholder">Address</string>
+    <string name="profile_logout_button">Logout</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -9,4 +9,5 @@
     <color name="colorLoginButtonBlue">#3fadfc</color>
     <color name="colorHint">#717272</color>
     <color name="colorRegisterButtonRed">#f4482e</color>
+    <color name="colorProfileBackground">#505359</color>
 </resources>
