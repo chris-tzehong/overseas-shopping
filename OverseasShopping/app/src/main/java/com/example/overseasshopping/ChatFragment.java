@@ -8,12 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.overseasshopping.Model.Message;
+import com.example.overseasshopping.Model.Chat;
 import com.example.overseasshopping.Model.User;
 
 public class ChatFragment extends Fragment {
     private View ChatsView;
     private RecyclerView chatsList;
+
     private DatabaseHelper db;
     private Integer currentUserID;
 
@@ -27,7 +28,7 @@ public class ChatFragment extends Fragment {
 
         db = new DatabaseHelper(getActivity());
         User user = new User("1", "1", "1", "1", "1", "1", null, 0, 0);
-        Message cM = new Message("GGWP", 1, 2, null);
+        Chat cM = new Chat("GGWP", 1, 2, null);
         String currentUser = user.getUsername();
         currentUserID = db.getUser(currentUser).getUserNo();
 

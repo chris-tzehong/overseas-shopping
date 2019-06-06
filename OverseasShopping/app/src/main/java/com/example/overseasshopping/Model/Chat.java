@@ -2,18 +2,18 @@ package com.example.overseasshopping.Model;
 
 import java.util.Date;
 
-public class Message {
+public class Chat {
 
     private String chat;
     private int senderId;
     private int receiverId;
     private Date chat_time;
 
-    public Message() {
+    public Chat() {
 
     }
 
-    public Message(String chat, int receiverId, int senderId, Date chat_time) {
+    public Chat(String chat, int receiverId, int senderId, Date chat_time) {
         this.chat = chat;
         this.receiverId = receiverId;
         this.senderId = senderId;
@@ -44,11 +44,11 @@ public class Message {
         this.receiverId = receiverId;
     }
 
-    public Date getChatMessage_time() {
+    public Date getChat_time() {
         return chat_time;
     }
 
-    public void setChatMessage_time(Date chat_time) {
+    public void setChat_time(Date chat_time) {
         this.chat_time = chat_time;
     }
 }
