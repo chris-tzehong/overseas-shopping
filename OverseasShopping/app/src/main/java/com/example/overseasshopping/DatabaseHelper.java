@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.overseasshopping.Model.Chat;
+import com.example.overseasshopping.Model.Message;
 import com.example.overseasshopping.Model.Order;
 import com.example.overseasshopping.Model.Product;
 import com.example.overseasshopping.Model.Rating;
@@ -699,25 +699,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    //----------------------------------------Chat Database----------------------------------------//
+    //----------------------------------------Message Database----------------------------------------//
 
-    public void addChatMessage(Chat chat) {
+    public void addMessage(Message message) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_CHATMESSAGE, chat.getChat());
-        values.put(COLUMN_SENDER_ID, chat.getSenderId());
-        values.put(COLUMN_RECEIVER_ID, chat.getReceiverId());
-        values.put(COLUMN_CHATMESSAGE_TIME, String.valueOf(chat.getChatMessage_time()));
+        values.put(COLUMN_CHATMESSAGE, message.getChat());
+        values.put(COLUMN_SENDER_ID, message.getSenderId());
+        values.put(COLUMN_RECEIVER_ID, message.getReceiverId());
+        values.put(COLUMN_CHATMESSAGE_TIME, String.valueOf(message.getChatMessage_time()));
         //values.put(COLUMN_USER_NO, user.getUserNo());
 
         db.insert(TABLE_CHATMESSAGE, null, values);
         db.close();
     }
 
-    public List<Chat> getAllChat() {
+    public List<Message> getAllMessage() {
 
-        List<Chat> chats = new ArrayList<>();
+        List<Message> messages = new ArrayList<>();
 
         String[] columns = {
                 COLUMN_CHATMESSAGE,
@@ -740,26 +740,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst()) {
             do {
-                Chat cM = new Chat();
+                Message cM = new Message();
                 cM.setChatMessage(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE)));
                 cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDER_ID))));
                 cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVER_ID))));
                 cM.setChatMessage_time(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE_TIME))));
                 //Product.setProductNo(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO)));
                 // Adding order record to list
-                chats.add(cM);
+                messages.add(cM);
             } while (cursor.moveToNext());
         }
 
         db.close();
         cursor.close();
 
-        return chats;
+        return messages;
     }
 
-    public List<Chat> getUserChat(Chat chat) {
+    public List<Message> getUserMessage(Message message) {
 
-        List<Chat> chats = new ArrayList<>();
+        List<Message> messages = new ArrayList<>();
 
         String[] columns = {
                 COLUMN_CHATMESSAGE,
@@ -773,8 +773,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selection = "( " + COLUMN_SENDER_ID + " = ?" + " AND" + COLUMN_RECEIVER_ID + " = ?" + " ) OR " +
                            "( " + COLUMN_SENDER_ID + " = ?" + " AND" + COLUMN_RECEIVER_ID + " = ?" + " )";
 
-        String[] selectionArgs ={String.valueOf(chat.getSenderId()), String.valueOf(chat.getReceiverId()),
-                                 String.valueOf(chat.getSenderId()), String.valueOf(chat.getReceiverId())};
+        String[] selectionArgs ={String.valueOf(message.getSenderId()), String.valueOf(message.getReceiverId()),
+                                 String.valueOf(message.getSenderId()), String.valueOf(message.getReceiverId())};
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -788,18 +788,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst())
             do {
-                Chat cM = new Chat();
+                Message cM = new Message();
                 cM.setChatMessage(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE)));
                 cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDER_ID))));
                 cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVER_ID))));
                 cM.setChatMessage_time(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE_TIME))));
                 //Product.setProductNo(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO)));
                 // Adding order record to list
-                chats.add(cM);
+                messages.add(cM);
             }while(cursor.moveToNext());
 
 
-        return chats;
+        return messages;
     }
 
 

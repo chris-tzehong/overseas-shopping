@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.overseasshopping.Model.Chat;
+import com.example.overseasshopping.Model.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class ChatActivity extends AppCompatActivity {
     private ImageButton SendMessageButton;
     private EditText MessageInputText;
 
-    private final List<Chat> mMessageList = new ArrayList<>();
+    private final List<Message> mMessageList = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
 
 

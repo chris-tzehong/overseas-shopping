@@ -2,7 +2,7 @@ package com.example.overseasshopping;
 
 import android.content.Context;
 
-import com.example.overseasshopping.Model.Chat;
+import com.example.overseasshopping.Model.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 public class ChatMessageLab {
     private static ChatMessageLab sChatMessageLab;
 
-    private List<Chat> mChats;
+    private List<Message> mMessages;
 
     public static ChatMessageLab get(Context context) {
 
@@ -18,11 +18,11 @@ public class ChatMessageLab {
     }
 
     private ChatMessageLab(Context context) {
-        mChats = new ArrayList<>();
+        mMessages = new ArrayList<>();
     }
 
-    public List<Chat> getChats() {
-        return mChats;
+    public List<Message> getMessages() {
+        return mMessages;
     }
 
 }
