@@ -10,7 +10,7 @@ import com.example.overseasshopping.Model.Product;
 import com.example.overseasshopping.Model.Rating;
 import com.example.overseasshopping.Model.User;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String CREATE_ORDERS_TABLE = "CREATE TABLE " + TABLE_ORDERS + "("
             + COLUMN_ORDER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_SELLER + " TEXT," + COLUMN_BUYER + " TEXT,"
-            + COLUMN_TIME + " DATETIME," + COLUMN_PRODUCT_NO + " INTEGER" + ")";
+            + COLUMN_TIME + " LONG," + COLUMN_PRODUCT_NO + " INTEGER" + ")";
 
     private String CREATE_MESSAGE_TABLE = "CREATE TABLE " + TABLE_MESSAGE + "("
             + COLUMN_MESSAGE_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -252,7 +252,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 user.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
                 user.setCreditCardNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO))));
                 user.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
-                user.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
+                user.setExpiryDate(new Date(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
                 user.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
                 user.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
                 // Adding user record to list
@@ -611,7 +611,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 order.setOrderNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_ORDER_NO))));
                 order.setSeller(cursor.getString(cursor.getColumnIndex(COLUMN_SELLER)));
                 order.setBuyer(cursor.getString(cursor.getColumnIndex(COLUMN_BUYER)));
-                order.setTime(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_TIME))));
+                order.setTime(new Date(cursor.getString(cursor.getColumnIndex(COLUMN_TIME))));
                 //Product.setProductNo(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO)));
                 // Adding order record to list
                 orderList.add(order);
