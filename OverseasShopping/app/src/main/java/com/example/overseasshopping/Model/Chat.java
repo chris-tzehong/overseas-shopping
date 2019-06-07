@@ -1,10 +1,8 @@
 package com.example.overseasshopping.Model;
 
 import java.util.Date;
-import java.util.List;
 
 public class Chat {
-
     private String chat;
     private String senderId;
     private String receiverId;

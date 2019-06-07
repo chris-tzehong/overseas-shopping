@@ -63,7 +63,8 @@
     <string name="profile_credit_card_ccv_placeholder">CCV</string>
     <string name="profile_address_placeholder">Address</string>
     <string name="profile_logout_button">Logout</string>
-    <!- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
+
+<!--TODO: Remove or change this placeholder text &ndash;&gt;&ndash;&gt;-->

@@ -1,22 +1,22 @@
 package com.example.overseasshopping;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.example.overseasshopping.Model.Chat;
 
-import java.util.ArrayList;
 import java.util.List;
+
 
 public class ChatLab {
     private static ChatLab sChatLab;
-    // private List<Product> mProducts;
     private Context mContext;
-    //  private SQLiteDatabase mDatabase;
-    private DatabaseHelper db;
+    private SQLiteDatabase db;
 
 
-    public static ChatLab get(Context context){
-        if(sChatLab == null){
+    public static ChatLab get(Context context) {
+        if (sChatLab == null) {
             sChatLab = new ChatLab(context);
 
         }
@@ -24,18 +24,15 @@ public class ChatLab {
         return sChatLab;
     }
 
-    private ChatLab(Context context){
+    private ChatLab(Context context) {
 
         mContext = context.getApplicationContext();
+        db = new DatabaseHelper(mContext).getWritableDatabase();
+
     }
 
-    public List<Chat> getChats(){
+        public Chat getChat (String receiverId){
+            return null;
+        }
 
-        List<Chat> chats = new ArrayList<>();
-
-        db = new DatabaseHelper(mContext);
-        chats = db.getAllChats();
-
-        return chats;
-    }
 }

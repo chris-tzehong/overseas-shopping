@@ -9,8 +9,8 @@ public class User {
     private String password;
     private String telephone;
     private String address;
-    private String creditCardNo;
-    private String securityNo;
+    private Integer creditCardNo;
+    private Integer securityNo;
     private Date expiryDate;
 
     private int rating;
@@ -21,7 +21,7 @@ public class User {
     }
 
 
-    public User(String username, String password, String telephone, String address, String creditCardNo, int securityNo, Date expiryDate) {
+    public User(String username, String password, String telephone, String address, Integer creditCardNo, Integer securityNo, Date expiryDate) {
         this.username = username;
         this.password = password;
         this.telephone = telephone;
@@ -30,19 +30,6 @@ public class User {
         this.securityNo = securityNo;
         this.expiryDate = expiryDate;
     }
-
-    // public User(int userNo, String username, String password, String telephone, String address, int creditCardNo, int securityNo, Date expiryDate, int rating, int totalRatedBy) {
-    //     this.userNo = userNo;
-    //     this.username = username;
-    //     this.password = password;
-    //     this.telephone = telephone;
-    //     this.address = address;
-    //     this.creditCardNo = creditCardNo;
-    //     this.securityNo = securityNo;
-    //     this.expiryDate = expiryDate;
-    //     this.rating = rating;
-    //     this.totalRatedBy = totalRatedBy;
-    // }
 
     public int getUserNo() {
         return userNo;
@@ -84,19 +71,19 @@ public class User {
         this.address = address;
     }
 
-    public String getCreditCardNo() {
+    public Integer getCreditCardNo() {
         return creditCardNo;
     }
 
-    public void setCreditCardNo(String creditCardNo) {
+    public void setCreditCardNo(Integer creditCardNo) {
         this.creditCardNo = creditCardNo;
     }
 
-    public String getSecurityNo() {
+    public Integer getSecurityNo() {
         return securityNo;
     }
 
-    public void setSecurityNo(String securityNo) {
+    public void setSecurityNo(Integer securityNo) {
         this.securityNo = securityNo;
     }
 

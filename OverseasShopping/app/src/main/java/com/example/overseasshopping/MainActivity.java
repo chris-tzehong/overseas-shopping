@@ -14,11 +14,11 @@ import android.widget.TextView;
 
 import com.example.overseasshopping.Model.User;
 
-public class MainActivity extends SingleFragmentActivity {
-    private TextView mTextMessage;
-    public String currentUserNo;
 
 public class MainActivity extends AppCompatActivity {
+
+    private TextView mTextMessage;
+    public String currentUserNo;
 
     public static final String EXTRA_USERNAME = "com.example.overseasshopping.username";
 
@@ -67,19 +67,18 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         Bundle bundle = getIntent().getExtras();
-        ChatFragment cF = new ChatFragment();
-        cF.setArguments(bundle);
+        MessageFragment mF = new MessageFragment();
+        mF.setArguments(bundle);
     }
 
-        fm.beginTransaction().add(R.id.main_container, mProfileFragment, "2").hide(mProfileFragment).commit();
-        fm.beginTransaction().add(R.id.main_container, mHomeFragment, "1").commit();
+//        fm.beginTransaction().add(R.id.main_container, mProfileFragment, "2").hide(mProfileFragment).commit();
+//        fm.beginTransaction().add(R.id.main_container, mHomeFragment, "1").commit();
     }
 
-    }
+
 
 //   @Override
 //    protected Fragment createFragment(){
 //        return new ProductFragment();
 //
 //    }
-}
