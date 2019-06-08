@@ -1,12 +1,14 @@
 package com.example.overseasshopping;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.overseasshopping.Model.Chat;
@@ -14,44 +16,42 @@ import com.example.overseasshopping.Model.Chat;
 import java.util.List;
 
 public class ChatListFragment extends Fragment {
-    private RecyclerView mChatListRecyclerView;
+    private RecyclerView mChatRecyclerView;
+    private View chatView;
     private ChatAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_chat_user, container, false);
+        chatView = inflater.inflate(R.layout.activity_message, container, false);
 
-        mChatListRecyclerView = (RecyclerView) view.findViewById(R.id.chat_list);
-        mChatListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mChatRecyclerView = (RecyclerView) chatView.findViewById(R.id.message_list);
+        mChatRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        updateUI();
+       // updateUI();
 
-        return view;
+        return chatView;
     }
 
 
 
     private class ChatHolder extends RecyclerView.ViewHolder {
-        private Chat mChat;
-        private TextView receiver_name;
-        private TextView chatDate;
+        ImageView profileImage;
+        TextView receiver_name;
+        TextView chatMessageDate;
 
         public ChatHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.fragment_chat_user, parent, false));
+            super(inflater.inflate(R.layout.activity_message, parent, false));
 
-            receiver_name = itemView.findViewById(R.id.custom_profile_name);
-            chatDate = itemView.findViewById(R.id.custom_user_last_seen);
+            profileImage = itemView.findViewById(R.id.users_profile_image);
+            receiver_name = itemView.findViewById(R.id.receiver_name);
+            chatMessageDate = itemView.findViewById(R.id.chatMessageTime);
         }
 
-        public void bind(Chat chat) {
-            mChat = chat;
-            receiver_name.setText(mChat.getReceiverId());
-            chatDate.setText(mChat.getChat_date().toString());
-        }
 
     }
 
     private class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
+
         private List<Chat> mChats;
 
         public ChatAdapter(List<Chat> chats) {
@@ -59,40 +59,26 @@ public class ChatListFragment extends Fragment {
         }
 
         @Override
-        public ChatHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        public ChatHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
 
             return new ChatHolder(layoutInflater, viewGroup);
         }
 
         @Override
-        public void onBindViewHolder(ChatHolder chatHolder, int i) {
-            Chat chat = mChats.get(i);
-            chatHolder.bind(chat);
+        public void onBindViewHolder(@NonNull ChatHolder chatHolder, int i) {
+
         }
 
         @Override
         public int getItemCount() {
             return mChats.size();
         }
-
-        public void setChats(List<Chat> chats){
-            mChats = chats;
-        }
     }
 
-    private void updateUI() {
-        ChatLab chatLab = ChatLab.get(getActivity());
-        List<Chat> chats = chatLab.getChats();
-        if (mAdapter ==null){
-            mAdapter = new ChatAdapter(chats);
-            mChatListRecyclerView.setAdapter(mAdapter);
-        }else{
-            mAdapter.setChats(chats);
-            mAdapter.notifyDataSetChanged();
-        }
-
-    }
-
-
+//    //private void updateUI() {
+//        mAdapter = new ChatAdapter();
+//        mChatRecyclerView.setAdapter(mAdapter);
+//
+//    }
 }

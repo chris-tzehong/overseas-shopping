@@ -1,24 +1,23 @@
 package com.example.overseasshopping.Model;
 
 import java.util.Date;
-import java.util.List;
 
 public class Chat {
 
     private String chat;
-    private String senderId;
-    private String receiverId;
-    private Date chat_date;
+    private int senderId;
+    private int receiverId;
+    private Date chat_time;
 
     public Chat() {
 
     }
 
-    public Chat(String chat, String receiverId, String senderId, Date chat_date) {
+    public Chat(String chat, int receiverId, int senderId, Date chat_time) {
         this.chat = chat;
         this.receiverId = receiverId;
         this.senderId = senderId;
-        this.chat_date = chat_date;
+        this.chat_time = chat_time;
     }
 
     public String getChat() {
@@ -29,27 +28,27 @@ public class Chat {
         this.chat = chat;
     }
 
-    public String getSenderId() {
+    public int getSenderId() {
         return senderId;
     }
 
-    public void setSenderId(String senderId) {
+    public void setSenderId(int senderId) {
         this.senderId = senderId;
     }
 
-    public String getReceiverId() {
+    public int getReceiverId() {
         return receiverId;
     }
 
-    public void setReceiverId(String receiverId) {
+    public void setReceiverId(int receiverId) {
         this.receiverId = receiverId;
     }
 
-    public Date getChat_date() {
-        return chat_date;
+    public Date getChat_time() {
+        return chat_time;
     }
 
-    public void setChat_date(Date chat_date) {
-        this.chat_date = chat_date;
+    public void setChat_time(Date chat_time) {
+        this.chat_time = chat_time;
     }
 }

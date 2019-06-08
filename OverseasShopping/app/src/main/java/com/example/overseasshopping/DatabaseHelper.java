@@ -702,21 +702,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //----------------------------------------Chat Database----------------------------------------//
 
-    public void addChat(Chat chat) {
+    public void addMessage(Chat chat) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(COLUMN_CHATMESSAGE, chat.getChat());
         values.put(COLUMN_SENDER_ID, chat.getSenderId());
         values.put(COLUMN_RECEIVER_ID, chat.getReceiverId());
-        values.put(COLUMN_CHATMESSAGE_TIME, String.valueOf(chat.getChat_date()));
+        values.put(COLUMN_CHATMESSAGE_TIME, String.valueOf(chat.getChat_time()));
         //values.put(COLUMN_USER_NO, user.getUserNo());
 
         db.insert(TABLE_CHATMESSAGE, null, values);
         db.close();
     }
 
-    public List<Chat> getAllChats() {
+    public List<Chat> getAllMessage() {
 
         List<Chat> chats = new ArrayList<>();
 
@@ -743,9 +743,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 Chat cM = new Chat();
                 cM.setChatMessage(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE)));
-                cM.setSenderId(cursor.getString(cursor.getColumnIndex(COLUMN_SENDER_ID)));
-                cM.setReceiverId(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVER_ID)));
-                cM.setChat_date(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE_TIME))));
+                cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDER_ID))));
+                cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVER_ID))));
+                cM.setChat_time(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE_TIME))));
                 //Product.setProductNo(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO)));
                 // Adding order record to list
                 chats.add(cM);
@@ -758,7 +758,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return chats;
     }
 
-    public List<Chat> getUserChats(Chat chat) {
+    public List<Chat> getUserMessage(Chat chat) {
 
         List<Chat> chats = new ArrayList<>();
 
@@ -791,9 +791,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 Chat cM = new Chat();
                 cM.setChatMessage(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE)));
-                cM.setSenderId(cursor.getString(cursor.getColumnIndex(COLUMN_SENDER_ID)));
-                cM.setReceiverId(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVER_ID)));
-                cM.setChat_date(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE_TIME))));
+                cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDER_ID))));
+                cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVER_ID))));
+                cM.setChat_time(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE_TIME))));
                 //Product.setProductNo(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO)));
                 // Adding order record to list
                 chats.add(cM);
