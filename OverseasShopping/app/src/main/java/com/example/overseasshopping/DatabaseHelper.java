@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.overseasshopping.Model.Message;
 import com.example.overseasshopping.Model.Order;
 import com.example.overseasshopping.Model.Product;
 import com.example.overseasshopping.Model.Rating;
@@ -55,10 +56,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_TIME = "time";
 
     private static final String COLUMN_MESSAGE_NO = "message_no";
-    private static final String COLUMN_USER1 = "user1";
-    private static final String COLUMN_USER2 = "user2";
+    private static final String COLUMN_SENDERID = "senderid";
+    private static final String COLUMN_RECEIVERID = "receiverid";
     private static final String COLUMN_MESSAGE_TIME = "message_time";
-    private static final String COLUMN_MESSAGE = "MESSAGE";
+    private static final String COLUMN_MESSAGETEXT = "MESSAGE";
 
     private static final String COLUMN_RATING_NO = "rating_no";
     private static final String COLUMN_RATED_BY = "rated_by";
@@ -86,8 +87,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private String CREATE_MESSAGE_TABLE = "CREATE TABLE " + TABLE_MESSAGE + "("
             + COLUMN_MESSAGE_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COLUMN_USER1 + " INTEGER," + COLUMN_USER2 + " INTEGER,"
-            + COLUMN_MESSAGE_TIME + " DATETIME," + COLUMN_MESSAGE + " TEXT" + ")";
+            + COLUMN_SENDERID + " INTEGER," + COLUMN_RECEIVERID + " INTEGER,"
+            + COLUMN_MESSAGE_TIME + " DATETIME," + COLUMN_MESSAGETEXT + " TEXT" + ")";
 
     private String CREATE_RATING_TABLE = "CREATE TABLE " + TABLE_RATING + "("
             + COLUMN_RATING_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -703,6 +704,108 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //----------------------------------------Message Database----------------------------------------//
 
+    public void addMessage(Message message) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_MESSAGETEXT, message.getMessageText());
+        values.put(COLUMN_SENDERID, message.getSenderId());
+        values.put(COLUMN_RECEIVERID, message.getReceiverId());
+        values.put(COLUMN_MESSAGE_TIME, String.valueOf(message.getMessage_time()));
+        //values.put(COLUMN_USER_NO, user.getUserNo());
+
+        db.insert(TABLE_MESSAGE, null, values);
+        db.close();
+    }
+
+    public List<Message> getUserMessages(String userNo, String otherUserNo) {
+
+        List<Message> messages = new ArrayList<>();
+
+        String[] columns = {
+                COLUMN_MESSAGETEXT,
+                COLUMN_SENDERID,
+                COLUMN_RECEIVERID,
+                COLUMN_MESSAGE_TIME
+        };
+
+        String sortOrder = COLUMN_MESSAGE_TIME + " ASC";
+
+        String selection = "( " + COLUMN_SENDERID + " = ?" + " AND" + COLUMN_RECEIVERID + " = ?" + " ) OR " +
+                "( " + COLUMN_SENDERID + " = ?" + " AND" + COLUMN_RECEIVERID + " = ?" + " )";
+
+        String[] selectionArgs ={userNo, otherUserNo,
+                otherUserNo, userNo};
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_ORDERS, //Table to query
+                columns,                    //columns to return
+                selection,                  //columns for the WHERE clause
+                selectionArgs,              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                      //filter by row groups
+                sortOrder);
+
+        if(cursor.moveToFirst())
+            do {
+                Message cM = new Message();
+                cM.setMessageText(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGETEXT)));
+                cM.setSenderId(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID)));
+                cM.setReceiverId(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID)));
+                cM.setMessage_time(new Date(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME))));
+                // Adding order record to list
+                messages.add(cM);
+            }while(cursor.moveToNext());
+
+
+        return messages;
+    }
+
+    public List<Message> getAllMessages() {
+
+        List<Message> messages = new ArrayList<>();
+
+        String[] columns = {
+                COLUMN_MESSAGETEXT,
+                COLUMN_SENDERID,
+                COLUMN_RECEIVERID,
+                COLUMN_MESSAGE_TIME
+        };
+
+        String sortOrder = COLUMN_MESSAGE_TIME + " ASC";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_ORDERS, //Table to query
+                columns,                    //columns to return
+                null,                  //columns for the WHERE clause
+                null,              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                      //filter by row groups
+                sortOrder);
+
+        if(cursor.moveToFirst()) {
+            do {
+                Message cM = new Message();
+                cM.setMessageText(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGETEXT)));
+                cM.setSenderId(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID)));
+                cM.setReceiverId(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID)));
+                cM.setMessage_time(new Date(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME))));
+                //Product.setProductNo(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO)));
+                // Adding order record to list
+                messages.add(cM);
+            } while (cursor.moveToNext());
+        }
+
+        db.close();
+        cursor.close();
+
+        return messages;
+    }
+
+
+
     //----------------------------------------Rating Database----------------------------------------//
 
     public void addRating(Rating rating, User user) {
@@ -800,7 +903,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public boolean checkRating(String rating) {
+    public boolean checkRating(String userNo) {
 
         // array of columns to fetch
         String[] columns = {
@@ -809,10 +912,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         // selection criteria
-        String selection = COLUMN_PRODUCT_NAME + " = ?";
+        String selection = COLUMN_USER_NO + " = ?";
 
         // selection argument
-        String[] selectionArgs = {rating};
+        String[] selectionArgs = {userNo};
 
         // query product table with condition
         Cursor cursor = db.query(TABLE_RATING, //Table to query

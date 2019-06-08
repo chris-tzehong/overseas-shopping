@@ -9,20 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.overseasshopping.Model.Chat;
+import com.example.overseasshopping.Model.Message;
 
 import java.util.List;
 
-public class ChatListFragment extends Fragment {
-    private RecyclerView mChatListRecyclerView;
+public class MessageListFragment extends Fragment {
+    private RecyclerView mMessageListRecyclerView;
     private ChatAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_chat_user, container, false);
+        View view = inflater.inflate(R.layout.fragment_message_list_display, container, false);
 
-        mChatListRecyclerView = (RecyclerView) view.findViewById(R.id.chat_list);
-        mChatListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mMessageListRecyclerView = (RecyclerView) view.findViewById(R.id.messages_list);
+        mMessageListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
 
@@ -32,30 +32,30 @@ public class ChatListFragment extends Fragment {
 
 
     private class ChatHolder extends RecyclerView.ViewHolder {
-        private Chat mChat;
+        private Message mMessage;
         private TextView receiver_name;
         private TextView chatDate;
 
         public ChatHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.fragment_chat_user, parent, false));
+            super(inflater.inflate(R.layout.fragment_message_list_display, parent, false));
 
             receiver_name = itemView.findViewById(R.id.custom_profile_name);
             chatDate = itemView.findViewById(R.id.custom_user_last_seen);
         }
 
-        public void bind(Chat chat) {
-            mChat = chat;
-            receiver_name.setText(mChat.getReceiverId());
-            chatDate.setText(mChat.getChat_date().toString());
+        public void bind(Message message) {
+            mMessage = message;
+            receiver_name.setText(mMessage.getReceiverId());
+            chatDate.setText(mMessage.getMessage_time().toString());
         }
 
     }
 
     private class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
-        private List<Chat> mChats;
+        private List<Message> mMessages;
 
-        public ChatAdapter(List<Chat> chats) {
-            mChats = chats;
+        public ChatAdapter(List<Message> messages) {
+            mMessages = messages;
         }
 
         @Override
@@ -67,28 +67,28 @@ public class ChatListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ChatHolder chatHolder, int i) {
-            Chat chat = mChats.get(i);
-            chatHolder.bind(chat);
+            Message message = mMessages.get(i);
+            chatHolder.bind(message);
         }
 
         @Override
         public int getItemCount() {
-            return mChats.size();
+            return mMessages.size();
         }
 
-        public void setChats(List<Chat> chats){
-            mChats = chats;
+        public void setMessages(List<Message> messages){
+            mMessages = messages;
         }
     }
 
     private void updateUI() {
-        ChatLab chatLab = ChatLab.get(getActivity());
-        List<Chat> chats = chatLab.getChats();
+        MessageLab messageLab = MessageLab.get(getActivity());
+        List<Message> messages = messageLab.getChats();
         if (mAdapter ==null){
-            mAdapter = new ChatAdapter(chats);
-            mChatListRecyclerView.setAdapter(mAdapter);
+            mAdapter = new ChatAdapter(messages);
+            mMessageListRecyclerView.setAdapter(mAdapter);
         }else{
-            mAdapter.setChats(chats);
+            mAdapter.setMessages(messages);
             mAdapter.notifyDataSetChanged();
         }
 

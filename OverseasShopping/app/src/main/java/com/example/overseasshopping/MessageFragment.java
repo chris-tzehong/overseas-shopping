@@ -6,10 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.overseasshopping.Model.Chat;
+import com.example.overseasshopping.Model.Message;
 
-public class ChatFragment extends Fragment {
-    private Chat mChat;
+public class MessageFragment extends Fragment {
+    private Message mMessage;
     private String mReceiverId;
     private String mSenderId;
     public String currentUserNo;
@@ -19,13 +19,13 @@ public class ChatFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mChat = new Chat();
+    mMessage = new Message();
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_chat_user, container, false);
+        View v = inflater.inflate(R.layout.fragment_message_list_display, container, false);
         currentUserNo = getArguments().getString("userNo");
 
 
