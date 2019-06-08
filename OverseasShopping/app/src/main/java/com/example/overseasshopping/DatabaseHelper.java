@@ -758,7 +758,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return chats;
     }
 
-    public List<Chat> getUserChats(String otherUserNo, String userNo) {
+    public List<Chat> getUserChats(Chat chat) {
 
         List<Chat> chats = new ArrayList<>();
 
@@ -774,8 +774,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selection = "( " + COLUMN_SENDER_ID + " = ?" + " AND" + COLUMN_RECEIVER_ID + " = ?" + " ) OR " +
                            "( " + COLUMN_SENDER_ID + " = ?" + " AND" + COLUMN_RECEIVER_ID + " = ?" + " )";
 
-        String[] selectionArgs ={userNo, otherUserNo,
-                                 otherUserNo, userNo};
+        String[] selectionArgs ={String.valueOf(chat.getSenderId()), String.valueOf(chat.getReceiverId()),
+                                 String.valueOf(chat.getSenderId()), String.valueOf(chat.getReceiverId())};
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -794,6 +794,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cM.setSenderId(cursor.getString(cursor.getColumnIndex(COLUMN_SENDER_ID)));
                 cM.setReceiverId(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVER_ID)));
                 cM.setChat_date(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE_TIME))));
+                //Product.setProductNo(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO)));
                 // Adding order record to list
                 chats.add(cM);
             }while(cursor.moveToNext());
