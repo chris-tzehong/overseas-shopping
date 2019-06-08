@@ -3,6 +3,9 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_message">Message</string>
+    <string name="title_order_history">Order History</string>
     <string name="login_username_hint">Username</string>
     <string name="login_password_hint">Password</string>
     <string name="login_button">Login</string>
@@ -26,10 +29,14 @@
     <string name="register_error_empty_phone">Please fill in your phone number.</string>
     <string name="register_error_empty_credit_card_no">Please fill in your credit card number.</string>
     <string name="register_error_empty_credit_card_expiry_date">Please fill in the expiry date for your credit card.</string>
+    <string name="register_error_invalid_date_format">The format should be MM/YY.</string>
     <string name="register_error_empty_credit_card_ccv">Please fill in the CCV number for your credit card.</string>
+    <string name="register_error_invalid_credit_card_ccv">Your CCV number should be three numbers.</string>
     <string name="register_error_empty_address">Please fill in your address.</string>
     <string name="register_error_password_no_number">Your password should include at least one number.</string>
     <string name="register_error_password_length">Your password should be between 8 to 20 characters.</string>
+    <string name="register_error_empty_invalid_field">There are incomplete or invalid field(s). Please correct the field(s).</string>
+    <string name="register_successful">Your registration is successful. You will be returned to the login page.</string>
     <string name="product_name">Product Name</string>
     <string name="product_name_hint">Enter product name.</string>
     <string name="product_price">Price</string>
@@ -41,5 +48,22 @@
     <string name="post_product_label">Post Product</string>
     <string name="user_name">user name</string>
     <string name="chatmessagetime">Last Reply :</string>
+    <string name="chatmessage">chatmessage</string>
+    <string name="display_username">Display UserName</string>
+    <string name="last_seen">Last Seen</string>
+    <string name="profile_photo_placeholder">Profile Photo</string>
+    <string name="profile_name_placeholder">Username</string>
+    <string name="profile_rating">Rating</string>
+    <string name="profile_rating_placeholder">Rating Int</string>
+    <string name="profile_rated_by">Rated by</string>
+    <string name="profile_rated_by_placeholder">Rated by User</string>
+    <string name="profile_phone_placeholder">Phone</string>
+    <string name="profile_credit_card_no_placeholder">Credit Card Number</string>
+    <string name="profile_credit_card_expiry_date_placeholder">Expiry Date</string>
+    <string name="profile_credit_card_ccv_placeholder">CCV</string>
+    <string name="profile_address_placeholder">Address</string>
+    <string name="profile_logout_button">Logout</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

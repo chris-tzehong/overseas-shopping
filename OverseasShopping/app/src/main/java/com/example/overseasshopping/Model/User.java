@@ -1,6 +1,6 @@
 package com.example.overseasshopping.Model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class User {
 
@@ -9,8 +9,8 @@ public class User {
     private String password;
     private String telephone;
     private String address;
-    private String creditCardNo;
-    private String securityNo;
+    private int creditCardNo;
+    private int securityNo;
     private Date expiryDate;
 
     private int rating;
@@ -20,7 +20,8 @@ public class User {
 
     }
 
-    public User(String username, String password, String telephone, String address, String creditCardNo, String securityNo, Date expiryDate, int rating, int totalRatedBy) {
+
+    public User(String username, String password, String telephone, String address, int creditCardNo, int securityNo, Date expiryDate) {
         this.username = username;
         this.password = password;
         this.telephone = telephone;
@@ -28,9 +29,20 @@ public class User {
         this.creditCardNo = creditCardNo;
         this.securityNo = securityNo;
         this.expiryDate = expiryDate;
-        this.rating = rating;
-        this.totalRatedBy = totalRatedBy;
     }
+
+    // public User(int userNo, String username, String password, String telephone, String address, int creditCardNo, int securityNo, Date expiryDate, int rating, int totalRatedBy) {
+    //     this.userNo = userNo;
+    //     this.username = username;
+    //     this.password = password;
+    //     this.telephone = telephone;
+    //     this.address = address;
+    //     this.creditCardNo = creditCardNo;
+    //     this.securityNo = securityNo;
+    //     this.expiryDate = expiryDate;
+    //     this.rating = rating;
+    //     this.totalRatedBy = totalRatedBy;
+    // }
 
     public int getUserNo() {
         return userNo;
@@ -72,19 +84,19 @@ public class User {
         this.address = address;
     }
 
-    public String getCreditCardNo() {
+    public int getCreditCardNo() {
         return creditCardNo;
     }
 
-    public void setCreditCardNo(String creditCardNo) {
+    public void setCreditCardNo(int creditCardNo) {
         this.creditCardNo = creditCardNo;
     }
 
-    public String getSecurityNo() {
+    public int getSecurityNo() {
         return securityNo;
     }
 
-    public void setSecurityNo(String securityNo) {
+    public void setSecurityNo(int securityNo) {
         this.securityNo = securityNo;
     }
 

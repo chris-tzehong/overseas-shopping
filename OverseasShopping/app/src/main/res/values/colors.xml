@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimary">#8E2DE2</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorLoginWhite">#f2f2f2</color>
@@ -9,4 +9,5 @@
     <color name="colorLoginButtonBlue">#3fadfc</color>
     <color name="colorHint">#717272</color>
     <color name="colorRegisterButtonRed">#f4482e</color>
+    <color name="colorProfileBackground">#505359</color>
 </resources>
