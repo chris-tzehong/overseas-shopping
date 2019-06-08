@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.overseasshopping.Model.Product;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -38,11 +37,6 @@ public class ProductLab {
         db = new DatabaseHelper(mContext);
         products = db.getAllProduct();
         return products;
-    }
-
-    public File getPhotoFile(Product product) {
-        File filesDir = mContext.getFilesDir();
-        return new File(filesDir, product.getPhoto());
     }
 
 

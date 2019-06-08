@@ -2,15 +2,10 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/aldrich</item>
-        <item>@font/architects_daughter</item>
         <item>@font/aref_ruqaa</item>
         <item>@font/autour_one</item>
         <item>@font/bubblegum_sans</item>
-        <item>@font/cabin_sketch</item>
-        <item>@font/dekko</item>
         <item>@font/elsie_swash_caps</item>
-        <item>@font/margarine</item>
-        <item>@font/viga</item>
         <item>@font/yellowtail</item>
     </array>
 </resources>

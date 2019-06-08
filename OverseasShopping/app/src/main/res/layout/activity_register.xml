@@ -8,153 +8,149 @@
     android:background="@drawable/register_background_gradient">
 
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="50dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/register_button"
+            android:textColor="@color/colorWhite"
+            android:textSize="40sp"
+            app:fontFamily="@font/bubblegum_sans"
+            android:layout_marginStart="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/editTextRegisterUsername"
+            style="@style/RegisterField"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:autofillHints=""
+            android:drawableStart="@drawable/ic_username_light_icon"
+            android:drawableLeft="@drawable/ic_username_light_icon"
+            android:ems="10"
+            android:hint="@string/register_username_hint"
+            android:inputType="textPersonName"
+            tools:targetApi="o" />
+
+        <EditText
+            android:id="@+id/editTextRegisterPassword"
+            style="@style/RegisterField"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:autofillHints=""
+            android:drawableStart="@drawable/ic_password_light_icon"
+            android:drawableLeft="@drawable/ic_password_light_icon"
+            android:ems="10"
+            android:hint="@string/register_password_hint"
+            android:inputType="textPassword"
+            tools:targetApi="o" />
+
+        <EditText
+            android:id="@+id/editTextRegisterPhone"
+            style="@style/RegisterField"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:autofillHints=""
+            android:drawableStart="@drawable/ic_phone_light_icon"
+            android:drawableLeft="@drawable/ic_phone_light_icon"
+            android:ems="10"
+            android:hint="@string/register_telephone_number_hint"
+            android:inputType="number|phone"
+            tools:targetApi="o" />
+
+        <EditText
+            android:id="@+id/editTextRegisterCreditCardNo"
+            style="@style/RegisterField"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:autofillHints=""
+            android:drawableStart="@drawable/ic_creditcard_light_icon"
+            android:drawableLeft="@drawable/ic_creditcard_light_icon"
+            android:ems="10"
+            android:hint="@string/register_creditcard_number_hint"
+            android:inputType="number"
+            tools:targetApi="o" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="50dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginEnd="35dp"
-                android:layout_marginRight="35dp"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:text="@string/register_button"
-                android:textColor="@color/colorWhite"
-                android:textSize="40sp"
-                app:fontFamily="@font/bubblegum_sans" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/editTextRegisterUsername"
+                android:id="@+id/editTextRegisterCreditCardExpiryDate"
                 style="@style/RegisterField"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
+                android:layout_marginEnd="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_weight="1"
                 android:autofillHints=""
-                android:drawableStart="@drawable/ic_username_light_icon"
-                android:drawableLeft="@drawable/ic_username_light_icon"
                 android:ems="10"
-                android:hint="@string/register_username_hint"
-                android:inputType="textPersonName"
+                android:hint="@string/register_creditcard_expiry_hint"
+                android:inputType="number|datetime"
                 tools:targetApi="o" />
 
             <EditText
-                android:id="@+id/editTextRegisterPassword"
+                android:id="@+id/editTextRegisterCreditCardCcv"
                 style="@style/RegisterField"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
+                android:layout_marginStart="7dp"
+                android:layout_marginLeft="7dp"
+                android:layout_weight="1"
                 android:autofillHints=""
-                android:drawableStart="@drawable/ic_password_light_icon"
-                android:drawableLeft="@drawable/ic_password_light_icon"
                 android:ems="10"
-                android:hint="@string/register_password_hint"
-                android:inputType="textPassword"
-                tools:targetApi="o" />
-
-            <EditText
-                android:id="@+id/editTextRegisterPhone"
-                style="@style/RegisterField"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:autofillHints=""
-                android:drawableStart="@drawable/ic_phone_light_icon"
-                android:drawableLeft="@drawable/ic_phone_light_icon"
-                android:ems="10"
-                android:hint="@string/register_telephone_number_hint"
-                android:inputType="number|phone"
-                tools:targetApi="o" />
-
-            <EditText
-                android:id="@+id/editTextRegisterCreditCardNo"
-                style="@style/RegisterField"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:autofillHints=""
-                android:drawableStart="@drawable/ic_creditcard_light_icon"
-                android:drawableLeft="@drawable/ic_creditcard_light_icon"
-                android:ems="10"
-                android:hint="@string/register_creditcard_number_hint"
+                android:hint="@string/register_creditcard_ccv_hint"
                 android:inputType="number"
                 tools:targetApi="o" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/editTextRegisterCreditCardExpiryDate"
-                    style="@style/RegisterField"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="7dp"
-                    android:layout_marginRight="7dp"
-                    android:layout_weight="1"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:hint="@string/register_creditcard_expiry_hint"
-                    android:inputType="number|text"
-                    tools:targetApi="o" />
-
-                <EditText
-                    android:id="@+id/editTextRegisterCreditCardCcv"
-                    style="@style/RegisterField"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="7dp"
-                    android:layout_marginLeft="7dp"
-                    android:layout_weight="1"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:hint="@string/register_creditcard_ccv_hint"
-                    android:inputType="number"
-                    tools:targetApi="o" />
-
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/editTextRegisterAddress"
-                style="@style/RegisterField"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:autofillHints=""
-                android:drawableStart="@drawable/ic_address_light_icon"
-                android:drawableLeft="@drawable/ic_address_light_icon"
-                android:ems="10"
-                android:hint="@string/register_address_hint"
-                android:inputType="textPersonName"
-                tools:targetApi="o" />
-
-            <Button
-                android:id="@+id/buttonRegister"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginEnd="35dp"
-                android:layout_marginRight="35dp"
-                android:background="@drawable/rounded_red"
-                android:text="@string/register_button"
-                android:textSize="15sp" />
-
         </LinearLayout>
-    </ScrollView>
+
+        <EditText
+            android:id="@+id/editTextRegisterAddress"
+            style="@style/RegisterField"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:autofillHints=""
+            android:drawableStart="@drawable/ic_address_light_icon"
+            android:drawableLeft="@drawable/ic_address_light_icon"
+            android:ems="10"
+            android:hint="@string/register_address_hint"
+            android:inputType="textPersonName"
+            tools:targetApi="o" />
+
+        <Button
+            android:id="@+id/buttonRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginRight="35dp"
+            android:background="@drawable/rounded_red"
+            android:text="@string/register_button"
+            android:textSize="15sp" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

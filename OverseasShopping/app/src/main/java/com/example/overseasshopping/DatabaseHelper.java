@@ -71,8 +71,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_CREDITCARD_NO + " TEXT," + COLUMN_SECURITY_NO + " TEXT,"
             + COLUMN_EXPIRY_DATE + " DATE," + COLUMN_RATING + "INTEGER,"
             + COLUMN_TOTAL_RATED_BY + "INTEGER, " + COLUMN_RATING + " INTEGER, " 
-            + COLUMN_CREDITCARD_NO + " INTEGER," + COLUMN_SECURITY_NO + " INTEGER,"
-            + COLUMN_EXPIRY_DATE + " LONG," + COLUMN_RATING + " INTEGER, "
             + COLUMN_TOTAL_RATED_BY + " INTEGER" + ")";
 
     private String CREATE_PRODUCT_TABLE = "CREATE TABLE " + TABLE_PRODUCT + "("
@@ -169,7 +167,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String sortOrder = COLUMN_USER_NO + " ASC";
 
-        String selection = COLUMN_USERNAME + " =?";
+        String selection = COLUMN_USERNAME + " = ?";
 
         String[] selectionArgs = {username};
 
@@ -189,9 +187,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null,
                 sortOrder);       //filter by row groups
 
-            if (cursor != null) {
-                cursor.moveToFirst();
-            }
+            cursor.moveToFirst();
             User u1 = new User();
             u1.setUserNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO))));
             u1.setUsername(cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)));
@@ -201,9 +197,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             u1.setCreditCardNo(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO)));
             u1.setSecurityNo(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO)));
             u1.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
-            u1.setCreditCardNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO))));
-            u1.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
-            u1.setExpiryDate(new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
             u1.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
             u1.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
 
