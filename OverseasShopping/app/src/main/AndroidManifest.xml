@@ -19,9 +19,9 @@
             android:name=".RegisterActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".ChatActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-            //android:windowSoftInputMode="stateHidden|adjustResize">
+            android:name=".LoginActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
