@@ -16,22 +16,23 @@ import java.util.List;
 
 public class MessageListFragment extends Fragment {
     private RecyclerView mMessageListRecyclerView;
-    private MessageAdapter mAdapter;
+    private MessageListAdapter mAdapter;
     private DatabaseHelper mDatabaseHelper;
     private String mUsername;
-    private String mUsername2;
-    private List<Message> userMessages;
+    private int mUserno;
+    private List<Message> userMessageList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_messages_list, container, false);
 
-        mMessageListRecyclerView = (RecyclerView) view.findViewById(R.id.messages_recycler_view);
+        mMessageListRecyclerView = (RecyclerView) view.findViewById(R.id.messages_list_recycler_view);
         mMessageListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mDatabaseHelper = new DatabaseHelper(getActivity());
         mUsername = (String) getActivity().getIntent().getStringExtra(MainActivity.EXTRA_USERNAME);
-//        updateUI();
+        mUserno = (int) getActivity().getIntent().getIntExtra(MainActivity.EXTRA_USERNO);
+        updateUI();
 
         return view;
     }
@@ -51,16 +52,26 @@ public class MessageListFragment extends Fragment {
 
         public void bind(Message message) {
             mMessage = message;
-            receiverName.setText(mMessage.getReceiverId());
+            if(mUsername.equals(mMessage.getReceiverId())) {
+                receiverName.setText(mMessage.getSenderId());
+            }
+            else if(mUsername.equals(mMessage.getSenderId())){
+                receiverName.setText(mMessage.getReceiverId());
+            }
             messageTime.setText(mMessage.getMessage_time().toString());
         }
 
+//        public void onClick(View v) {
+//
+//
+//        }
+
     }
 
-    private class MessageAdapter extends RecyclerView.Adapter<MessageHolder> {
+    private class MessageListAdapter extends RecyclerView.Adapter<MessageHolder> {
         private List<Message> mMessages;
 
-        public MessageAdapter(List<Message> messages) {
+        public MessageListAdapter(List<Message> messages) {
             mMessages = messages;
         }
 
@@ -87,21 +98,20 @@ public class MessageListFragment extends Fragment {
         }
     }
 
-//    private void updateUI() {
-//
-//        //MessageLab messageLab = MessageLab.get(getActivity());
-//        mDatabaseHelper = new DatabaseHelper(getActivity());
-//        //List<Message> messages = messageLab.getMessages();
-//        //userMessages = mDatabaseHelper.getUserMessages(mUsername,mUsername2);
-//        if (mAdapter == null){
-//            mAdapter = new MessageAdapter(userMessages);
-//            mMessageListRecyclerView.setAdapter(mAdapter);
-//        }else{
-//            mAdapter.setMessages(userMessages);
-//            mAdapter.notifyDataSetChanged();
-//        }
-//
-//    }
+    private void updateUI() {
 
+        //MessageLab messageLab = MessageLab.get(getActivity());
+        mDatabaseHelper = new DatabaseHelper(getActivity());
+        //List<Message> messages = messageLab.getMessages();
+        userMessageList = mDatabaseHelper.getUserMessages(mUsername);
+        if (mAdapter == null){
+            mAdapter = new MessageListAdapter(userMessageList);
+            mMessageListRecyclerView.setAdapter(mAdapter);
+        }else{
+            mAdapter.setMessages(userMessageList);
+            mAdapter.notifyDataSetChanged();
+        }
+
+    }
 
 }

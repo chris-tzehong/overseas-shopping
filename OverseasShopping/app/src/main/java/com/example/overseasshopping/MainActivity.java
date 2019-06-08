@@ -14,6 +14,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_USERNAME = "com.example.overseasshopping.username";
+    public static final String EXTRA_USERNO = "com.example.overseasshopping.userno";
 
     public static Intent newIntent(Context packageContext, String username) {
         Intent intent = new Intent(packageContext, MainActivity.class);

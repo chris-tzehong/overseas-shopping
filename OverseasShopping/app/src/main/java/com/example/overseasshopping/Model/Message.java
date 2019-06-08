@@ -7,13 +7,13 @@ public class Message {
     private String messageText;
     private String senderId;
     private String receiverId;
-    private Date message_time;
+    private String message_time;
 
     public Message() {
 
     }
 
-    public Message(String messageText, String receiverId, String senderId, Date message_time) {
+    public Message(String messageText, String receiverId, String senderId, String message_time) {
         this.messageText = messageText;
         this.receiverId = receiverId;
         this.senderId = senderId;
@@ -44,11 +44,11 @@ public class Message {
         this.receiverId = receiverId;
     }
 
-    public Date getMessage_time() {
+    public String getMessage_time() {
         return message_time;
     }
 
-    public void setMessage_time(Date message_time) {
+    public void setMessage_time(String message_time) {
         this.message_time = message_time;
     }
 }
