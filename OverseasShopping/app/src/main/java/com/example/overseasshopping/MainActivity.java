@@ -25,7 +25,7 @@ public class MainActivity extends SingleFragmentActivity {
                     return true;
                 case R.id.navigation_notifications:
                     mTextMessage.setText(R.string.title_notifications);
-                    return true;
+                return true;
             }
             return false;
         }

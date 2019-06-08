@@ -12,9 +12,12 @@ import com.example.overseasshopping.Model.Chat;
 import com.example.overseasshopping.Model.User;
 
 public class ChatFragment extends Fragment {
+
     private View ChatsView;
     private RecyclerView chatsList;
-
+    private Chat mChat;
+    private String mReceiverId;
+    private String mSenderId;
     private DatabaseHelper db;
     private Integer currentUserID;
 
@@ -37,5 +40,6 @@ public class ChatFragment extends Fragment {
 
         return ChatsView;
     }
+
 
 }

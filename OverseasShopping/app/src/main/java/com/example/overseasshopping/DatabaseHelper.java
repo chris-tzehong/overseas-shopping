@@ -758,182 +758,182 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return chats;
     }
 
-    public List<Chat> getUserMessage(Chat chat) {
+    public List<Chat> getUserChats (Chat chat){
 
-        List<Chat> chats = new ArrayList<>();
+            List<Chat> chats = new ArrayList<>();
 
-        String[] columns = {
-                COLUMN_CHATMESSAGE,
-                COLUMN_SENDER_ID,
-                COLUMN_RECEIVER_ID,
-                COLUMN_CHATMESSAGE_TIME
-        };
+            String[] columns = {
+                    COLUMN_CHATMESSAGE,
+                    COLUMN_SENDER_ID,
+                    COLUMN_RECEIVER_ID,
+                    COLUMN_CHATMESSAGE_TIME
+            };
 
-        String sortOrder = COLUMN_CHATMESSAGE_TIME + " ASC";
+            String sortOrder = COLUMN_CHATMESSAGE_TIME + " ASC";
 
-        String selection = "( " + COLUMN_SENDER_ID + " = ?" + " AND" + COLUMN_RECEIVER_ID + " = ?" + " ) OR " +
-                           "( " + COLUMN_SENDER_ID + " = ?" + " AND" + COLUMN_RECEIVER_ID + " = ?" + " )";
+            String selection = "( " + COLUMN_SENDER_ID + " = ?" + " AND" + COLUMN_RECEIVER_ID + " = ?" + " ) OR " +
+                    "( " + COLUMN_SENDER_ID + " = ?" + " AND" + COLUMN_RECEIVER_ID + " = ?" + " )";
 
-        String[] selectionArgs ={String.valueOf(chat.getSenderId()), String.valueOf(chat.getReceiverId()),
-                                 String.valueOf(chat.getSenderId()), String.valueOf(chat.getReceiverId())};
+            String[] selectionArgs = {String.valueOf(chat.getSenderId()), String.valueOf(chat.getReceiverId()),
+                    String.valueOf(chat.getSenderId()), String.valueOf(chat.getReceiverId())};
 
-        SQLiteDatabase db = this.getReadableDatabase();
+            SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_ORDERS, //Table to query
-                columns,                    //columns to return
-                selection,                  //columns for the WHERE clause
-                selectionArgs,              //The values for the WHERE clause
-                null,                       //group the rows
-                null,                      //filter by row groups
-                sortOrder);
+            Cursor cursor = db.query(TABLE_ORDERS, //Table to query
+                    columns,                    //columns to return
+                    selection,                  //columns for the WHERE clause
+                    selectionArgs,              //The values for the WHERE clause
+                    null,                       //group the rows
+                    null,                      //filter by row groups
+                    sortOrder);
 
-        if(cursor.moveToFirst())
-            do {
-                Chat cM = new Chat();
-                cM.setChatMessage(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE)));
-                cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDER_ID))));
-                cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVER_ID))));
-                cM.setChat_time(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE_TIME))));
-                //Product.setProductNo(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO)));
-                // Adding order record to list
-                chats.add(cM);
-            }while(cursor.moveToNext());
-
-
-        return chats;
-    }
+            if (cursor.moveToFirst())
+                do {
+                    Chat cM = new Chat();
+                    cM.setChatMessage(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE)));
+                    cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDER_ID))));
+                    cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVER_ID))));
+                    cM.setChat_time(Date.valueOf(cursor.getString(cursor.getColumnIndex(COLUMN_CHATMESSAGE_TIME))));
+                    //Product.setProductNo(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO)));
+                    // Adding order record to list
+                    chats.add(cM);
+                } while (cursor.moveToNext());
 
 
+            return chats;
+        }
 
-    //----------------------------------------Rating Database----------------------------------------//
 
-    public void addRating(Rating rating, User user) {
-        SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_USER_NO, user.getUserNo());
-        values.put(COLUMN_RATING, rating.getRating());
-        values.put(COLUMN_RATED_BY, rating.getRatedBy());
+        //----------------------------------------Rating Database----------------------------------------//
 
-        // Inserting Row
-        db.insert(TABLE_RATING, null, values);
-        db.close();
-    }
+        public void addRating (Rating rating, User user){
+            SQLiteDatabase db = this.getWritableDatabase();
 
-    /**
-     * This method is to fetch all product and return the list of product records
-     *
-     * @return list
-     */
-    public List<Rating> getAllRating() {
-        // array of columns to fetch
-        String[] columns = {
-                COLUMN_RATING_NO,
-                COLUMN_USER_NO,
-                COLUMN_RATING,
-                COLUMN_RATED_BY,
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_USER_NO, user.getUserNo());
+            values.put(COLUMN_RATING, rating.getRating());
+            values.put(COLUMN_RATED_BY, rating.getRatedBy());
 
-        };
-        // sorting orders
-        String sortOrder =
-                COLUMN_RATING_NO + " ASC";
-        List<Rating> ratingList = new ArrayList<Rating>();
+            // Inserting Row
+            db.insert(TABLE_RATING, null, values);
+            db.close();
+        }
 
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        // query the product table
         /**
-         * Here query function is used to fetch records from product table this function works like we use sql query.
-         * SQL query equivalent to this query function is
-         * SELECT product_no,product_name, FROM product ORDER BY product_name;
+         * This method is to fetch all product and return the list of product records
+         *
+         * @return list
          */
-        Cursor cursor = db.query(TABLE_RATING, //Table to query
-                columns,    //columns to return
-                null,        //columns for the WHERE clause
-                null,        //The values for the WHERE clause
-                null,       //group the rows
-                null,       //filter by row groups
-                sortOrder); //The sort order
+        public List<Rating> getAllRating () {
+            // array of columns to fetch
+            String[] columns = {
+                    COLUMN_RATING_NO,
+                    COLUMN_USER_NO,
+                    COLUMN_RATING,
+                    COLUMN_RATED_BY,
+
+            };
+            // sorting orders
+            String sortOrder =
+                    COLUMN_RATING_NO + " ASC";
+            List<Rating> ratingList = new ArrayList<Rating>();
+
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            // query the product table
+            /**
+             * Here query function is used to fetch records from product table this function works like we use sql query.
+             * SQL query equivalent to this query function is
+             * SELECT product_no,product_name, FROM product ORDER BY product_name;
+             */
+            Cursor cursor = db.query(TABLE_RATING, //Table to query
+                    columns,    //columns to return
+                    null,        //columns for the WHERE clause
+                    null,        //The values for the WHERE clause
+                    null,       //group the rows
+                    null,       //filter by row groups
+                    sortOrder); //The sort order
 
 
-        // Traversing through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                Rating rating = new Rating();
-                rating.setRatingNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING_NO))));
-                //User.setUserNo(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO)));
-                rating.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
-                rating.setRatedBy(cursor.getString(cursor.getColumnIndex(COLUMN_RATED_BY)));
-                // Adding product record to list
-                ratingList.add(rating);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
+            // Traversing through all rows and adding to list
+            if (cursor.moveToFirst()) {
+                do {
+                    Rating rating = new Rating();
+                    rating.setRatingNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING_NO))));
+                    //User.setUserNo(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO)));
+                    rating.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
+                    rating.setRatedBy(cursor.getString(cursor.getColumnIndex(COLUMN_RATED_BY)));
+                    // Adding product record to list
+                    ratingList.add(rating);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            db.close();
 
-        // return rating list
-        return ratingList;
-    }
-
-    /**
-     * This method to update product record
-     *
-     * @param rating
-     */
-    public void updateRating(Rating rating, User user) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_USER_NO, user.getUserNo());
-        values.put(COLUMN_RATING, rating.getRating());
-        values.put(COLUMN_RATED_BY, rating.getRatedBy());
-
-        // updating row
-        db.update(TABLE_RATING, values, COLUMN_RATING_NO + " = ?",
-                new String[]{String.valueOf(rating.getRatingNo())});
-        db.close();
-    }
-
-    public void deleteRating(Rating rating) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        // delete product record by id
-        db.delete(TABLE_RATING, COLUMN_RATING_NO + " = ?",
-                new String[]{String.valueOf(rating.getRatingNo())});
-        db.close();
-    }
-
-    public boolean checkRating(String rating) {
-
-        // array of columns to fetch
-        String[] columns = {
-                COLUMN_RATING_NO
-        };
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        // selection criteria
-        String selection = COLUMN_PRODUCT_NAME + " = ?";
-
-        // selection argument
-        String[] selectionArgs = {rating};
-
-        // query product table with condition
-        Cursor cursor = db.query(TABLE_RATING, //Table to query
-                columns,                    //columns to return
-                selection,                  //columns for the WHERE clause
-                selectionArgs,              //The values for the WHERE clause
-                null,                       //group the rows
-                null,                      //filter by row groups
-                null);                      //The sort order
-        int cursorCount = cursor.getCount();
-        cursor.close();
-        db.close();
-
-        if (cursorCount > 0) {
-            return true;
+            // return rating list
+            return ratingList;
         }
 
-        return false;
-    }
+        /**
+         * This method to update product record
+         *
+         * @param rating
+         */
+        public void updateRating (Rating rating, User user){
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_USER_NO, user.getUserNo());
+            values.put(COLUMN_RATING, rating.getRating());
+            values.put(COLUMN_RATED_BY, rating.getRatedBy());
+
+            // updating row
+            db.update(TABLE_RATING, values, COLUMN_RATING_NO + " = ?",
+                    new String[]{String.valueOf(rating.getRatingNo())});
+            db.close();
+        }
+
+        public void deleteRating (Rating rating){
+            SQLiteDatabase db = this.getWritableDatabase();
+            // delete product record by id
+            db.delete(TABLE_RATING, COLUMN_RATING_NO + " = ?",
+                    new String[]{String.valueOf(rating.getRatingNo())});
+            db.close();
+        }
+
+        public boolean checkRating (String rating){
+
+            // array of columns to fetch
+            String[] columns = {
+                    COLUMN_RATING_NO
+            };
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            // selection criteria
+            String selection = COLUMN_PRODUCT_NAME + " = ?";
+
+            // selection argument
+            String[] selectionArgs = {rating};
+
+            // query product table with condition
+            Cursor cursor = db.query(TABLE_RATING, //Table to query
+                    columns,                    //columns to return
+                    selection,                  //columns for the WHERE clause
+                    selectionArgs,              //The values for the WHERE clause
+                    null,                       //group the rows
+                    null,                      //filter by row groups
+                    null);                      //The sort order
+            int cursorCount = cursor.getCount();
+            cursor.close();
+            db.close();
+
+            if (cursorCount > 0) {
+                return true;
+            }
+
+            return false;
+        }
 
 
 }
