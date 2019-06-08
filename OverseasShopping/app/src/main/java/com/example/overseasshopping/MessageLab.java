@@ -29,7 +29,7 @@ public class MessageLab {
         mContext = context.getApplicationContext();
     }
 
-    public List<Message> getChats(){
+    public List<Message> getMessages(){
 
         List<Message> messages = new ArrayList<>();
 

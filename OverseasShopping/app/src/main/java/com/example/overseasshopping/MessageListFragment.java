@@ -10,65 +10,71 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.overseasshopping.Model.Message;
+import com.example.overseasshopping.Model.User;
 
 import java.util.List;
 
 public class MessageListFragment extends Fragment {
     private RecyclerView mMessageListRecyclerView;
-    private ChatAdapter mAdapter;
+    private MessageAdapter mAdapter;
+    private DatabaseHelper mDatabaseHelper;
+    private String mUsername;
+    private String mUsername2;
+    private List<Message> userMessages;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_message_list_display, container, false);
+        View view = inflater.inflate(R.layout.fragment_messages_list, container, false);
 
-        mMessageListRecyclerView = (RecyclerView) view.findViewById(R.id.messages_list);
+        mMessageListRecyclerView = (RecyclerView) view.findViewById(R.id.messages_recycler_view);
         mMessageListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        updateUI();
+        mDatabaseHelper = new DatabaseHelper(getActivity());
+        mUsername = (String) getActivity().getIntent().getStringExtra(MainActivity.EXTRA_USERNAME);
+//        updateUI();
 
         return view;
     }
 
-
-
-    private class ChatHolder extends RecyclerView.ViewHolder {
+    private class MessageHolder extends RecyclerView.ViewHolder {
         private Message mMessage;
-        private TextView receiver_name;
-        private TextView chatDate;
+        private TextView receiverName;
+        private TextView messageTime;
 
-        public ChatHolder(LayoutInflater inflater, ViewGroup parent) {
+        public MessageHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_message_list_display, parent, false));
 
-            receiver_name = itemView.findViewById(R.id.custom_profile_name);
-            chatDate = itemView.findViewById(R.id.custom_user_last_seen);
+            //itemView.setOnClickListener(this);
+            receiverName = itemView.findViewById(R.id.receiver_name);
+            messageTime = itemView.findViewById(R.id.receiver_last_seen);
         }
 
         public void bind(Message message) {
             mMessage = message;
-            receiver_name.setText(mMessage.getReceiverId());
-            chatDate.setText(mMessage.getMessage_time().toString());
+            receiverName.setText(mMessage.getReceiverId());
+            messageTime.setText(mMessage.getMessage_time().toString());
         }
 
     }
 
-    private class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
+    private class MessageAdapter extends RecyclerView.Adapter<MessageHolder> {
         private List<Message> mMessages;
 
-        public ChatAdapter(List<Message> messages) {
+        public MessageAdapter(List<Message> messages) {
             mMessages = messages;
         }
 
         @Override
-        public ChatHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        public MessageHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
 
-            return new ChatHolder(layoutInflater, viewGroup);
+            return new MessageHolder(layoutInflater, parent);
         }
 
         @Override
-        public void onBindViewHolder(ChatHolder chatHolder, int i) {
-            Message message = mMessages.get(i);
-            chatHolder.bind(message);
+        public void onBindViewHolder(MessageHolder holder, int position) {
+            Message message = mMessages.get(position);
+            holder.bind(message);
         }
 
         @Override
@@ -81,18 +87,21 @@ public class MessageListFragment extends Fragment {
         }
     }
 
-    private void updateUI() {
-        MessageLab messageLab = MessageLab.get(getActivity());
-        List<Message> messages = messageLab.getChats();
-        if (mAdapter ==null){
-            mAdapter = new ChatAdapter(messages);
-            mMessageListRecyclerView.setAdapter(mAdapter);
-        }else{
-            mAdapter.setMessages(messages);
-            mAdapter.notifyDataSetChanged();
-        }
-
-    }
+//    private void updateUI() {
+//
+//        //MessageLab messageLab = MessageLab.get(getActivity());
+//        mDatabaseHelper = new DatabaseHelper(getActivity());
+//        //List<Message> messages = messageLab.getMessages();
+//        //userMessages = mDatabaseHelper.getUserMessages(mUsername,mUsername2);
+//        if (mAdapter == null){
+//            mAdapter = new MessageAdapter(userMessages);
+//            mMessageListRecyclerView.setAdapter(mAdapter);
+//        }else{
+//            mAdapter.setMessages(userMessages);
+//            mAdapter.notifyDataSetChanged();
+//        }
+//
+//    }
 
 
 }

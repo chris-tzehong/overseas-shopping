@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     final Fragment mHomeFragment = new ProductListFragment();
     final Fragment mProfileFragment = new ProfileFragment();
+    final Fragment mMessageFragment = new MessageListFragment();
     final FragmentManager fm = getSupportFragmentManager();
 
     Fragment active = mHomeFragment;
@@ -39,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
                     active = mHomeFragment;
                     return true;
                 case R.id.navigation_message:
+                    fm.beginTransaction().hide(active).show(mMessageFragment).commit();
+                    active = mMessageFragment;
                     return true;
                 case R.id.navigation_order_history:
                     return true;
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         fm.beginTransaction().add(R.id.main_container, mProfileFragment, "2").hide(mProfileFragment).commit();
         fm.beginTransaction().add(R.id.main_container, mHomeFragment, "1").commit();
+        fm.beginTransaction().add(R.id.main_container, mMessageFragment, "3").hide(mMessageFragment).commit();
     }
 
 

@@ -394,6 +394,53 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    public List<User> getAllUsername(){
+
+        String[] columns = {
+                COLUMN_USER_NO,
+                COLUMN_USERNAME,
+        };
+
+        // sorting orders
+        String sortOrder =
+                COLUMN_USER_NO + " ASC";
+        List<User> userList = new ArrayList<User>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // query the user table
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_no,user_name,user_email,password FROM user ORDER BY user_name;
+         */
+        Cursor cursor = db.query(TABLE_USER, //Table to query
+                columns,    //columns to return
+                null,        //columns for the WHERE clause
+                null,        //The values for the WHERE clause
+                null,       //group the rows
+                null,       //filter by row groups
+                sortOrder); //The sort order
+
+
+        // Traversing through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                User user = new User();
+                user.setUserNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO))));
+                user.setUsername(cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)));
+                // Adding user record to list
+                userList.add(user);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        // return user list
+        return userList;
+    }
+
+
     //----------------------------------------Product Database----------------------------------------//
 
     public void addProduct(Product product, User user) {
@@ -718,7 +765,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<Message> getUserMessages(String userNo, String otherUserNo) {
+    public List<Message> getUserMessages(String userNo) {
+
+        List<Message> messages = new ArrayList<>();
+
+        String[] columns = {
+            COLUMN_SENDERID,
+            COLUMN_RECEIVERID,
+            COLUMN_MESSAGE_TIME
+        };
+
+    String sortOrder = COLUMN_MESSAGE_TIME + " DESC";
+
+    String groupBy = COLUMN_SENDERID + ", " + COLUMN_RECEIVERID;
+
+    SQLiteDatabase db = this.getReadableDatabase();
+
+    Cursor cursor = db.query(TABLE_ORDERS, //Table to query
+            columns,                    //columns to return
+            null,                  //columns for the WHERE clause
+            null,              //The values for the WHERE clause
+            groupBy,                       //group the rows
+            null,                      //filter by row groups
+            sortOrder);
+
+        if(cursor.moveToFirst())
+
+                do {
+                    if(COLUMN_SENDERID.equals(userNo) || COLUMN_RECEIVERID.equals(userNo)) {
+                        Message cM = new Message();
+                        cM.setSenderId(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID)));
+                        cM.setReceiverId(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID)));
+                        cM.setMessage_time(new Date(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME))));
+                        // Adding message record to list
+                        messages.add(cM);
+                    }
+                }while(cursor.moveToNext());
+
+        return messages;
+}
+
+    public List<Message> getUserPrivateMessage(String userNo, String otherUserNo) {
 
         List<Message> messages = new ArrayList<>();
 
@@ -731,8 +818,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String sortOrder = COLUMN_MESSAGE_TIME + " ASC";
 
-        String selection = "( " + COLUMN_SENDERID + " = ?" + " AND" + COLUMN_RECEIVERID + " = ?" + " ) OR " +
-                "( " + COLUMN_SENDERID + " = ?" + " AND" + COLUMN_RECEIVERID + " = ?" + " )";
+        String selection = "( " + COLUMN_SENDERID + " = ?" + " AND " + COLUMN_RECEIVERID + " = ?" + " ) OR " +
+                           "( " + COLUMN_SENDERID + " = ?" + " AND " + COLUMN_RECEIVERID + " = ?" + " )";
 
         String[] selectionArgs ={userNo, otherUserNo,
                 otherUserNo, userNo};
@@ -804,7 +891,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return messages;
     }
 
-
+//    public void getOtherUserNo(String userNo) {
+//        String[] columns = {
+//                COLUMN_SENDERID,
+//                COLUMN_RECEIVERID
+//        };
+//
+//        String sortOrder = COLUMN_USER_NO + " ASC";
+//
+//        String selection = COLUMN_SENDERID + " = ?" + " OR " + COLUMN_RECEIVERID + " = ?";
+//
+//        String[] selectionArgs ={userNo, userNo};
+//
+//        SQLiteDatabase db = this.getReadableDatabase();
+//
+//        Cursor cursor = db.query(TABLE_ORDERS, //Table to query
+//                columns,                    //columns to return
+//                selection,                  //columns for the WHERE clause
+//                selectionArgs,              //The values for the WHERE clause
+//                null,                       //group the rows
+//                null,                      //filter by row groups
+//                sortOrder);
+//
+//        if(cursor.moveToFirst())
+//            do {
+//                Message cM = new Message();
+//                cM.setMessageText(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGETEXT)));
+//                cM.setSenderId(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID)));
+//                cM.setReceiverId(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID)));
+//                cM.setMessage_time(new Date(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME))));
+//                // Adding order record to list
+//                messages.add(cM);
+//            }while(cursor.moveToNext());
+//
+//
+//        return messages;
+//    }
 
     //----------------------------------------Rating Database----------------------------------------//
 
