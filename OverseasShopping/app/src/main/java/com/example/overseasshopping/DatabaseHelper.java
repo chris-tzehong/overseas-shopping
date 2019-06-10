@@ -206,6 +206,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         }
 
+    public String getUsername(int userno) {
+
+        // array of columns to fetch
+        String[] columns = {
+                COLUMN_USERNAME,
+        };
+
+        String sortOrder = COLUMN_USER_NO + " ASC";
+
+        String selection = COLUMN_USER_NO + " = ?";
+
+        String[] selectionArgs = {String.valueOf(userno)};
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // query the user table
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_no,user_name,user_email,password FROM user ORDER BY user_name;
+         */
+        Cursor cursor = db.query(TABLE_USER,
+                columns,    //columns to return
+                selection,        //columns for the WHERE clause
+                selectionArgs,        //The values for the WHERE clause
+                null,       //group the rows
+                null,
+                sortOrder);       //filter by row groups
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        String u1 = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
+
+        return u1;
+
+    }
+
     public List<User> getAllUser() {
         // array of columns to fetch
         String[] columns = {
@@ -750,8 +788,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 if(COLUMN_SENDERID.equals(userNo) || COLUMN_RECEIVERID.equals(userNo)) {
                     Message cM = new Message();
-                    cM.setSenderId(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID)));
-                    cM.setReceiverId(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID)));
+                    cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID))));
+                    cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID))));
                     cM.setMessage_time(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME)));
                     // Adding message record to list
                     messages.add(cM);
@@ -794,8 +832,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 Message cM = new Message();
                 cM.setMessageText(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGETEXT)));
-                cM.setSenderId(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID)));
-                cM.setReceiverId(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID)));
+                cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID))));
+                cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID))));
                 cM.setMessage_time(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME)));
                 // Adding order record to list
                 messages.add(cM);
@@ -832,8 +870,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 Message cM = new Message();
                 cM.setMessageText(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGETEXT)));
-                cM.setSenderId(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID)));
-                cM.setReceiverId(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID)));
+                cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID))));
+                cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID))));
                 cM.setMessage_time(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME)));
                 //Product.setProductNo(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO)));
                 // Adding order record to list

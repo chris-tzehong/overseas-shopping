@@ -37,18 +37,17 @@ public class MessageFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    mMessage = new Message();
+        super.onCreate(savedInstanceState);
+
+        mDatabaseHelper = new DatabaseHelper(getActivity());
+        currentUserNo = (String) getActivity().getIntent().getStringExtra(MainActivity.EXTRA_USER_NO);
+        otherUserNo = (String) getActivity().getIntent().getSerializableExtra(MessageActivity.EXTRA_OTHERUSER_NO);
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
-
-        mDatabaseHelper = new DatabaseHelper(getActivity());
-        currentUserNo = (String) getActivity().getIntent().getStringExtra("user1");
-        otherUserNo = (String) getActivity().getIntent().getStringExtra("user2");
 
         mMessageRecyclerView = (RecyclerView) view.findViewById(R.id.messages_recycler_view);
         mMessageRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -143,8 +142,7 @@ public class MessageFragment extends Fragment {
     }
 
     private void updateUI() {
-        MessageLab messageLab = MessageLab.get(getActivity());
-        List<Message> messages = messageLab.getMessages();
+        List<Message> messages = mDatabaseHelper.getUserPrivateMessage(currentUserNo, otherUserNo);
 
         if (mAdapter ==null){
             mAdapter = new MessageAdapter(messages);

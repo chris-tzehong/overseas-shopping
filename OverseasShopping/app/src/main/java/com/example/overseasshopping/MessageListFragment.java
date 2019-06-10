@@ -1,5 +1,6 @@
 package com.example.overseasshopping;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,12 +15,16 @@ import com.example.overseasshopping.Model.User;
 
 import java.util.List;
 
+import static com.example.overseasshopping.MessageActivity.EXTRA_OTHERUSER_NO;
+
 public class MessageListFragment extends Fragment {
+
     private RecyclerView mMessageListRecyclerView;
     private MessageListAdapter mAdapter;
     private DatabaseHelper mDatabaseHelper;
     private String mUsername;
-    private int mUserno;
+    private String mUserNo;
+    private int mOtherUserNo;
     private List<Message> userMessageList;
 
     @Override
@@ -31,7 +36,7 @@ public class MessageListFragment extends Fragment {
 
         mDatabaseHelper = new DatabaseHelper(getActivity());
         mUsername = (String) getActivity().getIntent().getStringExtra(MainActivity.EXTRA_USERNAME);
-        mUserno = (int) getActivity().getIntent().getIntExtra(MainActivity.EXTRA_USERNO);
+        mUserNo = (String) getActivity().getIntent().getStringExtra(MainActivity.EXTRA_USER_NO);
         updateUI();
 
         return view;
@@ -39,32 +44,34 @@ public class MessageListFragment extends Fragment {
 
     private class MessageHolder extends RecyclerView.ViewHolder {
         private Message mMessage;
-        private TextView receiverName;
+        private TextView targetName;
         private TextView messageTime;
 
         public MessageHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_message_list_display, parent, false));
 
             //itemView.setOnClickListener(this);
-            receiverName = itemView.findViewById(R.id.receiver_name);
+            targetName = itemView.findViewById(R.id.target_name);
             messageTime = itemView.findViewById(R.id.receiver_last_seen);
         }
 
         public void bind(Message message) {
             mMessage = message;
-            if(mUsername.equals(mMessage.getReceiverId())) {
-                receiverName.setText(mMessage.getSenderId());
+            if(mUserNo.equals(mMessage.getReceiverId())) {
+                mOtherUserNo = mMessage.getSenderId();
+                targetName.setText(mDatabaseHelper.getUsername(mOtherUserNo));
             }
-            else if(mUsername.equals(mMessage.getSenderId())){
-                receiverName.setText(mMessage.getReceiverId());
+            else if(mUserNo.equals(mMessage.getSenderId())){
+                mOtherUserNo = mMessage.getReceiverId();
+                targetName.setText(mDatabaseHelper.getUsername(mOtherUserNo));
             }
-            messageTime.setText(mMessage.getMessage_time().toString());
+            messageTime.setText(mMessage.getMessage_time());
         }
 
-//        public void onClick(View v) {
-//
-//
-//        }
+        public void onClick(View v) {
+            Intent i = MessageActivity.newIntent(getActivity(), mOtherUserNo);
+            startActivity(i);
+        }
 
     }
 

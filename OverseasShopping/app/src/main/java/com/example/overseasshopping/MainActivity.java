@@ -14,11 +14,12 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_USERNAME = "com.example.overseasshopping.username";
-    public static final String EXTRA_USERNO = "com.example.overseasshopping.userno";
+    public static final String EXTRA_USER_NO = "com.example.overseasshopping.user_no";
 
-    public static Intent newIntent(Context packageContext, String username) {
+    public static Intent newIntent(Context packageContext, String username, int user_no) {
         Intent intent = new Intent(packageContext, MainActivity.class);
         intent.putExtra(EXTRA_USERNAME, username);
+        intent.putExtra(EXTRA_USER_NO, user_no);
         return intent;
     }
 

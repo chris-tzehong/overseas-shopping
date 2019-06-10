@@ -5,15 +5,15 @@ import java.util.Date;
 public class Message {
 
     private String messageText;
-    private String senderId;
-    private String receiverId;
+    private int senderId;
+    private int receiverId;
     private String message_time;
 
     public Message() {
 
     }
 
-    public Message(String messageText, String receiverId, String senderId, String message_time) {
+    public Message(String messageText, int receiverId, int senderId, String message_time) {
         this.messageText = messageText;
         this.receiverId = receiverId;
         this.senderId = senderId;
@@ -28,19 +28,19 @@ public class Message {
         this.messageText = messageText;
     }
 
-    public String getSenderId() {
+    public int getSenderId() {
         return senderId;
     }
 
-    public void setSenderId(String senderId) {
+    public void setSenderId(int senderId) {
         this.senderId = senderId;
     }
 
-    public String getReceiverId() {
+    public int getReceiverId() {
         return receiverId;
     }
 
-    public void setReceiverId(String receiverId) {
+    public void setReceiverId(int receiverId) {
         this.receiverId = receiverId;
     }
 
