@@ -8,16 +8,18 @@ public class Product {
     private String description;
     private int price;
     private int productQuantity;
+    private int userNo;
 
     public Product() {
     }
 
-    public Product(String productName, String photo, String description, int price, int productQuantity) {
+    public Product(String productName, String photo, int userNo, String description, int price, int productQuantity) {
         this.productName = productName;
         this.photo = photo;
         this.description = description;
         this.price = price;
         this.productQuantity = productQuantity;
+        this.userNo = userNo;
     }
 
     public int getProductNo() {
@@ -37,7 +39,7 @@ public class Product {
     }
 
     public String getPhoto() {
-        return photo;
+        return "IMG_" + getProductNo() + ".jpg";
     }
 
     public void setPhoto(String photo) {

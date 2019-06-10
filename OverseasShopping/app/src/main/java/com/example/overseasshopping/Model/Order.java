@@ -1,7 +1,6 @@
 package com.example.overseasshopping.Model;
 
 import java.util.Date;
-import java.sql.Time;
 
 public class Order {
 

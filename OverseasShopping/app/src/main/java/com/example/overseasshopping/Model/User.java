@@ -20,6 +20,7 @@ public class User {
 
     }
 
+
     public User(String username, String password, String telephone, String address, int creditCardNo, int securityNo, Date expiryDate) {
         this.username = username;
         this.password = password;
@@ -30,18 +31,18 @@ public class User {
         this.expiryDate = expiryDate;
     }
 
-    public User(int userNo, String username, String password, String telephone, String address, int creditCardNo, int securityNo, Date expiryDate, int rating, int totalRatedBy) {
-        this.userNo = userNo;
-        this.username = username;
-        this.password = password;
-        this.telephone = telephone;
-        this.address = address;
-        this.creditCardNo = creditCardNo;
-        this.securityNo = securityNo;
-        this.expiryDate = expiryDate;
-        this.rating = rating;
-        this.totalRatedBy = totalRatedBy;
-    }
+    // public User(int userNo, String username, String password, String telephone, String address, int creditCardNo, int securityNo, Date expiryDate, int rating, int totalRatedBy) {
+    //     this.userNo = userNo;
+    //     this.username = username;
+    //     this.password = password;
+    //     this.telephone = telephone;
+    //     this.address = address;
+    //     this.creditCardNo = creditCardNo;
+    //     this.securityNo = securityNo;
+    //     this.expiryDate = expiryDate;
+    //     this.rating = rating;
+    //     this.totalRatedBy = totalRatedBy;
+    // }
 
     public int getUserNo() {
         return userNo;
