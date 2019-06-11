@@ -14,9 +14,10 @@ public class MessageActivity extends SingleFragmentActivity {
 
     private static final String EXTRA_OTHERUSER_NO = "com.example.overseasshopping.otheruser_no";
 
-    public static Intent newIntent(Context packageContext, int otherUser_no) {
+    public static Intent newIntent(Context packageContext, int user_no, int otherUser_no) {
         Intent intent = new Intent(packageContext, MessageActivity.class);
         intent.putExtra(EXTRA_OTHERUSER_NO, otherUser_no);
+        intent.putExtra(EXTRA_USER_NO, user_no);
         return intent;
     }
 

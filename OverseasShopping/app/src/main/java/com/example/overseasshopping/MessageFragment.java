@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.overseasshopping.Model.Message;
 
@@ -20,24 +21,24 @@ import java.util.List;
 
 public class MessageFragment extends Fragment {
 
-    private static final String ARG_RECEIVERUSER_NO = "receiveruser_no";
-    private static final String ARG_SENDERUSER_NO = "senderuser_no";
+    private static final String ARG_USER_NO = "com.example.overseasshopping.arg_user_no";
+    private static final String ARG_OTHERUSER_NO = "com.example.overseasshopping.arg_otheruser_no";
 
     private RecyclerView mMessageRecyclerView;
     private MessageAdapter mAdapter;
 
     private Message mMessage;
-    private Integer senderUserNo;
-    private Integer receiverUserNo;
+    private Integer userNo;
+    private Integer otherUserNo;
     private EditText mInputMessage;
     private ImageButton mSendButton;
 
     private DatabaseHelper mDatabaseHelper;
 
-    public static MessageFragment newInstance(Integer senderUserNo, Integer receiverUserNo) {
+    public static MessageFragment newInstance(Integer userNo, Integer otherUserNo) {
         Bundle bundle = new Bundle();
-        bundle.putInt(ARG_SENDERUSER_NO, senderUserNo);
-        bundle.putInt(ARG_RECEIVERUSER_NO, receiverUserNo);
+        bundle.putInt(ARG_USER_NO, userNo);
+        bundle.putInt(ARG_OTHERUSER_NO, otherUserNo);
 
         MessageFragment fragment = new MessageFragment();
         fragment.setArguments(bundle);
@@ -47,16 +48,15 @@ public class MessageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDatabaseHelper = new DatabaseHelper(getActivity());
-        senderUserNo = (Integer) getArguments().getInt(ARG_SENDERUSER_NO, 1);
-        receiverUserNo = (Integer) getArguments().getInt(ARG_RECEIVERUSER_NO, 2);
-        Log.d("user_sender", senderUserNo + "," + receiverUserNo);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
+
+        mDatabaseHelper = new DatabaseHelper(getActivity());
+        userNo = (Integer) getArguments().getInt(ARG_USER_NO, 1);
+        otherUserNo = (Integer) getArguments().getInt(ARG_OTHERUSER_NO, 2);
 
         mMessageRecyclerView = (RecyclerView) view.findViewById(R.id.messages_recycler_view);
         mMessageRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -70,9 +70,6 @@ public class MessageFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mMessage.setMessageText(s.toString());
-
-
             }
 
             @Override
@@ -90,7 +87,7 @@ public class MessageFragment extends Fragment {
 
                 if(!messageText.equals("")) {
                     mDatabaseHelper = new DatabaseHelper(getActivity());
-                    Message message = new Message(messageText, receiverUserNo, senderUserNo, DateUtils.getCurrentTime());
+                    Message message = new Message(mInputMessage.getText().toString(), otherUserNo, userNo, DateUtils.getCurrentTime());
                     mDatabaseHelper.addMessage(message);
                     mInputMessage.setText("");
                     updateUI();
@@ -117,7 +114,11 @@ public class MessageFragment extends Fragment {
         }
         public void bind(Message message){
             mMessage = message;
-            mUsername.setText(mDatabaseHelper.getUsername(receiverUserNo));
+            if(userNo.equals(mMessage.getSenderId())) {
+                mUsername.setText(mDatabaseHelper.getUsername(userNo));
+            } else if(userNo.equals(mMessage.getReceiverId())) {
+                mUsername.setText(mDatabaseHelper.getUsername(otherUserNo));
+            }
             mMessageTime.setText(mMessage.getMessage_time());
             mMessageText.setText(mMessage.getMessageText());
         }
@@ -155,7 +156,8 @@ public class MessageFragment extends Fragment {
 
     private void updateUI() {
 
-        List<Message> messages = mDatabaseHelper.getUserPrivateMessage(senderUserNo, receiverUserNo);
+        List<Message> messages = mDatabaseHelper.getUserPrivateMessage(userNo, otherUserNo);
+        Log.d("UPM", String.valueOf(messages));
 
         if (mAdapter == null){
             mAdapter = new MessageAdapter(messages);

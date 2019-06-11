@@ -773,32 +773,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_MESSAGE_TIME
         };
 
-        String sortOrder = COLUMN_MESSAGE_TIME + " DESC";
+        String orderBy = COLUMN_MESSAGE_TIME + " DESC";
 
         String groupBy = COLUMN_SENDERID + ", " + COLUMN_RECEIVERID;
 
-        String selection = COLUMN_SENDERID + " OR " + COLUMN_RECEIVERID;
+        String selection = COLUMN_RECEIVERID + " = ? ";
 
-        String[] selectionArgs ={String.valueOf(userNo), String.valueOf(userNo)};
+        String[] selectionArgs ={String.valueOf(userNo)};
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(true, TABLE_MESSAGE,
+        Cursor cursor = db.query(TABLE_MESSAGE,
                 columns,
                 selection,
                 selectionArgs,
                 groupBy,
                 null,
-                sortOrder,
-                null);
+                orderBy);
 
         if(cursor.moveToFirst()) {
-            Message cM = new Message();
-            cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID))));
-            cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID))));
-            cM.setMessage_time(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME)));
-            // Adding message record to list
-            messages.add(cM);
+            do {
+                    Message cM = new Message();
+                    cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID))));
+                    cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID))));
+                    cM.setMessage_time(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME)));
+                    // Adding message record to list
+                    messages.add(cM);
+            } while(cursor.moveToNext());
         }
         db.close();
         cursor.close();

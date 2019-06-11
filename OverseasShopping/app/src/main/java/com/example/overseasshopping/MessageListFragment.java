@@ -40,9 +40,7 @@ public class MessageListFragment extends Fragment {
         mDatabaseHelper = new DatabaseHelper(getActivity());
         mUsername = (String) getActivity().getIntent().getStringExtra(MainActivity.EXTRA_USERNAME);
         mUserNo = (Integer) getActivity().getIntent().getIntExtra(MainActivity.EXTRA_USER_NO,1);
-        mOtherUserNo = (Integer)
 
-        Log.d("userlist", String.valueOf(mUserNo));
         updateUI();
 
         return view;
@@ -66,18 +64,16 @@ public class MessageListFragment extends Fragment {
                 mOtherUserNo = mMessage.getSenderId();
                 targetName.setText(mDatabaseHelper.getUsername(mOtherUserNo));
             }
-            else if(mUserNo.equals(mMessage.getSenderId())) {
-                mOtherUserNo = mMessage.getReceiverId();
-                targetName.setText(mDatabaseHelper.getUsername(mOtherUserNo));
-            }
-            Log.d("otherUserNo", String.valueOf(mUserNo) + "," + String.valueOf(mOtherUserNo));
             messageTime.setText(mMessage.getMessage_time());
         }
 
         public void onClick(View view) {
-            Toast.makeText(getActivity(), "OtherUserNo:" + mOtherUserNo + " / mUserNo:" + mUserNo, Toast.LENGTH_SHORT).show();
-            Intent intent = MessageActivity.newIntent(getActivity().getBaseContext(),mOtherUserNo);
-            startActivity(intent);
+            if(mUserNo.equals(mMessage.getReceiverId())) {
+                Intent intent = MessageActivity.newIntent(getActivity().getBaseContext(), mUserNo, mMessage.getSenderId());
+                startActivity(intent);
+                Toast.makeText(getActivity(), "OtherUserNo:" + mMessage.getSenderId() + "me: " + mUserNo, Toast.LENGTH_SHORT).show();
+
+            }
         }
 
     }
@@ -116,7 +112,6 @@ public class MessageListFragment extends Fragment {
 
         mDatabaseHelper = new DatabaseHelper(getActivity());
         userMessageList = mDatabaseHelper.getUserMessages(mUserNo);
-        Log.d("userMessageList", String.valueOf(userMessageList));
         if (mAdapter == null){
             mAdapter = new MessageListAdapter(userMessageList);
             mMessageListRecyclerView.setAdapter(mAdapter);
