@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        fm.beginTransaction().add(R.id.main_container, mMessageFragment, "3").hide(mMessageFragment).commit();
         fm.beginTransaction().add(R.id.main_container, mProfileFragment, "2").hide(mProfileFragment).commit();
         fm.beginTransaction().add(R.id.main_container, mHomeFragment, "1").commit();
-        fm.beginTransaction().add(R.id.main_container, mMessageFragment, "3").hide(mMessageFragment).commit();
     }
 
 
