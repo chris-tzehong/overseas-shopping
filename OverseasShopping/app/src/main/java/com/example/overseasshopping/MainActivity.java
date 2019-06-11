@@ -68,11 +68,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        Integer user_no = getIntent().getIntExtra(EXTRA_USER_NO, 55);
-        Intent intent = new Intent(MainActivity.this, MessageActivity.class);
-        intent.putExtra(EXTRA_USER_NO, user_no);
-
-        Log.d("main_user", String.valueOf(user_no));
 
         fm.beginTransaction().add(R.id.main_container, mProfileFragment, "2").hide(mProfileFragment).commit();
         fm.beginTransaction().add(R.id.main_container, mHomeFragment, "1").commit();

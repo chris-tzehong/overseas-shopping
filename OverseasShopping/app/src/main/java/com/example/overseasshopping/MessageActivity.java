@@ -25,7 +25,6 @@ public class MessageActivity extends SingleFragmentActivity {
     protected Fragment createFragment(){
         int user_no = (int) getIntent().getIntExtra(EXTRA_USER_NO, 1);
         int otherUser_no = (int) getIntent().getIntExtra(EXTRA_OTHERUSER_NO, 2);
-        Log.d("MessageActivity", user_no + "/" + otherUser_no);
         return new MessageFragment().newInstance(user_no, otherUser_no);
 
     }

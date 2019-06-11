@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -157,7 +156,6 @@ public class MessageFragment extends Fragment {
     private void updateUI() {
 
         List<Message> messages = mDatabaseHelper.getUserPrivateMessage(userNo, otherUserNo);
-        Log.d("UPM", String.valueOf(messages));
 
         if (mAdapter == null){
             mAdapter = new MessageAdapter(messages);

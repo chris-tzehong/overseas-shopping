@@ -757,7 +757,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_SENDERID, message.getSenderId());
         values.put(COLUMN_RECEIVERID, message.getReceiverId());
         values.put(COLUMN_MESSAGE_TIME, String.valueOf(message.getMessage_time()));
-        //values.put(COLUMN_USER_NO, user.getUserNo());
 
         db.insert(TABLE_MESSAGE, null, values);
         db.close();
@@ -777,7 +776,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String groupBy = COLUMN_SENDERID + ", " + COLUMN_RECEIVERID;
 
-        String selection = COLUMN_RECEIVERID + " = ? ";
+        String selection = COLUMN_RECEIVERID + " = ?";
 
         String[] selectionArgs ={String.valueOf(userNo)};
 

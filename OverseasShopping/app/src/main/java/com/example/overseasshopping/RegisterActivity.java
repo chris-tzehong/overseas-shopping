@@ -223,14 +223,10 @@ public class RegisterActivity extends AppCompatActivity {
                     user.setAddress(mEditTextRegisterAddress.getText().toString());
                     mDatabaseHelper.addUser(user);
 
-                    Message message1 = new Message("1. HELLO USER2", 2, 1, DateUtils.getCurrentTime());
-                    Message message2 = new Message("2. I am user2", 1, 2, DateUtils.getCurrentTime());
-                    Message message3 = new Message("3. I am user3", 1, 3, DateUtils.getCurrentTime());
-                    Message message4 = new Message("4. HELLO USER4", 4, 1, DateUtils.getCurrentTime());
-                    mDatabaseHelper.addMessage(message1);
-                    mDatabaseHelper.addMessage(message2);
-                    mDatabaseHelper.addMessage(message3);
-                    mDatabaseHelper.addMessage(message4);
+//                    Message message1 = new Message("1. HELLO USER2", 2, 1, DateUtils.getCurrentTime());
+//                    Message message2 = new Message("2. I am user2", 1, 2, DateUtils.getCurrentTime());
+//                    mDatabaseHelper.addMessage(message1);
+//                    mDatabaseHelper.addMessage(message2);
 
                     AlertDialog.Builder alertDialogBuilder_2 = new AlertDialog.Builder(RegisterActivity.this);
                     alertDialogBuilder_2.setMessage(R.string.register_successful);

@@ -5,18 +5,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.overseasshopping.Model.Message;
 
 import java.util.List;
-
-import static com.example.overseasshopping.MainActivity.EXTRA_USER_NO;
 
 public class MessageListFragment extends Fragment {
 
@@ -71,8 +67,6 @@ public class MessageListFragment extends Fragment {
             if(mUserNo.equals(mMessage.getReceiverId())) {
                 Intent intent = MessageActivity.newIntent(getActivity().getBaseContext(), mUserNo, mMessage.getSenderId());
                 startActivity(intent);
-                Toast.makeText(getActivity(), "OtherUserNo:" + mMessage.getSenderId() + "me: " + mUserNo, Toast.LENGTH_SHORT).show();
-
             }
         }
 
