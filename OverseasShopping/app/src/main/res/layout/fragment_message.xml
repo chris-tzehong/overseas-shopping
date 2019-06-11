@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
     tools:context="com.example.overseasshopping.MessageActivity">
 
     <android.support.v7.widget.RecyclerView
@@ -29,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="type message here..."
+            android:inputType="text"
             android:padding="15dp"
             android:maxLines="5"
             android:layout_toStartOf="@+id/send_message_btn"

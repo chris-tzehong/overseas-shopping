@@ -8,15 +8,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.example.overseasshopping.Model.Message;
+import com.example.overseasshopping.Model.Product;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_USERNAME = "com.example.overseasshopping.username";
     public static final String EXTRA_USER_NO = "com.example.overseasshopping.user_no";
 
-    public static Intent newIntent(Context packageContext, String username, int user_no) {
+    public static Intent newIntent(Context packageContext, String username, Integer user_no) {
         Intent intent = new Intent(packageContext, MainActivity.class);
         intent.putExtra(EXTRA_USERNAME, username);
         intent.putExtra(EXTRA_USER_NO, user_no);
@@ -27,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     final Fragment mProfileFragment = new ProfileFragment();
     final Fragment mMessageFragment = new MessageListFragment();
     final FragmentManager fm = getSupportFragmentManager();
+
 
     Fragment active = mHomeFragment;
 
@@ -63,11 +68,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        Integer user_no = getIntent().getIntExtra(EXTRA_USER_NO, 55);
+        Intent intent = new Intent(MainActivity.this, MessageActivity.class);
+        intent.putExtra(EXTRA_USER_NO, user_no);
+
+        Log.d("main_user", String.valueOf(user_no));
 
         fm.beginTransaction().add(R.id.main_container, mProfileFragment, "2").hide(mProfileFragment).commit();
         fm.beginTransaction().add(R.id.main_container, mHomeFragment, "1").commit();
         fm.beginTransaction().add(R.id.main_container, mMessageFragment, "3").hide(mMessageFragment).commit();
     }
+
 
 
 //   @Override

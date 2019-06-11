@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                         User user = db.getUser(mEditTextLoginUsername.getText().toString());
                         if (user.getPassword().equals(mEditTextLoginPassword.getText().toString())) {
                             Intent i2 = MainActivity.newIntent(LoginActivity.this, mEditTextLoginUsername.getText().toString(), user.getUserNo());
+                            //Log.d("myTag", String.valueOf(user.getUserNo()));
                             startActivity(i2);
                         } else {
                             AlertDialog.Builder alertDialogBuilder_2 = new AlertDialog.Builder(LoginActivity.this);

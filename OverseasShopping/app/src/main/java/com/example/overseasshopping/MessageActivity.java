@@ -6,32 +6,26 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
-public class MessageActivity extends AppCompatActivity {
+import static com.example.overseasshopping.MainActivity.EXTRA_USER_NO;
 
-    public static final String EXTRA_OTHERUSER_NO = "com.example.overseasshopping.otheruser_no";
+public class MessageActivity extends SingleFragmentActivity {
+
+    private static final String EXTRA_OTHERUSER_NO = "com.example.overseasshopping.otheruser_no";
 
     public static Intent newIntent(Context packageContext, int otherUser_no) {
-        Intent intent = new Intent(packageContext, MessageFragment.class);
+        Intent intent = new Intent(packageContext, MessageActivity.class);
         intent.putExtra(EXTRA_OTHERUSER_NO, otherUser_no);
         return intent;
     }
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_messages);
+    protected Fragment createFragment(){
+        int user_no = (int) getIntent().getIntExtra(EXTRA_USER_NO, 1);
+        int otherUser_no = (int) getIntent().getIntExtra(EXTRA_OTHERUSER_NO, 2);
+        Log.d("MessageActivity", user_no + "/" + otherUser_no);
+        return new MessageFragment().newInstance(user_no, otherUser_no);
 
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
-
-        if (fragment == null) {
-            fragment = new MessageFragment();
-            fm.beginTransaction()
-                    .add(R.id.fragment_container, fragment)
-                    .commit();
-        }
     }
-
 }

@@ -1,12 +1,12 @@
 package com.example.overseasshopping;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,32 +16,41 @@ import android.widget.TextView;
 
 import com.example.overseasshopping.Model.Message;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MessageFragment extends Fragment {
+
+    private static final String ARG_RECEIVERUSER_NO = "receiveruser_no";
+    private static final String ARG_SENDERUSER_NO = "senderuser_no";
+
     private RecyclerView mMessageRecyclerView;
     private MessageAdapter mAdapter;
 
     private Message mMessage;
-    private String currentUserNo;
-    private String otherUserNo;
+    private Integer senderUserNo;
+    private Integer receiverUserNo;
     private EditText mInputMessage;
     private ImageButton mSendButton;
 
     private DatabaseHelper mDatabaseHelper;
 
+    public static MessageFragment newInstance(Integer senderUserNo, Integer receiverUserNo) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(ARG_SENDERUSER_NO, senderUserNo);
+        bundle.putInt(ARG_RECEIVERUSER_NO, receiverUserNo);
+
+        MessageFragment fragment = new MessageFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mDatabaseHelper = new DatabaseHelper(getActivity());
-        currentUserNo = (String) getActivity().getIntent().getStringExtra(MainActivity.EXTRA_USER_NO);
-        otherUserNo = (String) getActivity().getIntent().getSerializableExtra(MessageActivity.EXTRA_OTHERUSER_NO);
+        senderUserNo = (Integer) getArguments().getInt(ARG_SENDERUSER_NO, 1);
+        receiverUserNo = (Integer) getArguments().getInt(ARG_RECEIVERUSER_NO, 2);
+        Log.d("user_sender", senderUserNo + "," + receiverUserNo);
 
     }
 
@@ -81,12 +90,15 @@ public class MessageFragment extends Fragment {
 
                 if(!messageText.equals("")) {
                     mDatabaseHelper = new DatabaseHelper(getActivity());
-                    Message message = new Message(messageText, otherUserNo, currentUserNo, DateUtils.getCurrentTime());
+                    Message message = new Message(messageText, receiverUserNo, senderUserNo, DateUtils.getCurrentTime());
                     mDatabaseHelper.addMessage(message);
                     mInputMessage.setText("");
+                    updateUI();
                 }
             }
         });
+
+        updateUI();
 
         return view;
     }
@@ -105,7 +117,7 @@ public class MessageFragment extends Fragment {
         }
         public void bind(Message message){
             mMessage = message;
-            mUsername.setText(mMessage.getReceiverId());
+            mUsername.setText(mDatabaseHelper.getUsername(receiverUserNo));
             mMessageTime.setText(mMessage.getMessage_time());
             mMessageText.setText(mMessage.getMessageText());
         }
@@ -142,9 +154,10 @@ public class MessageFragment extends Fragment {
     }
 
     private void updateUI() {
-        List<Message> messages = mDatabaseHelper.getUserPrivateMessage(currentUserNo, otherUserNo);
 
-        if (mAdapter ==null){
+        List<Message> messages = mDatabaseHelper.getUserPrivateMessage(senderUserNo, receiverUserNo);
+
+        if (mAdapter == null){
             mAdapter = new MessageAdapter(messages);
             mMessageRecyclerView.setAdapter(mAdapter);
         }else{

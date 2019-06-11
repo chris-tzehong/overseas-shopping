@@ -1,23 +1,31 @@
 package com.example.overseasshopping.Model;
 
-import java.util.Date;
-
 public class Message {
 
+    private Integer MessageNo;
     private String messageText;
-    private int senderId;
-    private int receiverId;
+    private Integer senderId;
+    private Integer receiverId;
     private String message_time;
 
     public Message() {
 
     }
 
-    public Message(String messageText, int receiverId, int senderId, String message_time) {
+
+    public Message(String messageText, Integer receiverId, Integer senderId, String message_time) {
         this.messageText = messageText;
         this.receiverId = receiverId;
         this.senderId = senderId;
         this.message_time = message_time;
+    }
+
+    public Integer getMessageNo() {
+        return MessageNo;
+    }
+
+    public void setMessageNo(Integer messageNo) {
+        MessageNo = messageNo;
     }
 
     public String getMessageText() {
@@ -28,19 +36,19 @@ public class Message {
         this.messageText = messageText;
     }
 
-    public int getSenderId() {
+    public Integer getSenderId() {
         return senderId;
     }
 
-    public void setSenderId(int senderId) {
+    public void setSenderId(Integer senderId) {
         this.senderId = senderId;
     }
 
-    public int getReceiverId() {
+    public Integer getReceiverId() {
         return receiverId;
     }
 
-    public void setReceiverId(int receiverId) {
+    public void setReceiverId(Integer receiverId) {
         this.receiverId = receiverId;
     }
 

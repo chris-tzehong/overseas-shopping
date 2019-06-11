@@ -1,5 +1,7 @@
 package com.example.overseasshopping;
 import com.example.overseasshopping.Model.Product;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,19 +14,21 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import static com.example.overseasshopping.MainActivity.EXTRA_USER_NO;
+
 public class ProductListFragment extends Fragment {
     private RecyclerView mProductRecyclerView;
     private ProductAdapter mAdapter;
 
 
-    private class ProductHolder extends RecyclerView.ViewHolder {
+    private class ProductHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Product mProduct;
         private TextView mTitleTextView;
         private TextView mPrice;
 
         public ProductHolder(LayoutInflater inflater, ViewGroup parent){
             super(inflater.inflate(R.layout.list_item_product,parent, false));
-            // itemView.setOnClickListener(this);
+            itemView.setOnClickListener(this);
             mTitleTextView = (TextView) itemView.findViewById(R.id.product_title);
             mPrice = (TextView) itemView.findViewById(R.id.price);
         }
@@ -34,13 +38,11 @@ public class ProductListFragment extends Fragment {
             //mPrice.setText(mProduct.getPrice());
         }
 
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(getActivity(), mProduct.getProductName() + " :" + mProduct.getUserNo(), Toast.LENGTH_SHORT).show();
+        }
 
-//    @Override
-//    public void onClick(View view) {
-//        Toast.makeText(getActivity(),
-//                mProduct.getProductName()+" clicked!" , Toast.LENGTH_SHORT)
-//                .show();
-//    }
 }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){

@@ -202,11 +202,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             u1.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
             u1.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
 
-         return u1;
+        db.close();
+        cursor.close();
+        return u1;
 
         }
 
-    public String getUsername(int userno) {
+    public String getUsername(Integer userno) {
 
         // array of columns to fetch
         String[] columns = {
@@ -239,6 +241,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cursor.moveToFirst();
         }
         String u1 = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
+
+        db.close();
+        cursor.close();
 
         return u1;
 
@@ -436,7 +441,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //----------------------------------------Product Database----------------------------------------//
 
-    public void addProduct(Product product, User user) {
+    public void addProduct(Product product, Integer userno) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -444,7 +449,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_PHOTO, product.getPhoto());
         values.put(COLUMN_DESCRIPTION, product.getDescription());
         values.put(COLUMN_PRICE, product.getPrice());
-        values.put(COLUMN_USER_NO, user.getUserNo());
+        values.put(COLUMN_USER_NO, userno);
         values.put(COLUMN_PRODUCT_QUANTITY, product.getProductQuantity());
 
         // Inserting Row
@@ -758,7 +763,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<Message> getUserMessages(String userNo) {
+    public List<Message> getUserMessages(Integer userNo) {
 
         List<Message> messages = new ArrayList<>();
 
@@ -772,34 +777,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String groupBy = COLUMN_SENDERID + ", " + COLUMN_RECEIVERID;
 
+        String selection = COLUMN_SENDERID + " OR " + COLUMN_RECEIVERID;
+
+        String[] selectionArgs ={String.valueOf(userNo), String.valueOf(userNo)};
+
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(true, TABLE_MESSAGE,
                 columns,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 groupBy,
                 null,
                 sortOrder,
                 null);
 
-        if(cursor.moveToFirst())
-            do {
-
-                if(COLUMN_SENDERID.equals(userNo) || COLUMN_RECEIVERID.equals(userNo)) {
-                    Message cM = new Message();
-                    cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID))));
-                    cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID))));
-                    cM.setMessage_time(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME)));
-                    // Adding message record to list
-                    messages.add(cM);
-                }
-            }while(cursor.moveToNext());
+        if(cursor.moveToFirst()) {
+            Message cM = new Message();
+            cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID))));
+            cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID))));
+            cM.setMessage_time(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME)));
+            // Adding message record to list
+            messages.add(cM);
+        }
+        db.close();
+        cursor.close();
 
         return messages;
     }
 
-    public List<Message> getUserPrivateMessage(String userNo, String otherUserNo) {
+    public List<Message> getUserPrivateMessage(Integer currentUserNo, Integer otherUserNo) {
 
         List<Message> messages = new ArrayList<>();
 
@@ -815,12 +822,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selection = "( " + COLUMN_SENDERID + " = ?" + " AND " + COLUMN_RECEIVERID + " = ?" + " ) OR " +
                            "( " + COLUMN_SENDERID + " = ?" + " AND " + COLUMN_RECEIVERID + " = ?" + " )";
 
-        String[] selectionArgs ={userNo, otherUserNo,
-                otherUserNo, userNo};
+        String[] selectionArgs ={String.valueOf(currentUserNo), String.valueOf(otherUserNo),
+                                 String.valueOf(otherUserNo), String.valueOf(currentUserNo)};
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_ORDERS, //Table to query
+        Cursor cursor = db.query(TABLE_MESSAGE, //Table to query
                 columns,                    //columns to return
                 selection,                  //columns for the WHERE clause
                 selectionArgs,              //The values for the WHERE clause
@@ -828,7 +835,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null,                      //filter by row groups
                 sortOrder);
 
-        if(cursor.moveToFirst())
+        if(cursor.moveToFirst()) {
             do {
                 Message cM = new Message();
                 cM.setMessageText(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGETEXT)));
@@ -837,9 +844,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cM.setMessage_time(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME)));
                 // Adding order record to list
                 messages.add(cM);
-            }while(cursor.moveToNext());
+            } while (cursor.moveToNext());
 
+        }
 
+        db.close();
+        cursor.close();
         return messages;
     }
 
@@ -858,7 +868,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_ORDERS, //Table to query
+        Cursor cursor = db.query(TABLE_MESSAGE, //Table to query
                 columns,                    //columns to return
                 null,                  //columns for the WHERE clause
                 null,              //The values for the WHERE clause
@@ -884,6 +894,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return messages;
     }
+
+    public void updateMessage(Message message) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_SENDERID, message.getSenderId());
+        values.put(COLUMN_RECEIVERID, message.getReceiverId());
+        values.put(COLUMN_MESSAGETEXT, message.getMessageText());
+        values.put(COLUMN_MESSAGE_TIME, message.getMessage_time());
+
+        // updating row
+        db.update(TABLE_MESSAGE, values, COLUMN_MESSAGE_NO + " = ?",
+                new String[]{String.valueOf(message.getMessageNo())});
+        db.close();
+    }
+
+    public void deleteMessage(Message message) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // delete product record by id
+        db.delete(TABLE_MESSAGE, COLUMN_MESSAGE_NO + " = ?",
+                new String[]{String.valueOf(message.getMessageNo())});
+        db.close();
+    }
+
+
 
 //    public void getOtherUserNo(String userNo) {
 //        String[] columns = {
