@@ -178,5 +178,15 @@
                 android:paddingLeft="2dp"
                 android:paddingStart="2dp" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonLogoutSend"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/profile_button"
+            android:text="@string/login_button"
+            android:textColor="@color/colorWhite" />
     </LinearLayout>
 </FrameLayout>

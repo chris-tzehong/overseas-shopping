@@ -64,6 +64,7 @@
     <string name="profile_address_placeholder">Address</string>
     <string name="profile_logout_button">Logout</string>
     <string name="add_product">New Product</string>
+    <string name="profile_send_message_button">Send Message</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
