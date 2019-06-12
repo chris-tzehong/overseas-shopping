@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                     fm.beginTransaction().replace(R.id.main_container, new ProductListFragment()).commit();
                     return true;
                 case R.id.navigation_message:
-                    fm.beginTransaction().replace(R.id.main_container, new MessageFragment()).commit();
+                    fm.beginTransaction().replace(R.id.main_container, new MessageListFragment()).commit();
                     return true;
                 case R.id.navigation_order_history:
                     return true;
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+        protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
