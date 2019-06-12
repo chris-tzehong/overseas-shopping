@@ -10,6 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Image"/>
+
+
+    <TextView
+        android:id="@+id/product_ID"
+        android:layout_width="123dp"
+        android:layout_height="wrap_content"
+        android:text="Product ID"
+        android:visibility="invisible" />
+
     <TextView
         android:id="@+id/product_title"
         android:layout_width="match_parent"

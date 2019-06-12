@@ -29,6 +29,7 @@ public class ProductListFragment extends Fragment {
 
     private class ProductHolder extends RecyclerView.ViewHolder {
         private Product mProduct;
+        private TextView mPID;
         private TextView mTitleTextView;
         private TextView mPrice;
         private ImageView mProductImage;
@@ -36,15 +37,16 @@ public class ProductListFragment extends Fragment {
         public ProductHolder(LayoutInflater inflater, ViewGroup parent){
             super(inflater.inflate(R.layout.list_item_product,parent, false));
             // itemView.setOnClickListener(this);
+            mPID = (TextView) itemView.findViewById(R.id.product_ID);
             mTitleTextView = (TextView) itemView.findViewById(R.id.product_title);
             mPrice = (TextView) itemView.findViewById(R.id.product_price);
             mProductImage = (ImageView) itemView.findViewById(R.id.product_image);
         }
         public void bind(Product product){
             mProduct = product;
-
+            mPID.setText(String.valueOf(mProduct.getProductNo()));
             mTitleTextView.setText(mProduct.getProductName());
-            //mPrice.setText(mProduct.getPrice());
+            mPrice.setText(String.valueOf(mProduct.getPrice()));
 
             //sets up the image loader library
             ProductLab.get(getActivity()).setupImageLoader();
