@@ -12,6 +12,7 @@ import com.example.overseasshopping.Model.Rating;
 import com.example.overseasshopping.Model.User;
 
 import java.util.Date;
+import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,8 +71,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_USER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_USERNAME + " TEXT," + COLUMN_PASSWORD + " TEXT,"
             + COLUMN_TELEPHONE + " TEXT," + COLUMN_ADDRESS + " TEXT,"
+
             + COLUMN_CREDITCARD_NO + " STRING," + COLUMN_SECURITY_NO + " INTEGER,"
-            + COLUMN_EXPIRY_DATE + " LONG," + COLUMN_RATING + " INTEGER, "
+            + COLUMN_EXPIRY_DATE + " TEXT," + COLUMN_RATING + " INTEGER, "
             + COLUMN_TOTAL_RATED_BY + " INTEGER" + ")";
 
     private String CREATE_PRODUCT_TABLE = "CREATE TABLE " + TABLE_PRODUCT + "("
@@ -83,7 +85,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String CREATE_ORDERS_TABLE = "CREATE TABLE " + TABLE_ORDERS + "("
             + COLUMN_ORDER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_SELLER + " TEXT," + COLUMN_BUYER + " TEXT,"
-            + COLUMN_TIME + " LONG," + COLUMN_PRODUCT_NO + " INTEGER" + ")";
+            + COLUMN_TIME + " DATETIME," + COLUMN_PRODUCT_NO + " INTEGER" + ")";
 
     private String CREATE_MESSAGE_TABLE = "CREATE TABLE " + TABLE_MESSAGE + "("
             + COLUMN_MESSAGE_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -140,7 +142,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_ADDRESS, user.getAddress());
         values.put(COLUMN_CREDITCARD_NO, user.getCreditCardNo());
         values.put(COLUMN_SECURITY_NO, user.getSecurityNo());
-        values.put(COLUMN_EXPIRY_DATE, String.valueOf(user.getExpiryDate()));
+        values.put(COLUMN_EXPIRY_DATE, user.getExpiryDate());
         values.put(COLUMN_RATING, user.getRating());
         values.put(COLUMN_TOTAL_RATED_BY, user.getTotalRatedBy());
 
@@ -198,13 +200,56 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             u1.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
             u1.setCreditCardNo(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO)));
             u1.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
-            u1.setExpiryDate(new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
+            u1.setExpiryDate(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE)));
             u1.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
             u1.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
 
-         return u1;
+        db.close();
+        cursor.close();
+        return u1;
 
         }
+
+    public String getUsername(Integer userno) {
+
+        // array of columns to fetch
+        String[] columns = {
+                COLUMN_USERNAME,
+        };
+
+        String sortOrder = COLUMN_USER_NO + " ASC";
+
+        String selection = COLUMN_USER_NO + " = ?";
+
+        String[] selectionArgs = {String.valueOf(userno)};
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // query the user table
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_no,user_name,user_email,password FROM user ORDER BY user_name;
+         */
+        Cursor cursor = db.query(TABLE_USER,
+                columns,    //columns to return
+                selection,        //columns for the WHERE clause
+                selectionArgs,        //The values for the WHERE clause
+                null,       //group the rows
+                null,
+                sortOrder);       //filter by row groups
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        String u1 = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
+
+        db.close();
+        cursor.close();
+
+        return u1;
+
+    }
 
     public List<User> getAllUser() {
         // array of columns to fetch
@@ -253,7 +298,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 user.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
                 user.setCreditCardNo(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO)));
                 user.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
-                user.setExpiryDate(new Date(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
+                user.setExpiryDate(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE)));
                 user.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
                 user.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
                 // Adding user record to list
@@ -394,56 +439,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public List<User> getAllUsername(){
-
-        String[] columns = {
-                COLUMN_USER_NO,
-                COLUMN_USERNAME,
-        };
-
-        // sorting orders
-        String sortOrder =
-                COLUMN_USER_NO + " ASC";
-        List<User> userList = new ArrayList<User>();
-
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        // query the user table
-        /**
-         * Here query function is used to fetch records from user table this function works like we use sql query.
-         * SQL query equivalent to this query function is
-         * SELECT user_no,user_name,user_email,password FROM user ORDER BY user_name;
-         */
-        Cursor cursor = db.query(TABLE_USER, //Table to query
-                columns,    //columns to return
-                null,        //columns for the WHERE clause
-                null,        //The values for the WHERE clause
-                null,       //group the rows
-                null,       //filter by row groups
-                sortOrder); //The sort order
-
-
-        // Traversing through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                User user = new User();
-                user.setUserNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO))));
-                user.setUsername(cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)));
-                // Adding user record to list
-                userList.add(user);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-
-        // return user list
-        return userList;
-    }
 
 
     //----------------------------------------Product Database----------------------------------------//
 
-    public void addProduct(Product product, User user) {
+    public void addProduct(Product product, Integer userno) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -451,7 +451,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_PHOTO, product.getPhoto());
         values.put(COLUMN_DESCRIPTION, product.getDescription());
         values.put(COLUMN_PRICE, product.getPrice());
-        values.put(COLUMN_USER_NO, user.getUserNo());
+        values.put(COLUMN_USER_NO, userno);
         values.put(COLUMN_PRODUCT_QUANTITY, product.getProductQuantity());
 
         // Inserting Row
@@ -759,53 +759,56 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_SENDERID, message.getSenderId());
         values.put(COLUMN_RECEIVERID, message.getReceiverId());
         values.put(COLUMN_MESSAGE_TIME, String.valueOf(message.getMessage_time()));
-        //values.put(COLUMN_USER_NO, user.getUserNo());
 
         db.insert(TABLE_MESSAGE, null, values);
         db.close();
     }
 
-    public List<Message> getUserMessages(String userNo) {
+    public List<Message> getUserMessages(Integer userNo) {
 
         List<Message> messages = new ArrayList<>();
 
         String[] columns = {
-            COLUMN_SENDERID,
-            COLUMN_RECEIVERID,
-            COLUMN_MESSAGE_TIME
+                COLUMN_SENDERID,
+                COLUMN_RECEIVERID,
+                COLUMN_MESSAGE_TIME
         };
 
-    String sortOrder = COLUMN_MESSAGE_TIME + " DESC";
+        String orderBy = COLUMN_MESSAGE_TIME + " DESC";
 
-    String groupBy = COLUMN_SENDERID + ", " + COLUMN_RECEIVERID;
+        String groupBy = COLUMN_SENDERID + ", " + COLUMN_RECEIVERID;
 
-    SQLiteDatabase db = this.getReadableDatabase();
+        String selection = COLUMN_RECEIVERID + " = ?";
 
-    Cursor cursor = db.query(TABLE_ORDERS, //Table to query
-            columns,                    //columns to return
-            null,                  //columns for the WHERE clause
-            null,              //The values for the WHERE clause
-            groupBy,                       //group the rows
-            null,                      //filter by row groups
-            sortOrder);
+        String[] selectionArgs ={String.valueOf(userNo)};
 
-        if(cursor.moveToFirst())
+        SQLiteDatabase db = this.getReadableDatabase();
 
-                do {
-                    if(COLUMN_SENDERID.equals(userNo) || COLUMN_RECEIVERID.equals(userNo)) {
-                        Message cM = new Message();
-                        cM.setSenderId(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID)));
-                        cM.setReceiverId(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID)));
-                        cM.setMessage_time(new Date(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME))));
-                        // Adding message record to list
-                        messages.add(cM);
-                    }
-                }while(cursor.moveToNext());
+        Cursor cursor = db.query(TABLE_MESSAGE,
+                columns,
+                selection,
+                selectionArgs,
+                groupBy,
+                null,
+                orderBy);
+
+        if(cursor.moveToFirst()) {
+            do {
+                    Message cM = new Message();
+                    cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID))));
+                    cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID))));
+                    cM.setMessage_time(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME)));
+                    // Adding message record to list
+                    messages.add(cM);
+            } while(cursor.moveToNext());
+        }
+        db.close();
+        cursor.close();
 
         return messages;
-}
+    }
 
-    public List<Message> getUserPrivateMessage(String userNo, String otherUserNo) {
+    public List<Message> getUserPrivateMessage(Integer currentUserNo, Integer otherUserNo) {
 
         List<Message> messages = new ArrayList<>();
 
@@ -821,12 +824,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selection = "( " + COLUMN_SENDERID + " = ?" + " AND " + COLUMN_RECEIVERID + " = ?" + " ) OR " +
                            "( " + COLUMN_SENDERID + " = ?" + " AND " + COLUMN_RECEIVERID + " = ?" + " )";
 
-        String[] selectionArgs ={userNo, otherUserNo,
-                otherUserNo, userNo};
+        String[] selectionArgs ={String.valueOf(currentUserNo), String.valueOf(otherUserNo),
+                                 String.valueOf(otherUserNo), String.valueOf(currentUserNo)};
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_ORDERS, //Table to query
+        Cursor cursor = db.query(TABLE_MESSAGE, //Table to query
                 columns,                    //columns to return
                 selection,                  //columns for the WHERE clause
                 selectionArgs,              //The values for the WHERE clause
@@ -834,18 +837,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null,                      //filter by row groups
                 sortOrder);
 
-        if(cursor.moveToFirst())
+        if(cursor.moveToFirst()) {
             do {
                 Message cM = new Message();
                 cM.setMessageText(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGETEXT)));
-                cM.setSenderId(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID)));
-                cM.setReceiverId(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID)));
-                cM.setMessage_time(new Date(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME))));
+                cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID))));
+                cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID))));
+                cM.setMessage_time(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME)));
                 // Adding order record to list
                 messages.add(cM);
-            }while(cursor.moveToNext());
+            } while (cursor.moveToNext());
 
+        }
 
+        db.close();
+        cursor.close();
         return messages;
     }
 
@@ -864,7 +870,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_ORDERS, //Table to query
+        Cursor cursor = db.query(TABLE_MESSAGE, //Table to query
                 columns,                    //columns to return
                 null,                  //columns for the WHERE clause
                 null,              //The values for the WHERE clause
@@ -876,9 +882,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 Message cM = new Message();
                 cM.setMessageText(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGETEXT)));
-                cM.setSenderId(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID)));
-                cM.setReceiverId(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID)));
-                cM.setMessage_time(new Date(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME))));
+                cM.setSenderId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SENDERID))));
+                cM.setReceiverId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RECEIVERID))));
+                cM.setMessage_time(cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE_TIME)));
                 //Product.setProductNo(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO)));
                 // Adding order record to list
                 messages.add(cM);
@@ -890,6 +896,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return messages;
     }
+
+    public void updateMessage(Message message) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_SENDERID, message.getSenderId());
+        values.put(COLUMN_RECEIVERID, message.getReceiverId());
+        values.put(COLUMN_MESSAGETEXT, message.getMessageText());
+        values.put(COLUMN_MESSAGE_TIME, message.getMessage_time());
+
+        // updating row
+        db.update(TABLE_MESSAGE, values, COLUMN_MESSAGE_NO + " = ?",
+                new String[]{String.valueOf(message.getMessageNo())});
+        db.close();
+    }
+
+    public void deleteMessage(Message message) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // delete product record by id
+        db.delete(TABLE_MESSAGE, COLUMN_MESSAGE_NO + " = ?",
+                new String[]{String.valueOf(message.getMessageNo())});
+        db.close();
+    }
+
+
 
 //    public void getOtherUserNo(String userNo) {
 //        String[] columns = {

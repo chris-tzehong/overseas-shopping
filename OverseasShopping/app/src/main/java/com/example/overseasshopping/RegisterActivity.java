@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.overseasshopping.Model.Message;
 import com.example.overseasshopping.Model.User;
 
 import java.util.Calendar;
@@ -221,8 +222,10 @@ public class RegisterActivity extends AppCompatActivity {
                     user.setUsername(mEditTextRegisterUsername.getText().toString());
                     user.setPassword(mEditTextRegisterPassword.getText().toString());
                     user.setTelephone(mEditTextRegisterPhone.getText().toString());
+
                     user.setCreditCardNo(mEditTextRegisterCreditCardNo.getText().toString());
-                    user.setExpiryDate(DateUtils.stringToDate(mEditTextRegisterCreditCardExpiryDate.getText().toString().substring(0, 2), mEditTextRegisterCreditCardExpiryDate.getText().toString().substring(3, 5)));
+                    user.setExpiryDate(mEditTextRegisterCreditCardExpiryDate.getText().toString());
+
                     user.setSecurityNo(Integer.parseInt(mEditTextRegisterCreditCardCcv.getText().toString()));
                     user.setAddress(mEditTextRegisterAddress.getText().toString());
                     mDatabaseHelper.addUser(user);

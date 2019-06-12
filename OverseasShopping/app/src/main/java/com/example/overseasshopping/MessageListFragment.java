@@ -1,5 +1,6 @@
 package com.example.overseasshopping;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,69 +11,83 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.overseasshopping.Model.Message;
-import com.example.overseasshopping.Model.User;
 
 import java.util.List;
 
 public class MessageListFragment extends Fragment {
+
     private RecyclerView mMessageListRecyclerView;
-    private MessageAdapter mAdapter;
+    private MessageListAdapter mAdapter;
     private DatabaseHelper mDatabaseHelper;
     private String mUsername;
-    private String mUsername2;
-    private List<Message> userMessages;
+    private Integer mUserNo;
+    private Integer mOtherUserNo;
+    private List<Message> userMessageList;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_messages_list, container, false);
 
-        mMessageListRecyclerView = (RecyclerView) view.findViewById(R.id.messages_recycler_view);
+        mMessageListRecyclerView = (RecyclerView) view.findViewById(R.id.messages_list_recycler_view);
         mMessageListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mDatabaseHelper = new DatabaseHelper(getActivity());
         mUsername = (String) getActivity().getIntent().getStringExtra(MainActivity.EXTRA_USERNAME);
-//        updateUI();
+        mUserNo = (Integer) getActivity().getIntent().getIntExtra(MainActivity.EXTRA_USER_NO,1);
+
+        updateUI();
 
         return view;
     }
 
-    private class MessageHolder extends RecyclerView.ViewHolder {
+    private class MessageListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Message mMessage;
-        private TextView receiverName;
+        private TextView targetName;
         private TextView messageTime;
 
-        public MessageHolder(LayoutInflater inflater, ViewGroup parent) {
+        public MessageListHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_message_list_display, parent, false));
-
-            //itemView.setOnClickListener(this);
-            receiverName = itemView.findViewById(R.id.receiver_name);
-            messageTime = itemView.findViewById(R.id.receiver_last_seen);
+            itemView.setOnClickListener(this);
+            targetName = (TextView) itemView.findViewById(R.id.target_name);
+            messageTime = (TextView) itemView.findViewById(R.id.receiver_last_seen);
         }
 
         public void bind(Message message) {
             mMessage = message;
-            receiverName.setText(mMessage.getReceiverId());
-            messageTime.setText(mMessage.getMessage_time().toString());
+            if(mUserNo.equals(mMessage.getReceiverId())) {
+                mOtherUserNo = mMessage.getSenderId();
+                targetName.setText(mDatabaseHelper.getUsername(mOtherUserNo));
+            }
+            messageTime.setText(mMessage.getMessage_time());
+        }
+
+        public void onClick(View view) {
+            if(mUserNo.equals(mMessage.getReceiverId())) {
+                Intent intent = MessageActivity.newIntent(getActivity().getBaseContext(), mUserNo, mMessage.getSenderId());
+                startActivity(intent);
+            }
         }
 
     }
 
-    private class MessageAdapter extends RecyclerView.Adapter<MessageHolder> {
+    private class MessageListAdapter extends RecyclerView.Adapter<MessageListHolder> {
         private List<Message> mMessages;
 
-        public MessageAdapter(List<Message> messages) {
+        public MessageListAdapter(List<Message> messages) {
             mMessages = messages;
         }
 
         @Override
-        public MessageHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public MessageListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
 
-            return new MessageHolder(layoutInflater, parent);
+            return new MessageListHolder(layoutInflater, parent);
         }
 
         @Override
-        public void onBindViewHolder(MessageHolder holder, int position) {
+        public void onBindViewHolder(MessageListHolder holder, int position) {
             Message message = mMessages.get(position);
             holder.bind(message);
         }
@@ -87,21 +102,18 @@ public class MessageListFragment extends Fragment {
         }
     }
 
-//    private void updateUI() {
-//
-//        //MessageLab messageLab = MessageLab.get(getActivity());
-//        mDatabaseHelper = new DatabaseHelper(getActivity());
-//        //List<Message> messages = messageLab.getMessages();
-//        //userMessages = mDatabaseHelper.getUserMessages(mUsername,mUsername2);
-//        if (mAdapter == null){
-//            mAdapter = new MessageAdapter(userMessages);
-//            mMessageListRecyclerView.setAdapter(mAdapter);
-//        }else{
-//            mAdapter.setMessages(userMessages);
-//            mAdapter.notifyDataSetChanged();
-//        }
-//
-//    }
+    private void updateUI() {
 
+        mDatabaseHelper = new DatabaseHelper(getActivity());
+        userMessageList = mDatabaseHelper.getUserMessages(mUserNo);
+        if (mAdapter == null){
+            mAdapter = new MessageListAdapter(userMessageList);
+            mMessageListRecyclerView.setAdapter(mAdapter);
+        }else{
+            mAdapter.setMessages(userMessageList);
+            mAdapter.notifyDataSetChanged();
+        }
+
+    }
 
 }

@@ -14,9 +14,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MessageActivity">
-        </activity>
-        <activity
-            android:name=".MessageListActivity">
+
         </activity>
         <activity
             android:name=".ProductActivity">

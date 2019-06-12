@@ -24,6 +24,7 @@ import com.example.overseasshopping.Model.User;
 public class LoginActivity extends AppCompatActivity {
 
     public static String username;
+    public static int userno;
 
     private EditText mEditTextLoginUsername;
     private EditText mEditTextLoginPassword;
@@ -87,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                     try {
                         User user = db.getUser(mEditTextLoginUsername.getText().toString());
                         if (user.getPassword().equals(mEditTextLoginPassword.getText().toString())) {
-                            Intent i2 = MainActivity.newIntent(LoginActivity.this, mEditTextLoginUsername.getText().toString());
+                            Intent i2 = MainActivity.newIntent(LoginActivity.this, mEditTextLoginUsername.getText().toString(), user.getUserNo());
                             startActivity(i2);
                         } else {
                             AlertDialog.Builder alertDialogBuilder_2 = new AlertDialog.Builder(LoginActivity.this);

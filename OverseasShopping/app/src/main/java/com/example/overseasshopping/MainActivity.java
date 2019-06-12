@@ -13,19 +13,22 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.overseasshopping.Model.Message;
+import com.example.overseasshopping.Model.Product;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_USERNAME = "com.example.overseasshopping.username";
+    public static final String EXTRA_USER_NO = "com.example.overseasshopping.user_no";
 
-    public static Intent newIntent(Context packageContext, String username) {
+    public static Intent newIntent(Context packageContext, String username, Integer user_no) {
         Intent intent = new Intent(packageContext, MainActivity.class);
         intent.putExtra(EXTRA_USERNAME, username);
+        intent.putExtra(EXTRA_USER_NO, user_no);
         return intent;
     }
 
     FragmentManager fm = getSupportFragmentManager();
-
-
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                     fm.beginTransaction().replace(R.id.main_container, new ProductListFragment()).commit();
                     return true;
                 case R.id.navigation_message:
-                    fm.beginTransaction().replace(R.id.main_container, new MessageFragment()).commit();
+                    fm.beginTransaction().replace(R.id.main_container, new MessageListFragment()).commit();
                     return true;
                 case R.id.navigation_order_history:
                     return true;
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+        protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -59,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
         fm.beginTransaction().add(R.id.main_container, new ProductListFragment(), "1").commit();
     }
+
+
 
     //   @Override
 //    protected Fragment createFragment(){
