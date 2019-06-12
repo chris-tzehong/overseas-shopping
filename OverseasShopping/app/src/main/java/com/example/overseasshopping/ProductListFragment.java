@@ -2,19 +2,31 @@ package com.example.overseasshopping;
 import com.example.overseasshopping.Model.Product;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
-import static com.example.overseasshopping.MainActivity.EXTRA_USER_NO;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 public class ProductListFragment extends Fragment {
     private RecyclerView mProductRecyclerView;
@@ -25,17 +37,34 @@ public class ProductListFragment extends Fragment {
         private Product mProduct;
         private TextView mTitleTextView;
         private TextView mPrice;
+        private ImageView mProductImage;
 
         public ProductHolder(LayoutInflater inflater, ViewGroup parent){
             super(inflater.inflate(R.layout.list_item_product,parent, false));
             itemView.setOnClickListener(this);
             mTitleTextView = (TextView) itemView.findViewById(R.id.product_title);
-            mPrice = (TextView) itemView.findViewById(R.id.price);
+            mPrice = (TextView) itemView.findViewById(R.id.product_price);
+            mProductImage = (ImageView) itemView.findViewById(R.id.product_image);
         }
         public void bind(Product product){
             mProduct = product;
+
             mTitleTextView.setText(mProduct.getProductName());
             //mPrice.setText(mProduct.getPrice());
+
+            //sets up the image loader library
+            ProductLab.get(getActivity()).setupImageLoader();
+            ImageLoader imageLoader = ImageLoader.getInstance();
+
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
+                    .cacheOnDisc(true).resetViewBeforeLoading(true)
+                    .showImageForEmptyUri(null)
+                    .showImageOnFail(null)
+                    .showImageOnLoading(null).build();
+            //download and display image from url
+            imageLoader.displayImage(mProduct.getPhoto(), mProductImage,options);
+
+
         }
 
         @Override
@@ -44,6 +73,13 @@ public class ProductListFragment extends Fragment {
         }
 
 }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_product_list,container,false);
@@ -53,6 +89,7 @@ public class ProductListFragment extends Fragment {
         updateUI();
         return view;
     }
+
     private void updateUI(){
         ProductLab productLab = ProductLab.get(getActivity());
         List<Product> products = productLab.getProducts();
@@ -65,6 +102,25 @@ public class ProductListFragment extends Fragment {
         }
 
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_product_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.new_product:
+                FragmentManager fm = getFragmentManager();
+                fm.beginTransaction().replace(R.id.main_container, new ProductFragment()).commit();
+                return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+        }
+    }
+
     //Adapter
     private class ProductAdapter extends RecyclerView.Adapter<ProductHolder>{
         private List<Product> mProducts;
@@ -95,4 +151,8 @@ public class ProductListFragment extends Fragment {
 
     }
 
+
+
 }
+
+

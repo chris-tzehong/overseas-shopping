@@ -47,7 +47,7 @@ public class Product {
     }
 
     public String getPhoto() {
-        return "IMG_" + getProductNo() + ".jpg";
+        return "assets://" + "IMG_" + getProductNo() + ".png";
     }
 
     public void setPhoto(String photo) {

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -161,7 +162,8 @@ public class ProductFragment extends Fragment {
                 //db.addUser(user);
                 Product product = new Product(mProductName.getText().toString(), "Empty", 1, mProductDescription.getText().toString(), Integer.parseInt(mProductPrice.getText().toString()), Integer.parseInt(mProductQuantity.getText().toString()));
                 db.addProduct(product, product.getUserNo());
-
+                FragmentManager fm = getFragmentManager();
+                fm.beginTransaction().replace(R.id.main_container, new ProductListFragment()).commit();
             }
         });
 

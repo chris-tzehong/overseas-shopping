@@ -8,7 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -27,14 +28,7 @@ public class MainActivity extends AppCompatActivity {
         return intent;
     }
 
-    final Fragment mHomeFragment = new ProductListFragment();
-    final Fragment mProfileFragment = new ProfileFragment();
-    final Fragment mMessageFragment = new MessageListFragment();
-    final FragmentManager fm = getSupportFragmentManager();
-
-
-    Fragment active = mHomeFragment;
-
+    FragmentManager fm = getSupportFragmentManager();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -43,18 +37,15 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    fm.beginTransaction().hide(active).show(mHomeFragment).commit();
-                    active = mHomeFragment;
+                    fm.beginTransaction().replace(R.id.main_container, new ProductListFragment()).commit();
                     return true;
                 case R.id.navigation_message:
-                    fm.beginTransaction().hide(active).show(mMessageFragment).commit();
-                    active = mMessageFragment;
+                    fm.beginTransaction().replace(R.id.main_container, new MessageFragment()).commit();
                     return true;
                 case R.id.navigation_order_history:
                     return true;
                 case R.id.navigation_profile:
-                    fm.beginTransaction().hide(active).show(mProfileFragment).commit();
-                    active = mProfileFragment;
+                    fm.beginTransaction().replace(R.id.main_container, ProfileFragment.showOwnProfile(getIntent().getStringExtra(EXTRA_USERNAME))).commit();
                     return true;
             }
             return false;
@@ -69,14 +60,12 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        fm.beginTransaction().add(R.id.main_container, mProfileFragment, "2").hide(mProfileFragment).commit();
-        fm.beginTransaction().add(R.id.main_container, mHomeFragment, "1").commit();
-        fm.beginTransaction().add(R.id.main_container, mMessageFragment, "3").hide(mMessageFragment).commit();
+        fm.beginTransaction().add(R.id.main_container, new ProductListFragment(), "1").commit();
     }
 
 
 
-//   @Override
+    //   @Override
 //    protected Fragment createFragment(){
 //        return new ProductFragment();
 //
