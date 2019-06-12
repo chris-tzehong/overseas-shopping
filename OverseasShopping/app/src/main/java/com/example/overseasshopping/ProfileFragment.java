@@ -108,7 +108,7 @@ public class ProfileFragment extends Fragment {
         mTextViewProfileRatedBy.setText(Integer.toString(user.getTotalRatedBy()));
         mTextViewProfilePhone.setText(user.getTelephone());
         mTextViewProfileAddress.setText(user.getAddress());
-        mTextViewProfileCreditCardNo.setText(Integer.toString(user.getCreditCardNo()));
+        mTextViewProfileCreditCardNo.setText(user.getCreditCardNo());
         mTextViewProfileCreditCardExpiryDate.setText(DateUtils.dateToString(user.getExpiryDate()));
         mTextViewProfileCreditCardCcv.setText(Integer.toString(user.getSecurityNo()));
 

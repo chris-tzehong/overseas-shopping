@@ -68,6 +68,11 @@ public class RegisterActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if (mEditTextRegisterUsername.getText().toString().isEmpty()) {
                     mEditTextRegisterUsername.setError(getResources().getString(R.string.register_error_empty_username), mWarningIcon);
+                } else {
+                    String mUsername = mEditTextRegisterUsername.getText().toString();
+                    if (mDatabaseHelper.checkUser(mUsername)) {
+                        mEditTextRegisterUsername.setError(getResources().getString(R.string.register_error_username_exist), mWarningIcon);
+                    }
                 }
             }
         });
@@ -216,7 +221,7 @@ public class RegisterActivity extends AppCompatActivity {
                     user.setUsername(mEditTextRegisterUsername.getText().toString());
                     user.setPassword(mEditTextRegisterPassword.getText().toString());
                     user.setTelephone(mEditTextRegisterPhone.getText().toString());
-                    user.setCreditCardNo(Integer.parseInt(mEditTextRegisterCreditCardNo.getText().toString()));
+                    user.setCreditCardNo(mEditTextRegisterCreditCardNo.getText().toString());
                     user.setExpiryDate(DateUtils.stringToDate(mEditTextRegisterCreditCardExpiryDate.getText().toString().substring(0, 2), mEditTextRegisterCreditCardExpiryDate.getText().toString().substring(3, 5)));
                     user.setSecurityNo(Integer.parseInt(mEditTextRegisterCreditCardCcv.getText().toString()));
                     user.setAddress(mEditTextRegisterAddress.getText().toString());
@@ -239,13 +244,6 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-
-    }
-
-    private boolean passwordValidation(String regex, String password) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(password);
-        return matcher.matches();
 
     }
 

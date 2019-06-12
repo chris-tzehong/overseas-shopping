@@ -156,7 +156,7 @@ public class ProductFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 db = new DatabaseHelper(getActivity());
-                User user = new User("ki", "ki", "la", "la", 23, 23, null);
+                User user = new User("ki", "ki", "la", "la", "23", 23, null);
                 //db.addUser(user);
                 Product product = new Product(mProductName.getText().toString(), "Empty", 1, mProductDescription.getText().toString(), Integer.parseInt(mProductPrice.getText().toString()), Integer.parseInt(mProductQuantity.getText().toString()));
                 db.addProduct(product, user);

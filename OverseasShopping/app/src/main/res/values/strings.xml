@@ -29,6 +29,7 @@
     <string name="register_error_empty_phone">Please fill in your phone number.</string>
     <string name="register_error_empty_credit_card_no">Please fill in your credit card number.</string>
     <string name="register_error_empty_credit_card_expiry_date">Please fill in the expiry date for your credit card.</string>
+    <string name="register_error_username_exist">This username is already registered.</string>
     <string name="register_error_invalid_date_format">The format should be MM/YY.</string>
     <string name="register_error_empty_credit_card_ccv">Please fill in the CCV number for your credit card.</string>
     <string name="register_error_invalid_credit_card_ccv">Your CCV number should be three numbers.</string>

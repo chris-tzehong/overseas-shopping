@@ -100,14 +100,14 @@
             android:drawablePadding="10dp"
             android:ems="10"
             android:hint="@string/login_password_hint"
-            android:inputType="textVisiblePassword|textPersonName"
+            android:inputType="textPassword"
             android:paddingStart="15dp"
             android:paddingLeft="15dp"
             android:paddingEnd="15dp"
             android:paddingRight="15dp"
-            tools:targetApi="o"
+            android:textColor="@android:color/black"
             android:textColorHint="@color/colorHint"
-            android:textColor="@android:color/black"/>
+            tools:targetApi="o" />
 
         <Button
             android:id="@+id/buttonLogin"
