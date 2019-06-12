@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Order {
 
-    private int orderNo;
+    private Integer orderNo;
     private String seller;
     private String buyer;
     private Date time;
@@ -13,18 +13,18 @@ public class Order {
         
     }
 
-    public Order(int orderNo, String seller, String buyer, Date time) {
+    public Order(Integer orderNo, String seller, String buyer, Date time) {
         this.orderNo = orderNo;
         this.seller = seller;
         this.buyer = buyer;
         this.time = time;
     }
 
-    public int getOrderNo() {
+    public Integer getOrderNo() {
         return orderNo;
     }
 
-    public void setOrderNo(int order_no) {
+    public void setOrderNo(Integer order_no) {
         this.orderNo = order_no;
     }
 

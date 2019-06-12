@@ -1,16 +1,17 @@
 package com.example.overseasshopping;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.overseasshopping.Model.User;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,13 +26,39 @@ public class ProfileFragment extends Fragment {
     private TextView mTextViewProfileCreditCardNo;
     private TextView mTextViewProfileCreditCardExpiryDate;
     private TextView mTextViewProfileCreditCardCcv;
+    private Button mButtonLogoutSend;
     private DatabaseHelper mDatabaseHelper;
     private String mUsername;
     private User user;
+    private Integer mCurrentFunction;
+
+    public static String RECEIVED_USERNAME = "com.example.overseasshoping.profilefragment.username";
+    public static String RECEIVED_USERNO = "com.example.overseasshoping.profilefragment.userno";
+    public static String CURRENT_FUNCTION = "com.example.overseasshoping.profilefragment.currentfunction";
 
 
     public ProfileFragment() {
         // Required empty public constructor
+    }
+
+    public static ProfileFragment showOwnProfile(String username) {
+        Bundle args = new Bundle();
+        args.putString(RECEIVED_USERNAME, username);
+        args.putInt(CURRENT_FUNCTION, 0);
+
+        ProfileFragment fragment = new ProfileFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static ProfileFragment showOtherProfile(String username) {
+        Bundle args = new Bundle();
+        args.putString(RECEIVED_USERNAME, username);
+        args.putInt(CURRENT_FUNCTION, 1);
+
+        ProfileFragment fragment = new ProfileFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
@@ -48,9 +75,32 @@ public class ProfileFragment extends Fragment {
         mTextViewProfileCreditCardNo = (TextView) v.findViewById(R.id.textViewProfileCreditCardNo);
         mTextViewProfileCreditCardExpiryDate = (TextView) v.findViewById(R.id.textViewProfileCreditCardExpiryDate);
         mTextViewProfileCreditCardCcv = (TextView) v.findViewById(R.id.textViewProfileCreditCardCcv);
+        mButtonLogoutSend = (Button) v.findViewById(R.id.buttonLogoutSend);
+
+        mCurrentFunction = getArguments().getInt(CURRENT_FUNCTION);
+        if (mCurrentFunction == 0) {
+            mButtonLogoutSend.setText(R.string.profile_logout_button);
+            mButtonLogoutSend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            mButtonLogoutSend.setText(R.string.profile_send_message_button);
+            mButtonLogoutSend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int mUserNo =  getActivity().getIntent().getIntExtra(MainActivity.EXTRA_USER_NO,1);
+                    Intent intent = MessageActivity.newIntent(getActivity().getBaseContext(), mUserNo ,user.getUserNo());
+                    startActivity(intent);
+                }
+            });
+        }
 
         mDatabaseHelper = new DatabaseHelper(getActivity());
-        mUsername = (String) getActivity().getIntent().getStringExtra(MainActivity.EXTRA_USERNAME);
+        mUsername = getArguments().getString(RECEIVED_USERNAME);
         Log.d("Trial", mUsername);
         user = mDatabaseHelper.getUser(mUsername);
 
@@ -61,10 +111,10 @@ public class ProfileFragment extends Fragment {
         mTextViewProfilePhone.setText(user.getTelephone());
         mTextViewProfileAddress.setText(user.getAddress());
         mTextViewProfileCreditCardNo.setText(Integer.toString(user.getCreditCardNo()));
-        mTextViewProfileCreditCardExpiryDate.setText(DateUtils.dateToString(user.getExpiryDate()));
+        mTextViewProfileCreditCardExpiryDate.setText(user.getExpiryDate());
         mTextViewProfileCreditCardCcv.setText(Integer.toString(user.getSecurityNo()));
 
-        Log.d("Date", user.getExpiryDate().toString());
+        Log.d("Date", user.getExpiryDate());
 
         return v;
 

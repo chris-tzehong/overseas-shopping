@@ -11,7 +11,7 @@ public class User {
     private String address;
     private int creditCardNo;
     private int securityNo;
-    private Date expiryDate;
+    private String expiryDate;
 
     private int rating;
     private int totalRatedBy;
@@ -21,7 +21,7 @@ public class User {
     }
 
 
-    public User(String username, String password, String telephone, String address, int creditCardNo, int securityNo, Date expiryDate) {
+    public User(String username, String password, String telephone, String address, int creditCardNo, int securityNo, String expiryDate) {
         this.username = username;
         this.password = password;
         this.telephone = telephone;
@@ -100,11 +100,11 @@ public class User {
         this.securityNo = securityNo;
     }
 
-    public Date getExpiryDate() {
+    public String getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(Date expiryDate) {
+    public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
     }
 

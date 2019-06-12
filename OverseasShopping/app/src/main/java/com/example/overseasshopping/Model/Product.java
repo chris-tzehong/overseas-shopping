@@ -2,18 +2,18 @@ package com.example.overseasshopping.Model;
 
 public class Product {
 
-    private int productNo;
+    private Integer productNo;
     private String productName;
     private String photo;
     private String description;
-    private int price;
-    private int productQuantity;
-    private int userNo;
+    private Integer price;
+    private Integer productQuantity;
+    private Integer userNo;
 
     public Product() {
     }
 
-    public Product(String productName, String photo, int userNo, String description, int price, int productQuantity) {
+    public Product(String productName, String photo, Integer userNo, String description, Integer price, Integer productQuantity) {
         this.productName = productName;
         this.photo = photo;
         this.description = description;
@@ -22,7 +22,15 @@ public class Product {
         this.userNo = userNo;
     }
 
-    public int getProductNo() {
+    public Integer getUserNo() {
+        return userNo;
+    }
+
+    public void setUserNo(Integer userNo) {
+        this.userNo = userNo;
+    }
+
+    public Integer getProductNo() {
         return productNo;
     }
 

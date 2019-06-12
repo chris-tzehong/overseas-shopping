@@ -1,23 +1,31 @@
 package com.example.overseasshopping.Model;
 
-import java.util.Date;
-
 public class Message {
 
+    private Integer MessageNo;
     private String messageText;
-    private String senderId;
-    private String receiverId;
-    private Date message_time;
+    private Integer senderId;
+    private Integer receiverId;
+    private String message_time;
 
     public Message() {
 
     }
 
-    public Message(String messageText, String receiverId, String senderId, Date message_time) {
+
+    public Message(String messageText, Integer receiverId, Integer senderId, String message_time) {
         this.messageText = messageText;
         this.receiverId = receiverId;
         this.senderId = senderId;
         this.message_time = message_time;
+    }
+
+    public Integer getMessageNo() {
+        return MessageNo;
+    }
+
+    public void setMessageNo(Integer messageNo) {
+        MessageNo = messageNo;
     }
 
     public String getMessageText() {
@@ -28,27 +36,27 @@ public class Message {
         this.messageText = messageText;
     }
 
-    public String getSenderId() {
+    public Integer getSenderId() {
         return senderId;
     }
 
-    public void setSenderId(String senderId) {
+    public void setSenderId(Integer senderId) {
         this.senderId = senderId;
     }
 
-    public String getReceiverId() {
+    public Integer getReceiverId() {
         return receiverId;
     }
 
-    public void setReceiverId(String receiverId) {
+    public void setReceiverId(Integer receiverId) {
         this.receiverId = receiverId;
     }
 
-    public Date getMessage_time() {
+    public String getMessage_time() {
         return message_time;
     }
 
-    public void setMessage_time(Date message_time) {
+    public void setMessage_time(String message_time) {
         this.message_time = message_time;
     }
 }
