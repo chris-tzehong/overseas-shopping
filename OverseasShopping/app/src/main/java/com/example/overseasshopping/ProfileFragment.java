@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.example.overseasshopping.Model.User;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -34,6 +33,7 @@ public class ProfileFragment extends Fragment {
     private Integer mCurrentFunction;
 
     public static String RECEIVED_USERNAME = "com.example.overseasshoping.profilefragment.username";
+    public static String RECEIVED_USERNO = "com.example.overseasshoping.profilefragment.userno";
     public static String CURRENT_FUNCTION = "com.example.overseasshoping.profilefragment.currentfunction";
 
 
@@ -92,7 +92,9 @@ public class ProfileFragment extends Fragment {
             mButtonLogoutSend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // send message
+                    int mUserNo =  getActivity().getIntent().getIntExtra(MainActivity.EXTRA_USER_NO,1);
+                    Intent intent = MessageActivity.newIntent(getActivity().getBaseContext(), mUserNo ,user.getUserNo());
+                    startActivity(intent);
                 }
             });
         }
@@ -109,10 +111,10 @@ public class ProfileFragment extends Fragment {
         mTextViewProfilePhone.setText(user.getTelephone());
         mTextViewProfileAddress.setText(user.getAddress());
         mTextViewProfileCreditCardNo.setText(Integer.toString(user.getCreditCardNo()));
-        mTextViewProfileCreditCardExpiryDate.setText(DateUtils.dateToString(user.getExpiryDate()));
+        mTextViewProfileCreditCardExpiryDate.setText(user.getExpiryDate());
         mTextViewProfileCreditCardCcv.setText(Integer.toString(user.getSecurityNo()));
 
-        Log.d("Date", user.getExpiryDate().toString());
+        Log.d("Date", user.getExpiryDate());
 
         return v;
 

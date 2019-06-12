@@ -1,5 +1,7 @@
 package com.example.overseasshopping;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -10,7 +12,7 @@ public class DateUtils {
         int month = Integer.parseInt(a) - 1;
         int day = 1;
         int year = Integer.parseInt("20" + b);
-        Date date = new GregorianCalendar(year, month, day).getTime();
+        Date date =  Calendar.getInstance().getTime();
         return date;
     }
 
@@ -35,5 +37,12 @@ public class DateUtils {
         displayDate = displayMonth + "/" + displayYear;
 
         return displayDate;
+    }
+
+    public static String getCurrentTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+        String date = dateFormat.format(Calendar.getInstance().getTime());
+
+        return date;
     }
 }

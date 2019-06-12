@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,7 @@ public class ProductFragment extends Fragment {
         View v= inflater.inflate(R.layout.fragment_product, container, false);
 
         mPhotoButton = (ImageButton) v.findViewById(R.id.product_camera);
-        final Intent captureImage =new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
+        final Intent captureImage = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
 
         mPhotoButton.setEnabled(true);
 
@@ -156,10 +157,11 @@ public class ProductFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 db = new DatabaseHelper(getActivity());
-                User user = new User("ki", "ki", "la", "la", 23, 23, null);
+                //User user = new User("ki", "ki", "la", "la", 23, 23, null);
+
                 //db.addUser(user);
                 Product product = new Product(mProductName.getText().toString(), "Empty", 1, mProductDescription.getText().toString(), Integer.parseInt(mProductPrice.getText().toString()), Integer.parseInt(mProductQuantity.getText().toString()));
-                db.addProduct(product, user);
+                db.addProduct(product, product.getUserNo());
                 FragmentManager fm = getFragmentManager();
                 fm.beginTransaction().replace(R.id.main_container, new ProductListFragment()).commit();
             }
