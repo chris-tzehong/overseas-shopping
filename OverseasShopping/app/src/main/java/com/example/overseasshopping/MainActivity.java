@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_order_history:
                     return true;
                 case R.id.navigation_profile:
-                    fm.beginTransaction().replace(R.id.main_container, new ProfileFragment()).commit();
+                    fm.beginTransaction().replace(R.id.main_container, ProfileFragment.showOwnProfile(getIntent().getStringExtra(EXTRA_USERNAME))).commit();
                     return true;
             }
             return false;
