@@ -12,6 +12,7 @@ import com.example.overseasshopping.Model.Rating;
 import com.example.overseasshopping.Model.User;
 
 import java.util.Date;
+import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_USERNAME + " TEXT," + COLUMN_PASSWORD + " TEXT,"
             + COLUMN_TELEPHONE + " TEXT," + COLUMN_ADDRESS + " TEXT,"
             + COLUMN_CREDITCARD_NO + " INTEGER," + COLUMN_SECURITY_NO + " INTEGER,"
-            + COLUMN_EXPIRY_DATE + " LONG," + COLUMN_RATING + " INTEGER, "
+            + COLUMN_EXPIRY_DATE + " TEXT," + COLUMN_RATING + " INTEGER, "
             + COLUMN_TOTAL_RATED_BY + " INTEGER" + ")";
 
     private String CREATE_PRODUCT_TABLE = "CREATE TABLE " + TABLE_PRODUCT + "("
@@ -83,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String CREATE_ORDERS_TABLE = "CREATE TABLE " + TABLE_ORDERS + "("
             + COLUMN_ORDER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_SELLER + " TEXT," + COLUMN_BUYER + " TEXT,"
-            + COLUMN_TIME + " LONG," + COLUMN_PRODUCT_NO + " INTEGER" + ")";
+            + COLUMN_TIME + " DATETIME," + COLUMN_PRODUCT_NO + " INTEGER" + ")";
 
     private String CREATE_MESSAGE_TABLE = "CREATE TABLE " + TABLE_MESSAGE + "("
             + COLUMN_MESSAGE_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -140,7 +141,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_ADDRESS, user.getAddress());
         values.put(COLUMN_CREDITCARD_NO, user.getCreditCardNo());
         values.put(COLUMN_SECURITY_NO, user.getSecurityNo());
-        values.put(COLUMN_EXPIRY_DATE, String.valueOf(user.getExpiryDate()));
+        values.put(COLUMN_EXPIRY_DATE, user.getExpiryDate());
         values.put(COLUMN_RATING, user.getRating());
         values.put(COLUMN_TOTAL_RATED_BY, user.getTotalRatedBy());
 
@@ -198,7 +199,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             u1.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
             u1.setCreditCardNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO))));
             u1.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
-            u1.setExpiryDate(new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
+            u1.setExpiryDate(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE)));
             u1.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
             u1.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
 
@@ -296,7 +297,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 user.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
                 user.setCreditCardNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO))));
                 user.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
-                user.setExpiryDate(new Date(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE))));
+                user.setExpiryDate(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE)));
                 user.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
                 user.setTotalRatedBy(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_RATED_BY))));
                 // Adding user record to list

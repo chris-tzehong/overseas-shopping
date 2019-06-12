@@ -12,7 +12,7 @@ public class DateUtils {
         int month = Integer.parseInt(a) - 1;
         int day = 1;
         int year = Integer.parseInt("20" + b);
-        Date date = new GregorianCalendar(year, month, day).getTime();
+        Date date =  Calendar.getInstance().getTime();
         return date;
     }
 

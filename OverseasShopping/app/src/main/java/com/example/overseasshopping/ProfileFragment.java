@@ -61,10 +61,10 @@ public class ProfileFragment extends Fragment {
         mTextViewProfilePhone.setText(user.getTelephone());
         mTextViewProfileAddress.setText(user.getAddress());
         mTextViewProfileCreditCardNo.setText(Integer.toString(user.getCreditCardNo()));
-        mTextViewProfileCreditCardExpiryDate.setText(DateUtils.dateToString(user.getExpiryDate()));
+        mTextViewProfileCreditCardExpiryDate.setText(user.getExpiryDate());
         mTextViewProfileCreditCardCcv.setText(Integer.toString(user.getSecurityNo()));
 
-        Log.d("Date", user.getExpiryDate().toString());
+        Log.d("Date", user.getExpiryDate());
 
         return v;
 

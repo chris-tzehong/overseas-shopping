@@ -218,7 +218,7 @@ public class RegisterActivity extends AppCompatActivity {
                     user.setPassword(mEditTextRegisterPassword.getText().toString());
                     user.setTelephone(mEditTextRegisterPhone.getText().toString());
                     user.setCreditCardNo(Integer.parseInt(mEditTextRegisterCreditCardNo.getText().toString()));
-                    user.setExpiryDate(DateUtils.stringToDate(mEditTextRegisterCreditCardExpiryDate.getText().toString().substring(0, 2), mEditTextRegisterCreditCardExpiryDate.getText().toString().substring(3, 5)));
+                    user.setExpiryDate(mEditTextRegisterCreditCardExpiryDate.getText().toString());
                     user.setSecurityNo(Integer.parseInt(mEditTextRegisterCreditCardCcv.getText().toString()));
                     user.setAddress(mEditTextRegisterAddress.getText().toString());
                     mDatabaseHelper.addUser(user);
