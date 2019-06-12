@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp" >
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/product_name"/>
+
+    <TextView
+        android:id="@+id/display_product_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product Name is displayed here"
+        android:textStyle="bold"/>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/product_price"/>
+
+    <TextView
+        android:id="@+id/display_product_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product Price is displayed here."
+        android:textStyle="bold"/>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/product_description"/>
+
+    <TextView
+        android:id="@+id/display_product_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product Desc is displayed here."
+        android:textStyle="bold"/>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/product_quantity"/>
+
+    <TextView
+        android:id="@+id/display_product_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product Quantity is displayed here."
+        android:textStyle="bold"/>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product Owner"/>
+
+    <TextView
+        android:id="@+id/display_product_owner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product Owner is displayed here."
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/place_order_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Place Order" />
+
+</LinearLayout>

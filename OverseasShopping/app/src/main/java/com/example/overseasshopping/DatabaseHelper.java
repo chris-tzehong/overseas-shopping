@@ -78,7 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String CREATE_PRODUCT_TABLE = "CREATE TABLE " + TABLE_PRODUCT + "("
             + COLUMN_PRODUCT_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_PRODUCT_NAME + " TEXT," + COLUMN_PHOTO + " TEXT,"
-            + COLUMN_DESCRIPTION + " TEXT," + COLUMN_PRICE + " INTEGER,"
+            + COLUMN_DESCRIPTION + " TEXT," + COLUMN_PRICE + " DOUBLE,"
             + COLUMN_USER_NO + " INTEGER," + COLUMN_PRODUCT_QUANTITY + " INTEGER" + ")";
 
     private String CREATE_ORDERS_TABLE = "CREATE TABLE " + TABLE_ORDERS + "("
@@ -505,7 +505,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 product.setProductName(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NAME)));
                 product.setPhoto(cursor.getString(cursor.getColumnIndex(COLUMN_PHOTO)));
                 product.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION)));
-                product.setPrice(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PRICE))));
+                product.setPrice(Double.parseDouble(cursor.getString(cursor.getColumnIndex(COLUMN_PRICE))));
                 product.setProductQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_QUANTITY))));
                 //User.setUserNo(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO)));
                 // Adding product record to list
@@ -596,6 +596,168 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return false;
+    }
+
+    public String getProductName(Integer productno) {
+
+        // array of columns to fetch
+        String[] columns = {
+                COLUMN_PRODUCT_NAME,
+        };
+
+        String sortOrder = COLUMN_PRODUCT_NAME + " ASC";
+
+        String selection = COLUMN_PRODUCT_NO + " = ?";
+
+        String[] selectionArgs = {String.valueOf(productno)};
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // query the user table
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_no,user_name,user_email,password FROM user ORDER BY user_name;
+         */
+        Cursor cursor = db.query(TABLE_PRODUCT,
+                columns,    //columns to return
+                selection,        //columns for the WHERE clause
+                selectionArgs,        //The values for the WHERE clause
+                null,       //group the rows
+                null,
+                sortOrder);       //filter by row groups
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        String pn = cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NAME));
+
+        db.close();
+        cursor.close();
+
+        return pn;
+    }
+
+    public String getProductPrice(Integer productno) {
+
+        // array of columns to fetch
+        String[] columns = {
+                COLUMN_PRICE,
+        };
+
+        String sortOrder = COLUMN_PRICE+ " ASC";
+
+        String selection = COLUMN_PRODUCT_NO + " = ?";
+
+        String[] selectionArgs = {String.valueOf(productno)};
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // query the user table
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_no,user_name,user_email,password FROM user ORDER BY user_name;
+         */
+        Cursor cursor = db.query(TABLE_PRODUCT,
+                columns,    //columns to return
+                selection,        //columns for the WHERE clause
+                selectionArgs,        //The values for the WHERE clause
+                null,       //group the rows
+                null,
+                sortOrder);       //filter by row groups
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        String pp = cursor.getString(cursor.getColumnIndex(COLUMN_PRICE));
+
+        db.close();
+        cursor.close();
+
+        return pp;
+    }
+
+    public String getProductDesc(Integer productno) {
+
+        // array of columns to fetch
+        String[] columns = {
+                COLUMN_DESCRIPTION,
+        };
+
+        String sortOrder = COLUMN_DESCRIPTION + " ASC";
+
+        String selection = COLUMN_PRODUCT_NO + " = ?";
+
+        String[] selectionArgs = {String.valueOf(productno)};
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // query the user table
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_no,user_name,user_email,password FROM user ORDER BY user_name;
+         */
+        Cursor cursor = db.query(TABLE_PRODUCT,
+                columns,    //columns to return
+                selection,        //columns for the WHERE clause
+                selectionArgs,        //The values for the WHERE clause
+                null,       //group the rows
+                null,
+                sortOrder);       //filter by row groups
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        String pd = cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION));
+
+        db.close();
+        cursor.close();
+
+        return pd;
+    }
+
+    public String getProductQuantity(Integer productno) {
+
+        // array of columns to fetch
+        String[] columns = {
+                COLUMN_PRODUCT_QUANTITY,
+        };
+
+        String sortOrder = COLUMN_PRODUCT_QUANTITY+ " ASC";
+
+        String selection = COLUMN_PRODUCT_NO + " = ?";
+
+        String[] selectionArgs = {String.valueOf(productno)};
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // query the user table
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_no,user_name,user_email,password FROM user ORDER BY user_name;
+         */
+        Cursor cursor = db.query(TABLE_PRODUCT,
+                columns,    //columns to return
+                selection,        //columns for the WHERE clause
+                selectionArgs,        //The values for the WHERE clause
+                null,       //group the rows
+                null,
+                sortOrder);       //filter by row groups
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        String pq = cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_QUANTITY));
+
+        db.close();
+        cursor.close();
+
+        return pq;
     }
 
     //----------------------------------------Order Database----------------------------------------//
