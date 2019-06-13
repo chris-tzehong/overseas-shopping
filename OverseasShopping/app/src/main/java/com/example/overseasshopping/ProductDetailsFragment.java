@@ -39,6 +39,8 @@ public class ProductDetailsFragment extends Fragment {
         double productPrice = Double.valueOf(db.getProductPrice(mDataFromActivity));
         String productDesc = db.getProductDesc(mDataFromActivity);
         int productQuantity = Integer.valueOf(db.getProductQuantity(mDataFromActivity));
+        int productOwner = Integer.valueOf(db.getProductOwner(mDataFromActivity));
+        String productOwnerUsername = db.getUsername(productOwner);
 
 
         mProductName = (TextView) v.findViewById(R.id.display_product_name);
@@ -54,6 +56,7 @@ public class ProductDetailsFragment extends Fragment {
         mProductQuantity.setText(String.valueOf(productQuantity));
 
         mProductOwner = (TextView) v.findViewById(R.id.display_product_owner);
+        mProductOwner.setText(productOwnerUsername);
 
         mPlaceOrderButton = (Button) v.findViewById(R.id.place_order_button);
 
