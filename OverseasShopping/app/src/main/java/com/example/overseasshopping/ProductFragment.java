@@ -106,7 +106,7 @@ public class ProductFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mProduct.setPrice(Integer.parseInt(s.toString()));
+                mProduct.setPrice(Double.parseDouble(s.toString()));
             }
 
             @Override
@@ -158,7 +158,7 @@ public class ProductFragment extends Fragment {
             public void onClick(View v) {
                 db = new DatabaseHelper(getActivity());
                 //db.addUser(user);
-                Product product = new Product(mProductName.getText().toString(), "Empty", 1, mProductDescription.getText().toString(), Integer.parseInt(mProductPrice.getText().toString()), Integer.parseInt(mProductQuantity.getText().toString()));
+                Product product = new Product(mProductName.getText().toString(), "Empty", 1, mProductDescription.getText().toString(), Double.parseDouble(mProductPrice.getText().toString()), Integer.parseInt(mProductQuantity.getText().toString()));
                 db.addProduct(product, product.getUserNo());
                 FragmentManager fm = getFragmentManager();
                 fm.beginTransaction().replace(R.id.main_container, new ProductListFragment()).commit();

@@ -75,7 +75,11 @@ public class ProductListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(), mProduct.getProductName() + " :" + mProduct.getUserNo(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), mProduct.getProductName() + " :" + mProduct.getUserNo(), Toast.LENGTH_SHORT).show();
+            int productID = Integer.parseInt(mPID.getText().toString());
+            Intent intent = new Intent(getActivity(), ProductDetailsActivity.class);
+            intent.putExtra("PID", productID);
+            startActivity(intent);
         }
 
 }
