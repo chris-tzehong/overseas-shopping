@@ -125,7 +125,7 @@ public class ProductFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 if (mProductPrice.getText().toString().isEmpty()) {
                     mProductPrice.setError(getResources().getString(R.string.product_error_empty_productprice), mWarningIcon);
-                } else if (Integer.valueOf(mProductPrice.getText().toString()).equals(0)) {
+                } else if (Double.valueOf(mProductPrice.getText().toString()).equals(0)) {
                     mProductPrice.setError(getResources().getString(R.string.product_error_invalid_productprice), mWarningIcon);
                 }
             }

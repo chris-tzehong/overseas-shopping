@@ -16,6 +16,8 @@ import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.overseasshopping.LoginActivity.userno;
+
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     //version number to upgrade database version
@@ -55,6 +57,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_SELLER = "seller";
     private static final String COLUMN_BUYER = "buyer";
     private static final String COLUMN_TIME = "time";
+    private static final String COLUMN_TOTAL_PRICE = "total_price";
+    private static final String COLUMN_PURCHASE_QUANTITY = "purchase_quantity";
 
     private static final String COLUMN_MESSAGE_NO = "message_no";
     private static final String COLUMN_SENDERID = "senderid";
@@ -84,7 +88,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String CREATE_ORDERS_TABLE = "CREATE TABLE " + TABLE_ORDERS + "("
             + COLUMN_ORDER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_SELLER + " TEXT," + COLUMN_BUYER + " TEXT,"
-            + COLUMN_TIME + " DATETIME," + COLUMN_PRODUCT_NO + " INTEGER" + ")";
+            + COLUMN_TIME + " TEXT," + COLUMN_PRODUCT_NO + " INTEGER,"
+            + COLUMN_PRODUCT_NAME + " TEXT," + COLUMN_PURCHASE_QUANTITY + " INTEGER,"
+            + COLUMN_TOTAL_PRICE + " DOUBLE" + ")";
 
     private String CREATE_MESSAGE_TABLE = "CREATE TABLE " + TABLE_MESSAGE + "("
             + COLUMN_MESSAGE_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -247,7 +253,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return u1;
-
     }
 
     public List<User> getAllUser() {
@@ -541,6 +546,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void updateProductQuantity(Product product) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PRODUCT_QUANTITY, product.getProductQuantity());
+
+        db.update(TABLE_PRODUCT, values, COLUMN_PRODUCT_NO + " = ?",
+                new String[]{String.valueOf(product.getProductNo())});
+        db.close();
+    }
+
     /**
      * This method is to delete product record
      *
@@ -803,14 +819,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //----------------------------------------Order Database----------------------------------------//
 
-    public void addOrder(Order order, Product product) {
+    public void addOrder(Order order) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_SELLER, product.getProductName());
-        values.put(COLUMN_BUYER, product.getPhoto());
-        values.put(COLUMN_TIME, product.getDescription());
-        values.put(COLUMN_PRODUCT_NO, product.getPrice());
+        values.put(COLUMN_SELLER, order.getSeller());
+        values.put(COLUMN_BUYER, order.getBuyer());
+        values.put(COLUMN_TIME, order.getTime());
+        values.put(COLUMN_PRODUCT_NO, order.getProductNo());
+        values.put(COLUMN_PRODUCT_NAME, order.getProductName());
+        values.put(COLUMN_PURCHASE_QUANTITY, order.getPurchaseQuantity());
+        values.put(COLUMN_TOTAL_PRICE, order.getTotalPrice());
 
         // Inserting Row
         db.insert(TABLE_ORDERS, null, values);
@@ -830,7 +849,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_BUYER,
                 COLUMN_TIME,
                 COLUMN_PRODUCT_NO,
-
+                COLUMN_PRODUCT_NAME,
+                COLUMN_PURCHASE_QUANTITY,
+                COLUMN_TOTAL_PRICE,
         };
         // sorting orders
         String sortOrder =
@@ -861,7 +882,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 order.setOrderNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_ORDER_NO))));
                 order.setSeller(cursor.getString(cursor.getColumnIndex(COLUMN_SELLER)));
                 order.setBuyer(cursor.getString(cursor.getColumnIndex(COLUMN_BUYER)));
-                order.setTime(new Date(cursor.getString(cursor.getColumnIndex(COLUMN_TIME))));
+                order.setTime(cursor.getString(cursor.getColumnIndex(COLUMN_TIME)));
+                order.setProductNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO))));
+                order.setProductName(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NAME)));
+                order.setPurchaseQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PURCHASE_QUANTITY))));
+                order.setTotalPrice(Double.parseDouble(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_PRICE))));
                 //Product.setProductNo(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO)));
                 // Adding order record to list
                 orderList.add(order);

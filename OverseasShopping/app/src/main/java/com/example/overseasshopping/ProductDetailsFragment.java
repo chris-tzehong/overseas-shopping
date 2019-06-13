@@ -1,14 +1,31 @@
 package com.example.overseasshopping;
 
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.overseasshopping.Model.Order;
+import com.example.overseasshopping.Model.Product;
+import static com.example.overseasshopping.MainActivity.EXTRA_USER_NO;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class ProductDetailsFragment extends Fragment {
 
@@ -19,6 +36,8 @@ public class ProductDetailsFragment extends Fragment {
     private TextView mProductOwner;
     private Button mPlaceOrderButton;
     private DatabaseHelper db;
+    private EditText mPurchaseQuantity;
+    private Drawable mWarningIcon;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,18 +49,24 @@ public class ProductDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_product_details, container, false);
 
+        mWarningIcon = (Drawable) getResources().getDrawable(R.drawable.ic_alert_red_icon);
+        mWarningIcon.setBounds(0,0, mWarningIcon.getIntrinsicWidth(), mWarningIcon.getIntrinsicHeight());
+
+        //final String mUserName = (String) getActivity().getIntent().getStringExtra(MainActivity.EXTRA_USERNAME);
+
         ProductDetailsActivity activity = (ProductDetailsActivity) getActivity();
         db = new DatabaseHelper(getActivity());
 
-        int mDataFromActivity = activity.productID();
-
-        String productName = db.getProductName(mDataFromActivity);
-        double productPrice = Double.valueOf(db.getProductPrice(mDataFromActivity));
+        final int mDataFromActivity = activity.productID();
+        //final int mUserNo = (Integer) getActivity().getIntent().getIntExtra(MainActivity.EXTRA_USER_NO, -1);
+        //Log.d("myApp", Integer.toString(mUserNo));
+        final String productName = db.getProductName(mDataFromActivity);
+        final double productPrice = Double.valueOf(db.getProductPrice(mDataFromActivity));
         String productDesc = db.getProductDesc(mDataFromActivity);
-        int productQuantity = Integer.valueOf(db.getProductQuantity(mDataFromActivity));
-        int productOwner = Integer.valueOf(db.getProductOwner(mDataFromActivity));
-        String productOwnerUsername = db.getUsername(productOwner);
-
+        final int productQuantity = Integer.valueOf(db.getProductQuantity(mDataFromActivity));
+        final int productOwner = Integer.valueOf(db.getProductOwner(mDataFromActivity));
+        final String productOwnerUsername = db.getUsername(productOwner);
+        //final String BuyerUsername = db.getUsername(mUserNo);
 
         mProductName = (TextView) v.findViewById(R.id.display_product_name);
         mProductName.setText(productName);
@@ -58,7 +83,80 @@ public class ProductDetailsFragment extends Fragment {
         mProductOwner = (TextView) v.findViewById(R.id.display_product_owner);
         mProductOwner.setText(productOwnerUsername);
 
+        mPurchaseQuantity = (EditText) v.findViewById(R.id.purchase_quantity);
+        mPurchaseQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //Intentionally left blank
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Intentionally left blank
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mPurchaseQuantity.getText().toString().isEmpty()) {
+                    mPurchaseQuantity.setError(getResources().getString(R.string.order_error_empty_purchasequantity), mWarningIcon);
+                } else if (Integer.valueOf(mPurchaseQuantity.getText().toString()).equals(0)) {
+                    mPurchaseQuantity.setError(getResources().getString(R.string.order_error_invalid_purchasequantity), mWarningIcon);
+                } else if (Integer.valueOf(mPurchaseQuantity.getText().toString()) > productQuantity) {
+                    mPurchaseQuantity.setError(getResources().getString(R.string.order_error_invalid_purchasequantity), mWarningIcon);
+                }
+            }
+        });
+
         mPlaceOrderButton = (Button) v.findViewById(R.id.place_order_button);
+        if (productQuantity == 0){
+            mPlaceOrderButton.setEnabled(false);
+        } else if (productOwnerUsername.equals("Empty")){
+            mPlaceOrderButton.setEnabled(true);
+            mPlaceOrderButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder alertDialogBuilder_5 = new AlertDialog.Builder(getActivity());
+                    alertDialogBuilder_5.setMessage(R.string.purchase_own_product);
+                    alertDialogBuilder_5.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    AlertDialog alertDialog_5 = alertDialogBuilder_5.create();
+                    alertDialog_5.show();
+                }
+            });
+        } else {
+            mPlaceOrderButton.setEnabled(true);
+            mPlaceOrderButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    db = new DatabaseHelper(getActivity());
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
+                    sdf.setTimeZone(TimeZone.getDefault());
+                    String currentDateAndTime = sdf.format(new Date());
+
+                    double mTotalPrice = Integer.valueOf(mPurchaseQuantity.getText().toString()) * productPrice;
+
+                    //Order order = new Order(productOwnerUsername, mUserName, currentDateAndTime, mDataFromActivity, Integer.parseInt(mPurchaseQuantity.getText().toString()), mTotalPrice, productName);
+                    Order order = new Order();
+
+                    order.setSeller(productOwnerUsername);
+                    order.setBuyer("Empty");
+                    order.setTime(currentDateAndTime);
+                    order.setProductNo(mDataFromActivity);
+                    order.setProductName(productName);
+                    order.setPurchaseQuantity(Integer.parseInt(mPurchaseQuantity.getText().toString()));
+                    order.setTotalPrice(mTotalPrice);
+
+                    db.addOrder(order);
+
+                    FragmentManager fm = getFragmentManager();
+                    fm.beginTransaction().replace(R.id.main_container, new ProductListFragment()).commit();
+                }
+            });
+        }
 
         return v;
     }

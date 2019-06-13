@@ -7,17 +7,24 @@ public class Order {
     private Integer orderNo;
     private String seller;
     private String buyer;
-    private Date time;
+    private String time;
+    private String productName;
+    private Integer productNo;
+    private Double totalPrice;
+    private Integer purchaseQuantity;
 
     public Order() {
         
     }
 
-    public Order(Integer orderNo, String seller, String buyer, Date time) {
-        this.orderNo = orderNo;
+    public Order(String seller, String buyer, String time, Integer productNo, String productName, Integer purchaseQuantity, Double totalPrice) {
         this.seller = seller;
         this.buyer = buyer;
         this.time = time;
+        this. productNo = productNo;
+        this.productName = productName;
+        this.purchaseQuantity = purchaseQuantity;
+        this.totalPrice = totalPrice;
     }
 
     public Integer getOrderNo() {
@@ -44,11 +51,43 @@ public class Order {
         this.buyer = buyer;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String product_name) {
+        this.productName = product_name;
+    }
+
+    public Integer getProductNo() {
+        return productNo;
+    }
+
+    public void setProductNo(Integer product_no){
+        this.productNo = product_no;
+    }
+
+    public Double getTotalPrice(){
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double total_price){
+        this.totalPrice = total_price;
+    }
+
+    public Integer getPurchaseQuantity(){
+        return purchaseQuantity;
+    }
+
+    public void setPurchaseQuantity(Integer purchase_quantity){
+        this.purchaseQuantity = purchase_quantity;
     }
 }
