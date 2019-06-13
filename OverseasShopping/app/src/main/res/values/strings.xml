@@ -65,6 +65,9 @@
     <string name="profile_logout_button">Logout</string>
     <string name="add_product">New Product</string>
     <string name="profile_send_message_button">Send Message</string>
+    <string name="product_error_empty_productname">Please fill in the product"'"s name.</string>
+    <string name="product_error_empty_productprice">Please fill in the product"'"s price.</string>
+    <string name="product_error_invalid_productprice">Product"'"s price cannot be 0.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

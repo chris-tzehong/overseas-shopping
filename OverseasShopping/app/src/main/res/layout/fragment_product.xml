@@ -41,6 +41,7 @@
         android:id="@+id/product_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="number|numberDecimal"
         android:hint="@string/product_price_hint"/>
 
     <TextView
