@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +28,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+
+import static com.example.overseasshopping.MainActivity.EXTRA_USER_NO;
 
 public class ProductListFragment extends Fragment {
     private RecyclerView mProductRecyclerView;
@@ -76,10 +79,19 @@ public class ProductListFragment extends Fragment {
         @Override
         public void onClick(View view) {
             //Toast.makeText(getActivity(), mProduct.getProductName() + " :" + mProduct.getUserNo(), Toast.LENGTH_SHORT).show();
+            Integer userNo = getActivity().getIntent().getIntExtra(EXTRA_USER_NO,1);
             int productID = Integer.parseInt(mPID.getText().toString());
-            Intent intent = new Intent(getActivity(), ProductDetailsActivity.class);
-            intent.putExtra("PID", productID);
-            startActivity(intent);
+//            Intent intent = new Intent(getActivity(), ProductDetailsActivity.class);
+//            intent.putExtra("PID", productID);
+//            startActivity(intent);
+            ProductDetailsFragment fragment = new ProductDetailsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(EXTRA_USER_NO, userNo);
+            bundle.putInt("PID", productID);
+            fragment.setArguments(bundle);
+
+            FragmentManager fm = getFragmentManager();
+            fm.beginTransaction().replace(R.id.main_container,fragment).commit();
         }
 
 }

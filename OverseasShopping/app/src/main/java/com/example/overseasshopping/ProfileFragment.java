@@ -109,7 +109,7 @@ public class ProfileFragment extends Fragment {
             mButtonLogoutSend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int mUserNo =  getActivity().getIntent().getIntExtra(MainActivity.EXTRA_USER_NO,1);
+                    Integer mUserNo =  getActivity().getIntent().getIntExtra(MainActivity.EXTRA_USER_NO,1);
                     Intent intent = MessageActivity.newIntent(getActivity().getBaseContext(), mUserNo ,user.getUserNo());
                     startActivity(intent);
                 }
