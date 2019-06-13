@@ -70,7 +70,9 @@ public class ProductDetailsFragment extends Fragment {
         mWarningIcon.setBounds(0,0, mWarningIcon.getIntrinsicWidth(), mWarningIcon.getIntrinsicHeight());
 
         //final int mUserNo = (Integer) getActivity().getIntent().getIntExtra(MainActivity.EXTRA_USER_NO, -1);
+        final String mUsername = (String) getActivity().getIntent().getStringExtra(MainActivity.EXTRA_USERNAME);
         //Log.d("myApp", Integer.toString(mUserNo));
+        //Log.d("myApp", mUsername);
         final String productName = db.getProductName(mDataFromActivity);
         final double productPrice = Double.valueOf(db.getProductPrice(mDataFromActivity));
         String productDesc = db.getProductDesc(mDataFromActivity);
@@ -141,7 +143,7 @@ public class ProductDetailsFragment extends Fragment {
         mPlaceOrderButton = (Button) v.findViewById(R.id.place_order_button);
         if (productQuantity == 0){
             mPlaceOrderButton.setEnabled(false);
-        } else if (productOwnerUsername.equals("Empty")){
+        } else if (productOwnerUsername.equals(mUsername)){
             mPlaceOrderButton.setEnabled(true);
             mPlaceOrderButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -165,7 +167,7 @@ public class ProductDetailsFragment extends Fragment {
                 public void onClick(View v) {
                     db = new DatabaseHelper(getActivity());
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
-                    sdf.setTimeZone(TimeZone.getDefault());
+                    sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kuala_Lumpur"));
                     String currentDateAndTime = sdf.format(new Date());
 
                     double mTotalPrice = Integer.valueOf(mPurchaseQuantity.getText().toString()) * productPrice;
@@ -174,7 +176,7 @@ public class ProductDetailsFragment extends Fragment {
                     Order order = new Order();
 
                     order.setSeller(productOwnerUsername);
-                    order.setBuyer("Empty");
+                    order.setBuyer(mUsername);
                     order.setTime(currentDateAndTime);
                     order.setProductNo(mDataFromActivity);
                     order.setProductName(productName);
