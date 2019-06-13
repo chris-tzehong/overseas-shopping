@@ -156,6 +156,12 @@ public class RegisterActivity extends AppCompatActivity {
                     mEditTextRegisterCreditCardExpiryDate.setError(getResources().getString(R.string.register_error_invalid_date_format), mWarningIcon);
                 } else if (mEditTextRegisterCreditCardExpiryDate.getText().toString().charAt(2) != '/') {
                     mEditTextRegisterCreditCardExpiryDate.setError(getResources().getString(R.string.register_error_invalid_date_format), mWarningIcon);
+                } else {
+                    String month = mEditTextRegisterCreditCardExpiryDate.getText().toString().substring(0, 2);
+                    int monthInt = Integer.parseInt(month);
+                    if (monthInt <= 0 || monthInt >= 13) {
+                        mEditTextRegisterCreditCardExpiryDate.setError(getResources().getString(R.string.register_error_invalid_month), mWarningIcon);
+                    }
                 }
 
             }

@@ -31,6 +31,7 @@
     <string name="register_error_empty_credit_card_expiry_date">Please fill in the expiry date for your credit card.</string>
     <string name="register_error_username_exist">This username is already registered.</string>
     <string name="register_error_invalid_date_format">The format should be MM/YY.</string>
+    <string name="register_error_invalid_month">The entered month is invalid.</string>
     <string name="register_error_empty_credit_card_ccv">Please fill in the CCV number for your credit card.</string>
     <string name="register_error_invalid_credit_card_ccv">Your CCV number should be three numbers.</string>
     <string name="register_error_empty_address">Please fill in your address.</string>
@@ -43,7 +44,7 @@
     <string name="product_price">Price</string>
     <string name="product_price_hint">Enter product"'"s price per unit.</string>
     <string name="product_quantity">Quantity Available</string>
-    <string name="product_quantity_hint">Enter the amount of the product you want to put up for sale.</string>
+    <string name="product_quantity_hint">Enter the amount of the product for sale.</string>
     <string name="product_description">Description</string>
     <string name="product_description_hint">Enter a short description about the product.</string>
     <string name="post_product_label">Post Product</string>
