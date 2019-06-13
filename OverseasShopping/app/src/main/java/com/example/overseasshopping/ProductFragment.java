@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -43,12 +44,15 @@ public class ProductFragment extends Fragment {
     private DatabaseHelper db;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
+    private Drawable mWarningIcon;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mProduct = new Product();
         mPhotoFile = ProductLab.get(getActivity()).getPhotoFile(mProduct);
+
+
     }
 
     @Override
@@ -56,6 +60,8 @@ public class ProductFragment extends Fragment {
         View v= inflater.inflate(R.layout.fragment_product, container, false);
 
         final int mUserNo = (Integer) getActivity().getIntent().getIntExtra(MainActivity.EXTRA_USER_NO,0);
+        mWarningIcon = (Drawable) getResources().getDrawable(R.drawable.ic_alert_red_icon);
+        mWarningIcon.setBounds(0,0, mWarningIcon.getIntrinsicWidth(), mWarningIcon.getIntrinsicHeight());
 
         mPhotoButton = (ImageButton) v.findViewById(R.id.product_camera);
         final Intent captureImage = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
@@ -92,12 +98,14 @@ public class ProductFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-               mProduct.setProductName(s.toString());
+               //mProduct.setProductName(s.toString());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                //Intentionally left blank
+                if (mProductName.getText().toString().isEmpty()) {
+                    mProductName.setError(getResources().getString(R.string.product_error_empty_productname), mWarningIcon);
+                }
             }
         });
 
@@ -110,12 +118,16 @@ public class ProductFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mProduct.setPrice(Double.parseDouble(s.toString()));
+                //mProduct.setPrice(Double.parseDouble(s.toString()));
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                //Intentionally left blank
+                if (mProductPrice.getText().toString().isEmpty()) {
+                    mProductPrice.setError(getResources().getString(R.string.product_error_empty_productprice), mWarningIcon);
+                } else if (Double.valueOf(mProductPrice.getText().toString()).equals(0)) {
+                    mProductPrice.setError(getResources().getString(R.string.product_error_invalid_productprice), mWarningIcon);
+                }
             }
         });
 

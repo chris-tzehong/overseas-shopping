@@ -10,18 +10,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import java.util.ArrayList;
 import java.util.List;
-
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -42,6 +44,7 @@ public class ProductListFragment extends Fragment {
         private TextView mTitleTextView;
         private TextView mPrice;
         private ImageView mProductImage;
+        private EditText mSearchBar;
 
         public ProductHolder(LayoutInflater inflater, ViewGroup parent){
             super(inflater.inflate(R.layout.list_item_product,parent, false));
@@ -54,7 +57,9 @@ public class ProductListFragment extends Fragment {
             mTitleTextView = (TextView) itemView.findViewById(R.id.product_title);
             mPrice = (TextView) itemView.findViewById(R.id.product_price);
             mProductImage = (ImageView) itemView.findViewById(R.id.product_image);
+            mSearchBar = (EditText) itemView.findViewById(R.id.search_bar);
         }
+
         public void bind(Product product){
             mProduct = product;
             mPID.setText(String.valueOf(mProduct.getProductNo()));
@@ -72,8 +77,6 @@ public class ProductListFragment extends Fragment {
                     .showImageOnLoading(null).build();
             //download and display image from url
             imageLoader.displayImage(mProduct.getPhoto(), mProductImage,options);
-
-
         }
 
         @Override
@@ -109,6 +112,7 @@ public class ProductListFragment extends Fragment {
         mProductRecyclerView = (RecyclerView) view.findViewById(R.id.product_recycler_view);
         mProductRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateUI();
+
         return view;
     }
 
@@ -168,11 +172,9 @@ public class ProductListFragment extends Fragment {
 
         public void setProducts(List<Product> products){
             mProducts= products;
+        }
+
     }
-
-
-    }
-
 
 
 }
