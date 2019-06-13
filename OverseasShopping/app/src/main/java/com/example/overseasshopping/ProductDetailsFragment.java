@@ -1,5 +1,6 @@
 package com.example.overseasshopping;
 
+import android.content.ContentValues;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -184,6 +185,15 @@ public class ProductDetailsFragment extends Fragment {
                     order.setTotalPrice(mTotalPrice);
 
                     db.addOrder(order);
+
+                    Product product = new Product();
+                    product.setProductNo(mDataFromActivity);
+                    int newQuantity = productQuantity - Integer.parseInt(mPurchaseQuantity.getText().toString());
+
+                    product.setProductQuantity(newQuantity);
+
+                    //Log.d("myApp", Integer.toString(Integer.parseInt(mPurchaseQuantity.getText().toString())));
+                    db.updateProductQuantity(product);
 
                     FragmentManager fm = getFragmentManager();
                     fm.beginTransaction().replace(R.id.main_container, new ProductListFragment()).commit();
