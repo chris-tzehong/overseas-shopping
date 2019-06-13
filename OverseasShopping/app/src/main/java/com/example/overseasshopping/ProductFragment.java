@@ -28,6 +28,8 @@ import com.example.overseasshopping.Model.User;
 import java.io.File;
 import java.util.List;
 
+import static com.example.overseasshopping.MainActivity.EXTRA_USER_NO;
+
 public class ProductFragment extends Fragment {
     private static final int REQUEST_PHOTO = 0;
 
@@ -52,6 +54,8 @@ public class ProductFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.fragment_product, container, false);
+
+        final int mUserNo = (Integer) getActivity().getIntent().getIntExtra(MainActivity.EXTRA_USER_NO,0);
 
         mPhotoButton = (ImageButton) v.findViewById(R.id.product_camera);
         final Intent captureImage = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
@@ -160,7 +164,7 @@ public class ProductFragment extends Fragment {
                 //User user = new User("ki", "ki", "la", "la", 23, 23, null);
 
                 //db.addUser(user);
-                Product product = new Product(mProductName.getText().toString(), "Empty", 1, mProductDescription.getText().toString(), Double.parseDouble(mProductPrice.getText().toString()), Integer.parseInt(mProductQuantity.getText().toString()));
+                Product product = new Product(mProductName.getText().toString(), "Empty", mUserNo, mProductDescription.getText().toString(), Double.parseDouble(mProductPrice.getText().toString()), Integer.parseInt(mProductQuantity.getText().toString()));
                 db.addProduct(product, product.getUserNo());
                 FragmentManager fm = getFragmentManager();
                 fm.beginTransaction().replace(R.id.main_container, new ProductListFragment()).commit();

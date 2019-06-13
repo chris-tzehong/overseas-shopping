@@ -760,6 +760,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return pq;
     }
 
+    public String getProductOwner(Integer productno) {
+
+        // array of columns to fetch
+        String[] columns = {
+                COLUMN_USER_NO,
+        };
+
+        String sortOrder = COLUMN_USER_NO+ " ASC";
+
+        String selection = COLUMN_PRODUCT_NO + " = ?";
+
+        String[] selectionArgs = {String.valueOf(productno)};
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // query the user table
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_no,user_name,user_email,password FROM user ORDER BY user_name;
+         */
+        Cursor cursor = db.query(TABLE_PRODUCT,
+                columns,    //columns to return
+                selection,        //columns for the WHERE clause
+                selectionArgs,        //The values for the WHERE clause
+                null,       //group the rows
+                null,
+                sortOrder);       //filter by row groups
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        String po = cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO));
+
+        db.close();
+        cursor.close();
+
+        return po;
+    }
+
     //----------------------------------------Order Database----------------------------------------//
 
     public void addOrder(Order order, Product product) {
