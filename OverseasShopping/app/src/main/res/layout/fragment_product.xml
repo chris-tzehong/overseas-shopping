@@ -12,12 +12,13 @@
         android:layout_gravity="center_horizontal"
         android:cropToPadding="true"
         android:scaleType="centerInside" />
-    
+
     <ImageButton
         android:id="@+id/product_camera"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_camera" />
+        android:src="@android:drawable/ic_menu_camera"
+        android:layout_gravity="center_horizontal"/>
 
     <TextView
         style="?android:listSeparatorTextViewStyle"

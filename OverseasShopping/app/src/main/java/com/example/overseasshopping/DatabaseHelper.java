@@ -71,7 +71,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_USER_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_USERNAME + " TEXT," + COLUMN_PASSWORD + " TEXT,"
             + COLUMN_TELEPHONE + " TEXT," + COLUMN_ADDRESS + " TEXT,"
-            + COLUMN_CREDITCARD_NO + " INTEGER," + COLUMN_SECURITY_NO + " INTEGER,"
+
+            + COLUMN_CREDITCARD_NO + " STRING," + COLUMN_SECURITY_NO + " INTEGER,"
             + COLUMN_EXPIRY_DATE + " TEXT," + COLUMN_RATING + " INTEGER, "
             + COLUMN_TOTAL_RATED_BY + " INTEGER" + ")";
 
@@ -197,7 +198,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             u1.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
             u1.setTelephone(cursor.getString(cursor.getColumnIndex(COLUMN_TELEPHONE)));
             u1.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
-            u1.setCreditCardNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO))));
+            u1.setCreditCardNo(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO)));
             u1.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
             u1.setExpiryDate(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE)));
             u1.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
@@ -295,7 +296,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 user.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
                 user.setTelephone(cursor.getString(cursor.getColumnIndex(COLUMN_TELEPHONE)));
                 user.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
-                user.setCreditCardNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO))));
+                user.setCreditCardNo(cursor.getString(cursor.getColumnIndex(COLUMN_CREDITCARD_NO)));
                 user.setSecurityNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_SECURITY_NO))));
                 user.setExpiryDate(cursor.getString(cursor.getColumnIndex(COLUMN_EXPIRY_DATE)));
                 user.setRating(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_RATING))));
