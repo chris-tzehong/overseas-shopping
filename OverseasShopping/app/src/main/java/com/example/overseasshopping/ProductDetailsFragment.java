@@ -35,6 +35,7 @@ import com.example.overseasshopping.Model.Order;
 import com.example.overseasshopping.Model.Product;
 import static com.example.overseasshopping.MainActivity.EXTRA_USER_NO;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -76,7 +77,9 @@ public class ProductDetailsFragment extends Fragment {
         //Log.d("myApp", Integer.toString(mUserNo));
         //Log.d("myApp", mUsername);
         final String productName = db.getProductName(mDataFromActivity);
-        final double productPrice = Double.valueOf(db.getProductPrice(mDataFromActivity));
+        final DecimalFormat formater = new DecimalFormat("0.00");
+
+        final double productPrice = Double.valueOf(formater.format(Double.valueOf(db.getProductPrice(mDataFromActivity))));
         String productDesc = db.getProductDesc(mDataFromActivity);
         final int productQuantity = Integer.valueOf(db.getProductQuantity(mDataFromActivity));
         final int productOwner = Integer.valueOf(db.getProductOwner(mDataFromActivity));
@@ -87,7 +90,7 @@ public class ProductDetailsFragment extends Fragment {
         mProductName.setText(productName);
 
         mProductPrice = (TextView) v.findViewById(R.id.display_product_price);
-        mProductPrice.setText(String.valueOf(productPrice));
+        mProductPrice.setText("RM " + formater.format(productPrice));
 
         mProductDesc = (TextView) v.findViewById(R.id.display_product_desc);
         mProductDesc.setText(productDesc);
@@ -195,12 +198,12 @@ public class ProductDetailsFragment extends Fragment {
                         sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kuala_Lumpur"));
                         final String currentDateAndTime = sdf.format(new Date());
 
-                        final double mTotalPrice = Integer.valueOf(mPurchaseQuantity.getText().toString()) * productPrice;
+                        final double mTotalPrice = Double.valueOf(formater.format(Integer.valueOf(mPurchaseQuantity.getText().toString()) * productPrice));
 
                         AlertDialog.Builder alertDialogBuilder_7 = new AlertDialog.Builder(getActivity());
 
                         alertDialogBuilder_7.setTitle("Place Order");
-                        alertDialogBuilder_7.setMessage("Are you sure you want to purchase this item? \nTotal Payment: RM" + mTotalPrice);
+                        alertDialogBuilder_7.setMessage("Are you sure you want to purchase this item? \nTotal Payment: RM" + formater.format(mTotalPrice));
                         alertDialogBuilder_7.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int which) {

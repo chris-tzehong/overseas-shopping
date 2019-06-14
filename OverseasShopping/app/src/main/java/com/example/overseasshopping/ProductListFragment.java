@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -49,7 +51,6 @@ public class ProductListFragment extends Fragment {
         public ProductHolder(LayoutInflater inflater, ViewGroup parent){
             super(inflater.inflate(R.layout.list_item_product,parent, false));
 
-
             mPID = (TextView) itemView.findViewById(R.id.product_ID);
 
             itemView.setOnClickListener(this);
@@ -61,10 +62,11 @@ public class ProductListFragment extends Fragment {
         }
 
         public void bind(Product product){
+            DecimalFormat formater = new DecimalFormat("0.00");
             mProduct = product;
             mPID.setText(String.valueOf(mProduct.getProductNo()));
             mTitleTextView.setText(mProduct.getProductName());
-            mPrice.setText(String.valueOf(mProduct.getPrice()));
+            mPrice.setText("RM " + formater.format(mProduct.getPrice()));
 
             //sets up the image loader library
             ProductLab.get(getActivity()).setupImageLoader();
