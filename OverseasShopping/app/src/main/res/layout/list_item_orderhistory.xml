@@ -5,16 +5,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="8dp">
-
     <TextView
-        android:id="@+id/orderhistory_title"
+        android:id="@+id/order_ID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Order History Title"/>
+        android:text="Order ID"/>
     <TextView
-        android:id="@+id/orderhistory_price"
+        android:id="@+id/order_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Order History Price"/>
+        android:text="Order Title"/>
+    <TextView
+        android:id="@+id/order_total_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Order Total Price"/>
+    <TextView
+        android:id="@+id/order_total_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Order Total Quantity"/>
+    <TextView
+        android:id="@+id/order_buyer_seller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Buyer/Seller"/>
 
 </LinearLayout>

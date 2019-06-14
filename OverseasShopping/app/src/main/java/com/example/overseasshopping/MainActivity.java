@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                     fm.beginTransaction().replace(R.id.main_container, new MessageListFragment()).commit();
                     return true;
                 case R.id.navigation_order_history:
+                    fm.beginTransaction().replace(R.id.main_container, OrderHistoryFragment.newInstance(getIntent().getStringExtra(EXTRA_USERNAME))).commit();
                     return true;
                 case R.id.navigation_profile:
                     fm.beginTransaction().replace(R.id.main_container, ProfileFragment.showOwnProfile(getIntent().getStringExtra(EXTRA_USERNAME))).commit();
