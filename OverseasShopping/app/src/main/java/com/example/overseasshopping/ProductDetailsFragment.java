@@ -23,6 +23,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -166,37 +167,95 @@ public class ProductDetailsFragment extends Fragment {
             mPlaceOrderButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    db = new DatabaseHelper(getActivity());
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
-                    sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kuala_Lumpur"));
-                    String currentDateAndTime = sdf.format(new Date());
+                    if (mPurchaseQuantity.getError() != null) {
+                        AlertDialog.Builder alertDialogBuilder_9 = new AlertDialog.Builder(getActivity());
+                        alertDialogBuilder_9.setMessage(R.string.order_errors_found);
+                        alertDialogBuilder_9.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                    double mTotalPrice = Integer.valueOf(mPurchaseQuantity.getText().toString()) * productPrice;
+                            }
+                        });
+                        AlertDialog alertDialog_9 = alertDialogBuilder_9.create();
+                        alertDialog_9.show();
+                    } else if (mPurchaseQuantity.getText().toString().length() == 0) {
+                        AlertDialog.Builder alertDialogBuilder_8 = new AlertDialog.Builder(getActivity());
+                        alertDialogBuilder_8.setMessage(R.string.order_error_empty_purchasequantity);
+                        alertDialogBuilder_8.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                    //Order order = new Order(productOwnerUsername, mUserName, currentDateAndTime, mDataFromActivity, Integer.parseInt(mPurchaseQuantity.getText().toString()), mTotalPrice, productName);
-                    Order order = new Order();
+                            }
+                        });
+                        AlertDialog alertDialog_8 = alertDialogBuilder_8.create();
+                        alertDialog_8.show();
+                    } else {
+                        db = new DatabaseHelper(getActivity());
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
+                        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kuala_Lumpur"));
+                        final String currentDateAndTime = sdf.format(new Date());
 
-                    order.setSeller(productOwnerUsername);
-                    order.setBuyer(mUsername);
-                    order.setTime(currentDateAndTime);
-                    order.setProductNo(mDataFromActivity);
-                    order.setProductName(productName);
-                    order.setPurchaseQuantity(Integer.parseInt(mPurchaseQuantity.getText().toString()));
-                    order.setTotalPrice(mTotalPrice);
+                        final double mTotalPrice = Integer.valueOf(mPurchaseQuantity.getText().toString()) * productPrice;
 
-                    db.addOrder(order);
+                        AlertDialog.Builder alertDialogBuilder_7 = new AlertDialog.Builder(getActivity());
 
-                    Product product = new Product();
-                    product.setProductNo(mDataFromActivity);
-                    int newQuantity = productQuantity - Integer.parseInt(mPurchaseQuantity.getText().toString());
+                        alertDialogBuilder_7.setTitle("Place Order");
+                        alertDialogBuilder_7.setMessage("Are you sure you want to purchase this item? \nTotal Payment: RM" + mTotalPrice);
+                        alertDialogBuilder_7.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
-                    product.setProductQuantity(newQuantity);
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Order order = new Order(productOwnerUsername, mUserName, currentDateAndTime, mDataFromActivity, Integer.parseInt(mPurchaseQuantity.getText().toString()), mTotalPrice, productName);
+                                Order order = new Order();
 
-                    //Log.d("myApp", Integer.toString(Integer.parseInt(mPurchaseQuantity.getText().toString())));
-                    db.updateProductQuantity(product);
+                                order.setSeller(productOwnerUsername);
+                                order.setBuyer(mUsername);
+                                order.setTime(currentDateAndTime);
+                                order.setProductNo(mDataFromActivity);
+                                order.setProductName(productName);
+                                order.setPurchaseQuantity(Integer.parseInt(mPurchaseQuantity.getText().toString()));
+                                order.setTotalPrice(mTotalPrice);
 
-                    FragmentManager fm = getFragmentManager();
-                    fm.beginTransaction().replace(R.id.main_container, new ProductListFragment()).commit();
+                                db.addOrder(order);
+
+                                Product product = new Product();
+                                product.setProductNo(mDataFromActivity);
+                                int newQuantity = productQuantity - Integer.parseInt(mPurchaseQuantity.getText().toString());
+
+                                product.setProductQuantity(newQuantity);
+
+                                //Log.d("myApp", Integer.toString(Integer.parseInt(mPurchaseQuantity.getText().toString())));
+                                db.updateProductQuantity(product);
+
+                                AlertDialog.Builder alertDialogBuilder_6 = new AlertDialog.Builder(getActivity());
+                                alertDialogBuilder_6.setMessage(R.string.order_successful_order);
+                                alertDialogBuilder_6.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                });
+                                AlertDialog alertDialog_6 = alertDialogBuilder_6.create();
+                                alertDialog_6.show();
+
+                                FragmentManager fm = getFragmentManager();
+                                fm.beginTransaction().replace(R.id.main_container, new ProductListFragment()).commit();
+
+                                dialog.dismiss();
+                            }
+                        });
+
+                        alertDialogBuilder_7.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Do nothing
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog alertDialog_7 = alertDialogBuilder_7.create();
+                        alertDialog_7.show();
+                    }
                 }
             });
         }

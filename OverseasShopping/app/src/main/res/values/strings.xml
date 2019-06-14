@@ -78,6 +78,8 @@
     <string name="purchase_own_product">You cannot purchase your own product.</string>
     <string name="order_error_invalid_purchasequantity">Purchase quantity cannot be 0 or higher than amount of quantity available</string>
     <string name="order_error_empty_purchasequantity">Please fill in the amount you would like to purchase.</string>
+    <string name="order_successful_order">Your order has been placed successfully.</string>
+    <string name ="order_errors_found">You have entered an invalid amount of quantity to purchase. Please correct the amount of quantity to purchase.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
