@@ -1,6 +1,7 @@
 package com.example.overseasshopping;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -12,6 +13,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -27,6 +29,7 @@ import com.example.overseasshopping.Model.Product;
 import com.example.overseasshopping.Model.User;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import static com.example.overseasshopping.MainActivity.EXTRA_USER_NO;
@@ -110,6 +113,7 @@ public class ProductFragment extends Fragment {
         });
 
         mProductPrice = (EditText) v.findViewById(R.id.product_price);
+        final DecimalFormat formater = new DecimalFormat("0.00");
         mProductPrice.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -125,7 +129,7 @@ public class ProductFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 if (mProductPrice.getText().toString().isEmpty()) {
                     mProductPrice.setError(getResources().getString(R.string.product_error_empty_productprice), mWarningIcon);
-                } else if (Double.valueOf(mProductPrice.getText().toString()).equals(0)) {
+                } else if (formater.format(Double.valueOf(mProductPrice.getText().toString())).equals(formater.format(0))) {
                     mProductPrice.setError(getResources().getString(R.string.product_error_invalid_productprice), mWarningIcon);
                 }
             }
@@ -140,12 +144,16 @@ public class ProductFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mProduct.setProductQuantity(Integer.parseInt(s.toString()));
+                //mProduct.setProductQuantity(Integer.parseInt(s.toString()));
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                //Intentionally left blank
+                if (mProductQuantity.getText().toString().isEmpty()) {
+                    mProductQuantity.setError(getResources().getString(R.string.product_error_empty_productquantity), mWarningIcon);
+                } else if (Integer.valueOf(mProductQuantity.getText().toString()).equals(0)) {
+                    mProductQuantity.setError(getResources().getString(R.string.product_error_invalid_productquantity), mWarningIcon);
+                }
             }
         });
 
@@ -158,12 +166,14 @@ public class ProductFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mProduct.setDescription(s.toString());
+                //mProduct.setDescription(s.toString());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                //Intentionally left blank
+                if (mProductDescription.getText().toString().isEmpty()) {
+                    mProductDescription.setError(getResources().getString(R.string.product_error_empty_productdesc), mWarningIcon);
+                }
             }
         });
 
@@ -172,12 +182,54 @@ public class ProductFragment extends Fragment {
         mPostProductButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db = new DatabaseHelper(getActivity());
-                //db.addUser(user);
-                Product product = new Product(mProductName.getText().toString(), "Empty", mUserNo, mProductDescription.getText().toString(), Double.parseDouble(mProductPrice.getText().toString()), Integer.parseInt(mProductQuantity.getText().toString()));
-                db.addProduct(product, product.getUserNo());
-                FragmentManager fm = getFragmentManager();
-                fm.beginTransaction().replace(R.id.main_container, new ProductListFragment()).commit();
+                if (mProductName.getError() != null || mProductPrice.getError() != null || mProductQuantity.getError() != null || mProductDescription.getError() != null) {
+                    AlertDialog.Builder alertDialogBuilder0 = new AlertDialog.Builder(getActivity());
+                    alertDialogBuilder0.setMessage(R.string.product_error_invalid_field);
+                    alertDialogBuilder0.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    AlertDialog alertDialog0 = alertDialogBuilder0.create();
+                    alertDialog0.show();
+                } else if (mProductName.getText().length() == 0 || mProductPrice.getText().length() == 0 || mProductQuantity.getText().length() == 0 || mProductDescription.getText().length() == 0) {
+                    AlertDialog.Builder alertDialogBuilder9 = new AlertDialog.Builder(getActivity());
+                    alertDialogBuilder9.setMessage(R.string.product_error_empty_field);
+                    alertDialogBuilder9.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    AlertDialog alertDialog9 = alertDialogBuilder9.create();
+                    alertDialog9.show();
+                } else {
+                    db = new DatabaseHelper(getActivity());
+                    //db.addUser(user);
+                    Product product = new Product();
+                    //Product product = new Product(mProductName.getText().toString(), "Empty", mUserNo, mProductDescription.getText().toString(), Double.parseDouble(mProductPrice.getText().toString()), Integer.parseInt(mProductQuantity.getText().toString()));
+                    product.setProductName(mProductName.getText().toString());
+                    product.setPhoto("Empty");
+                    product.setUserNo(mUserNo);
+                    product.setDescription(mProductDescription.getText().toString());
+                    product.setPrice(Double.parseDouble(formater.format(Double.parseDouble(mProductPrice.getText().toString()))));
+                    product.setProductQuantity(Integer.parseInt(mProductQuantity.getText().toString()));
+                    db.addProduct(product, product.getUserNo());
+                    AlertDialog.Builder alertDialogBuilder10 = new AlertDialog.Builder(getActivity());
+                    alertDialogBuilder10.setMessage(R.string.product_added_successfully);
+                    alertDialogBuilder10.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    AlertDialog alertDialog10 = alertDialogBuilder10.create();
+                    alertDialog10.show();
+
+                    FragmentManager fm = getFragmentManager();
+                    fm.beginTransaction().replace(R.id.main_container, new ProductListFragment()).commit();
+                }
             }
         });
 
