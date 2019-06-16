@@ -24,6 +24,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +37,16 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 
+import static com.example.overseasshopping.LoginActivity.username;
 import static com.example.overseasshopping.MainActivity.EXTRA_USER_NO;
 
 
-public class ProductListFragment extends Fragment  {
+public class ProductListFragment extends Fragment {
 
     private RecyclerView mProductRecyclerView;
     private ProductAdapter mAdapter;
     private DatabaseHelper mDatabaseHelper;
-    private String mProductName;
+
 
 
 
@@ -53,6 +56,7 @@ public class ProductListFragment extends Fragment  {
         private TextView mTitleTextView;
         private TextView mPrice;
         private ImageView mProductImage;
+        private EditText mSearch;
 
 
         public ProductHolder(LayoutInflater inflater, ViewGroup parent){
@@ -65,6 +69,8 @@ public class ProductListFragment extends Fragment  {
             mTitleTextView = (TextView) itemView.findViewById(R.id.product_title);
             mPrice = (TextView) itemView.findViewById(R.id.product_price);
             mProductImage = (ImageView) itemView.findViewById(R.id.product_image);
+            mSearch = (EditText) itemView.findViewById(R.id.search);
+
 
 
 
@@ -91,6 +97,32 @@ public class ProductListFragment extends Fragment  {
                     .showImageOnLoading(null).build();
             //download and display image from url
             imageLoader.displayImage(mProduct.getPhoto(), mProductImage,options);
+
+            mSearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    filter(s.toString());
+                }
+                private void filter(String text){
+                    List<Product> filteredList = new ArrayList<>();
+
+                        if(mProduct.getProductName().toLowerCase().contains(text.toLowerCase())){
+                            filteredList.add(mProduct);
+                        }
+
+                    mAdapter.filterList(filteredList);
+                }
+            });
         }
 
         @Override
@@ -126,6 +158,7 @@ public class ProductListFragment extends Fragment  {
 
         mProductRecyclerView = (RecyclerView) view.findViewById(R.id.product_recycler_view);
         mProductRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         updateUI();
 
         return view;
@@ -193,6 +226,11 @@ public class ProductListFragment extends Fragment  {
 
         public void setProducts(List<Product> products){
             mProducts= products;
+        }
+
+        public void filterList(List<Product> filteredList) {
+            mProducts = filteredList;
+            notifyDataSetChanged();
         }
 
         public void updateList(List<Product> products){
