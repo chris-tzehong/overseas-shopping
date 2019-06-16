@@ -66,8 +66,6 @@ public class ProductListFragment extends Fragment  {
             mPrice = (TextView) itemView.findViewById(R.id.product_price);
             mProductImage = (ImageView) itemView.findViewById(R.id.product_image);
 
-
-
         }
 
         public void bind(Product product){
@@ -78,16 +76,19 @@ public class ProductListFragment extends Fragment  {
             mPrice.setText("RM " + formater.format(mProduct.getPrice()));
 
             //sets up the image loader library
-            ProductLab.get(getActivity()).setupImageLoader();
-            ImageLoader imageLoader = ImageLoader.getInstance();
+//            ProductLab.get(getActivity()).setupImageLoader();
+////            ImageLoader imageLoader = ImageLoader.getInstance();
+////
+////            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
+////                    .cacheOnDisc(true).resetViewBeforeLoading(true)
+////                    .showImageForEmptyUri(null)
+////                    .showImageOnFail(null)
+////                    .showImageOnLoading(null).build();
+////            //download and display image from url
+////            imageLoader.displayImage(mProduct.getPhoto(), mProductImage,options);
 
-            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
-                    .cacheOnDisc(true).resetViewBeforeLoading(true)
-                    .showImageForEmptyUri(null)
-                    .showImageOnFail(null)
-                    .showImageOnLoading(null).build();
-            //download and display image from url
-            imageLoader.displayImage(mProduct.getPhoto(), mProductImage,options);
+            Bitmap bitmap = PictureUtils.getScaledBitmap(mProduct.getPhoto(), getActivity());
+            mProductImage.setImageBitmap(bitmap);
         }
 
         @Override

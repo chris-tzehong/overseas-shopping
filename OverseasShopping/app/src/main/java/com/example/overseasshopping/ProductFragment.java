@@ -216,7 +216,7 @@ public class ProductFragment extends Fragment {
                     //Product product = new Product(mProductName.getText().toString(), "Empty", mUserNo, mProductDescription.getText().toString(), Double.parseDouble(mProductPrice.getText().toString()), Integer.parseInt(mProductQuantity.getText().toString()));
                     product.setProductName(mProductName.getText().toString());
                     //Log.d("myApp", mPhotoIDHidden.getText().toString());
-                    product.setPhoto(mPhotoIDHidden.getText().toString());
+                    product.setPhoto(mPhotoFile.getPath());
                     product.setUserNo(mUserNo);
                     product.setDescription(mProductDescription.getText().toString());
                     product.setPrice(Double.parseDouble(formater.format(Double.parseDouble(mProductPrice.getText().toString()))));
