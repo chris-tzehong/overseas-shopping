@@ -244,11 +244,7 @@ public class ProductListFragment extends Fragment {
             notifyDataSetChanged();
         }
 
-        public void updateList(List<Product> products){
-            mProducts = new ArrayList<>();
-            mProducts.addAll(products);
-            notifyDataSetChanged();
-        }
+
 
     }
 //    @Override
