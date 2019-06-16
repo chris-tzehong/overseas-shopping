@@ -1,10 +1,13 @@
 package com.example.overseasshopping;
 
 import android.content.ContentValues;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.FileProvider;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -29,18 +32,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.overseasshopping.Model.Order;
 import com.example.overseasshopping.Model.Product;
 import static com.example.overseasshopping.MainActivity.EXTRA_USER_NO;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
 public class ProductDetailsFragment extends Fragment {
+
+    private static final int REQUEST_PHOTO = 0;
 
     private TextView mProductName;
     private TextView mProductPrice;
@@ -52,6 +59,7 @@ public class ProductDetailsFragment extends Fragment {
     private DatabaseHelper db;
     private EditText mPurchaseQuantity;
     private Drawable mWarningIcon;
+    private ImageView mPhotoView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,7 +92,21 @@ public class ProductDetailsFragment extends Fragment {
         final int productQuantity = Integer.valueOf(db.getProductQuantity(mDataFromActivity));
         final int productOwner = Integer.valueOf(db.getProductOwner(mDataFromActivity));
         final String productOwnerUsername = db.getUsername(productOwner);
+        String mPhotoFile = db.getPhotoPath(mDataFromActivity);
+        //Log.d("myApp", mPhotoFile);
+
         //final String BuyerUsername = db.getUsername(mUserNo);
+
+        mPhotoView = (ImageView) v.findViewById(R.id.product_photo_view);
+        //File file = new File(mPhotoFile);
+        //if (!file.exists()) {
+            //Log.d("myApp", "!");
+        //} else {
+        Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile, getActivity());
+        mPhotoView.setImageBitmap(bitmap);
+        //}
+        //Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile, getActivity());
+        //mPhotoView.setImageBitmap(bitmap);
 
         mProductName = (TextView) v.findViewById(R.id.display_product_name);
         mProductName.setText(productName);
@@ -265,5 +287,4 @@ public class ProductDetailsFragment extends Fragment {
 
         return v;
     }
-
 }

@@ -72,8 +72,6 @@ public class ProductListFragment extends Fragment {
             mSearch = (EditText) itemView.findViewById(R.id.search);
 
 
-
-
         }
 
         public void bind(Product product){
@@ -83,10 +81,8 @@ public class ProductListFragment extends Fragment {
             mTitleTextView.setText(mProduct.getProductName());
             mPrice.setText("RM " + formater.format(mProduct.getPrice()));
 
-
-
-
             //sets up the image loader library
+
             ProductLab.get(getActivity()).setupImageLoader();
             ImageLoader imageLoader = ImageLoader.getInstance();
 
@@ -123,6 +119,21 @@ public class ProductListFragment extends Fragment {
                     mAdapter.filterList(filteredList);
                 }
             });
+
+//            ProductLab.get(getActivity()).setupImageLoader();
+////            ImageLoader imageLoader = ImageLoader.getInstance();
+////
+////            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
+////                    .cacheOnDisc(true).resetViewBeforeLoading(true)
+////                    .showImageForEmptyUri(null)
+////                    .showImageOnFail(null)
+////                    .showImageOnLoading(null).build();
+////            //download and display image from url
+////            imageLoader.displayImage(mProduct.getPhoto(), mProductImage,options);
+
+            Bitmap bitmap = PictureUtils.getScaledBitmap(mProduct.getPhoto(), getActivity());
+            mProductImage.setImageBitmap(bitmap);
+
         }
 
         @Override

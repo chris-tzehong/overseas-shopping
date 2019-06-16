@@ -24,9 +24,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.overseasshopping.Model.Product;
 import com.example.overseasshopping.Model.User;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -48,14 +51,16 @@ public class ProductFragment extends Fragment {
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private Drawable mWarningIcon;
+    private String mPhotoPath;
+    private TextView mPhotoIDHidden;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mProduct = new Product();
         mPhotoFile = ProductLab.get(getActivity()).getPhotoFile(mProduct);
-
-
+        //Log.d("myApp", mPhotoFile.getPath());
+        //Log.d("myApp", mProduct.getPhotoID().toString());
     }
 
     @Override
@@ -210,7 +215,8 @@ public class ProductFragment extends Fragment {
                     Product product = new Product();
                     //Product product = new Product(mProductName.getText().toString(), "Empty", mUserNo, mProductDescription.getText().toString(), Double.parseDouble(mProductPrice.getText().toString()), Integer.parseInt(mProductQuantity.getText().toString()));
                     product.setProductName(mProductName.getText().toString());
-                    product.setPhoto("Empty");
+                    //Log.d("myApp", mPhotoIDHidden.getText().toString());
+                    product.setPhoto(mPhotoFile.getPath());
                     product.setUserNo(mUserNo);
                     product.setDescription(mProductDescription.getText().toString());
                     product.setPrice(Double.parseDouble(formater.format(Double.parseDouble(mProductPrice.getText().toString()))));
@@ -254,7 +260,11 @@ public class ProductFragment extends Fragment {
     private void updatePhotoView() {
         if (mPhotoFile == null || !mPhotoFile.exists()) {
             mPhotoView.setImageDrawable(null);
+            //Log.d("myApp", "Null");
         } else {
+            //Log.d("myApp", "Not Null");
+            //Log.d("myApp", mPhotoFile.getPath());
+            //Log.d("myApp", mPhotoPath);
             Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(), getActivity());
             mPhotoView.setImageBitmap(bitmap);
         }

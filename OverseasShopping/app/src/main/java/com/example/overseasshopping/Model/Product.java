@@ -1,5 +1,7 @@
 package com.example.overseasshopping.Model;
 
+import java.util.UUID;
+
 public class Product {
 
     private Integer productNo;
@@ -9,8 +11,10 @@ public class Product {
     private Double price;
     private Integer productQuantity;
     private Integer userNo;
+    private UUID photoID;
 
     public Product() {
+        photoID = UUID.randomUUID();
     }
 
     public Product(String productName, String photo, Integer userNo, String description, Double price, Integer productQuantity) {
@@ -20,6 +24,10 @@ public class Product {
         this.price = price;
         this.productQuantity = productQuantity;
         this.userNo = userNo;
+    }
+
+    public UUID getPhotoID() {
+        return photoID;
     }
 
     public Integer getUserNo() {
@@ -47,7 +55,11 @@ public class Product {
     }
 
     public String getPhoto() {
-        return "assets://" + "IMG_" + getProductNo() + ".png";
+        return photo;
+    }
+
+    public String getPhotoFileName() {
+        return "IMG_" + getPhotoID().toString() + ".jpg";
     }
 
     public void setPhoto(String photo) {
