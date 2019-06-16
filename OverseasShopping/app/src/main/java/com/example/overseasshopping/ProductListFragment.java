@@ -77,9 +77,6 @@ public class ProductListFragment extends Fragment  {
             mTitleTextView.setText(mProduct.getProductName());
             mPrice.setText("RM " + formater.format(mProduct.getPrice()));
 
-
-
-
             //sets up the image loader library
             ProductLab.get(getActivity()).setupImageLoader();
             ImageLoader imageLoader = ImageLoader.getInstance();

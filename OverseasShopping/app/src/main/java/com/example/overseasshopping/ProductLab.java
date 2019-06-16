@@ -35,8 +35,6 @@ public class ProductLab {
     private ProductLab(Context context){
         mContext = context.getApplicationContext();
 
-
-
     }
     public List<Product> getProducts(){
 
@@ -48,8 +46,9 @@ public class ProductLab {
 
     public File getPhotoFile(Product product) {
         File filesDir = mContext.getFilesDir();
-        return new File(filesDir, product.getPhoto());
+        return new File(filesDir, product.getPhotoFileName());
     }
+
     public void setupImageLoader(){
         // UNIVERSAL IMAGE LOADER SETUP
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
