@@ -58,7 +58,7 @@ public class ProductListFragment extends Fragment implements SearchView.OnQueryT
         private TextView mTitleTextView;
         private TextView mPrice;
         private ImageView mProductImage;
-        private EditText mSearch;
+
 
 
         public ProductHolder(LayoutInflater inflater, ViewGroup parent){
@@ -71,7 +71,7 @@ public class ProductListFragment extends Fragment implements SearchView.OnQueryT
             mTitleTextView = (TextView) itemView.findViewById(R.id.product_title);
             mPrice = (TextView) itemView.findViewById(R.id.product_price);
             mProductImage = (ImageView) itemView.findViewById(R.id.product_image);
-            mSearch = (EditText) itemView.findViewById(R.id.search);
+
 
 
         }
@@ -96,31 +96,7 @@ public class ProductListFragment extends Fragment implements SearchView.OnQueryT
             //download and display image from url
             imageLoader.displayImage(mProduct.getPhoto(), mProductImage,options);
 
-            mSearch.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    filter(s.toString());
-                }
-                private void filter(String text){
-                    List<Product> filteredList = new ArrayList<>();
-
-                        if(mProduct.getProductName().toLowerCase().contains(text.toLowerCase())){
-                            filteredList.add(mProduct);
-                        }
-
-                    mAdapter.filterList(filteredList);
-                }
-            });
 
 //            ProductLab.get(getActivity()).setupImageLoader();
 ////            ImageLoader imageLoader = ImageLoader.getInstance();
