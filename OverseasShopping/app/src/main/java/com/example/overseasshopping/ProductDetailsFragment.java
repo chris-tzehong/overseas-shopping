@@ -37,6 +37,8 @@ import android.widget.TextView;
 
 import com.example.overseasshopping.Model.Order;
 import com.example.overseasshopping.Model.Product;
+
+import static com.example.overseasshopping.MainActivity.EXTRA_USERNAME;
 import static com.example.overseasshopping.MainActivity.EXTRA_USER_NO;
 
 import java.io.File;
@@ -81,7 +83,7 @@ public class ProductDetailsFragment extends Fragment {
         mWarningIcon.setBounds(0,0, mWarningIcon.getIntrinsicWidth(), mWarningIcon.getIntrinsicHeight());
 
         //final int mUserNo = (Integer) getActivity().getIntent().getIntExtra(MainActivity.EXTRA_USER_NO, -1);
-        final String mUsername = (String) getActivity().getIntent().getStringExtra(MainActivity.EXTRA_USERNAME);
+        final String mUsername = (String) getActivity().getIntent().getStringExtra(EXTRA_USERNAME);
         //Log.d("myApp", Integer.toString(mUserNo));
         //Log.d("myApp", mUsername);
         final String productName = db.getProductName(mDataFromActivity);
@@ -128,8 +130,16 @@ public class ProductDetailsFragment extends Fragment {
             public void onClick(View widget) {
 
                 FragmentManager fm = getFragmentManager();
-                fm.beginTransaction().replace(R.id.main_container, ProfileFragment.showOtherProfile(productOwnerUsername)).commit();
+
+                if( !mUsername.equals(productOwnerUsername)) {
+
+                    fm.beginTransaction().replace(R.id.main_container, ProfileFragment.showOtherProfile(productOwnerUsername)).commit();
+
+                } else {
+                    fm.beginTransaction().replace(R.id.main_container, ProfileFragment.showOwnProfile(mUsername)).commit();
+                }
             }
+
 
             @Override
             public void updateDrawState(TextPaint ds) {

@@ -156,7 +156,7 @@ public class ProductListFragment extends Fragment implements SearchView.OnQueryT
     private void updateUI(){
         ProductLab productLab = ProductLab.get(getActivity());
         List<Product> products = productLab.getProducts();
-        if (mAdapter ==null){
+        if (mAdapter == null){
             mAdapter = new ProductAdapter(products);
             mProductRecyclerView.setAdapter(mAdapter);
         }else{
