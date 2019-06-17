@@ -209,6 +209,17 @@ public class ProductFragment extends Fragment {
                     });
                     AlertDialog alertDialog9 = alertDialogBuilder9.create();
                     alertDialog9.show();
+                } else if (!mPhotoFile.exists()) {
+                    AlertDialog.Builder alertDialogBuilder12 = new AlertDialog.Builder(getActivity());
+                    alertDialogBuilder12.setMessage(R.string.product_photo_empty_field);
+                    alertDialogBuilder12.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    AlertDialog alertDialog12 = alertDialogBuilder12.create();
+                    alertDialog12.show();
                 } else {
                     db = new DatabaseHelper(getActivity());
                     //db.addUser(user);

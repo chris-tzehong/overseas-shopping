@@ -81,6 +81,7 @@
     <string name="purchase_own_product">You cannot purchase your own product.</string>
     <string name="product_error_invalid_field">There are incomplete or invalid field(s). Please correct the field(s).</string>
     <string name="product_error_empty_field">There are incomplete field(s). Please fill in the field(s).</string>
+    <string name="product_photo_empty_field">Please take a picture of the product.</string>
     <string name="product_added_successfully">Your product was added successfully.</string>
     <string name="order_error_invalid_purchasequantity">Purchase quantity cannot be 0 or higher than amount of quantity available</string>
     <string name="order_error_empty_purchasequantity">Please fill in the amount you would like to purchase.</string>
