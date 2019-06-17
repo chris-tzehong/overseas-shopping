@@ -11,12 +11,8 @@ import com.example.overseasshopping.Model.Product;
 import com.example.overseasshopping.Model.Rating;
 import com.example.overseasshopping.Model.User;
 
-import java.util.Date;
-import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.overseasshopping.LoginActivity.userno;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -613,6 +609,57 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return false;
+    }
+
+    public Product getProduct(String productName) {
+
+        // array of columns to fetch
+        String[] columns = {
+                COLUMN_PRODUCT_NAME,
+                COLUMN_PHOTO,
+                COLUMN_PRICE
+
+        };
+
+        String sortOrder = COLUMN_PRODUCT_NAME + " ASC";
+
+        String selection = COLUMN_PRODUCT_NAME + " = ?";
+
+        String[] selectionArgs = {productName};
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // query the user table
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_no,user_name,user_email,password FROM user ORDER BY user_name;
+         */
+        Cursor cursor = db.query(TABLE_PRODUCT,
+                columns,    //columns to return
+                selection,        //columns for the WHERE clause
+                selectionArgs,        //The values for the WHERE clause
+                null,       //group the rows
+                null,
+                sortOrder);       //filter by row groups
+
+        if (cursor != null ){
+            cursor.moveToFirst();
+                //User.setUserNo(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NO)));
+                // Adding product record to list
+        }
+
+        Product product = new Product();
+        product.setProductName(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NAME)));
+        product.setPhoto(cursor.getString(cursor.getColumnIndex(COLUMN_PHOTO)));
+        product.setPrice(Double.parseDouble(cursor.getString(cursor.getColumnIndex(COLUMN_PRICE))));
+        // Adding product record to list
+
+        db.close();
+        cursor.close();
+
+        return product;
+
     }
 
     public String getProductName(Integer productno) {

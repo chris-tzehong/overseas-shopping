@@ -262,19 +262,26 @@ public class ProductListFragment extends Fragment implements SearchView.OnQueryT
 
     @Override
     public boolean onQueryTextChange(String newText) {
-
+        mDatabaseHelper = new DatabaseHelper(getActivity());
 
         ProductLab productLab = ProductLab.get(getActivity());
         String userInput = newText.toLowerCase();
         List<Product> products = new ArrayList<>();
+        List<Product> productList = productLab.getProducts();
+        List<String> productName = new ArrayList<String>();
+        for (int i = 0; i < productList.size(); i++) {
+            Product p = productList.get(i);
+            productName.add(p.getProductName());
+        }
 
 
 
-//        for(String name: mProduct.getProductName()){
-//            if(name.toLowerCase().contains(userInput)){
-//                products.add(name);
-//            }
-//        }
+        for(String name: productName){
+            if(name.toLowerCase().contains(userInput)){
+                Product p = mDatabaseHelper.getProduct(name);
+                products.add(p);
+            }
+        }
 
         mAdapter.updateList(products);
             return true;
