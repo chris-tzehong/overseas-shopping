@@ -13,10 +13,15 @@
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <ImageView
         android:id="@+id/product_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="2dp"
         android:text="Image"/>
 
 
@@ -29,8 +34,11 @@
 
     <TextView
         android:id="@+id/product_title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/product_image"
+        android:layout_toRightOf="@+id/product_image"
         android:text="Product Title"
         app:fontFamily="@font/viga"
         android:padding="2dp"
@@ -38,11 +46,14 @@
 
     <TextView
         android:id="@+id/product_price"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/product_title"
+        android:layout_toEndOf="@+id/product_image"
+        android:layout_toRightOf="@+id/product_image"
         android:text="Price"
         app:fontFamily="@font/assistant_light"
         android:padding="2dp"
         android:layout_marginLeft="2dp"/>
-
+    </RelativeLayout>
 </LinearLayout>

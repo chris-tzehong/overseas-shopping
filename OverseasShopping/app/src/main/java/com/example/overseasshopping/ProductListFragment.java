@@ -28,6 +28,7 @@ import android.widget.Toast;
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -41,17 +42,18 @@ import static com.example.overseasshopping.LoginActivity.username;
 import static com.example.overseasshopping.MainActivity.EXTRA_USER_NO;
 
 
-public class ProductListFragment extends Fragment {
+public class ProductListFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private RecyclerView mProductRecyclerView;
     private ProductAdapter mAdapter;
     private DatabaseHelper mDatabaseHelper;
 
-
+    private Product mProduct;
+    private List<Product> mPro;
 
 
     private class ProductHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private Product mProduct;
+
         private TextView mPID;
         private TextView mTitleTextView;
         private TextView mPrice;
@@ -193,9 +195,9 @@ public class ProductListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_product_list, menu);
 
-//        MenuItem menuItem = menu.findItem(R.id.action_search);
-//        SearchView searchView = (SearchView) menuItem.getActionView();
-//        searchView.setOnQueryTextListener(this);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+       searchView.setOnQueryTextListener(this);
 
     }
 
@@ -244,32 +246,39 @@ public class ProductListFragment extends Fragment {
             notifyDataSetChanged();
         }
 
+        public void updateList(List<Product> products){
+            mProducts = new ArrayList<>();
+            mProducts.addAll(products);
+            notifyDataSetChanged();
+        }
+
 
 
     }
-//    @Override
-//    public boolean onQueryTextSubmit(String s) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean onQueryTextChange(String newText) {
-//
-//
-//        ProductLab productLab = ProductLab.get(getActivity());
-//        String userInput = newText.toLowerCase();
-//        List<Product> products = new ArrayList<>();
-//
-//
-//
-//        for(String name : products){
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+
+        ProductLab productLab = ProductLab.get(getActivity());
+        String userInput = newText.toLowerCase();
+        List<Product> products = new ArrayList<>();
+
+
+
+//        for(String name: mProduct.getProductName()){
 //            if(name.toLowerCase().contains(userInput)){
 //                products.add(name);
 //            }
 //        }
-//        mAdapter.updateList(products);
-//            return true;
-//    }
+
+        mAdapter.updateList(products);
+            return true;
+    }
 
 }
 

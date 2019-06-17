@@ -15,7 +15,8 @@ public class OrderHistoryActivity extends SingleFragmentActivity {
     }
     @Override
     protected Fragment createFragment() {
-        String user_name =  getIntent().getStringExtra(EXTRA_USERNAME);
-        return new OrderHistoryFragment().newInstance(user_name);
+//        String user_name =  getIntent().getStringExtra(EXTRA_USERNAME);
+//        return new OrderHistoryFragment().newInstance(user_name);
+        return new OrderHistoryFragment();
     }
 }

@@ -17,20 +17,20 @@ import com.example.overseasshopping.Model.Order;
 import java.util.List;
 
 public class OrderHistoryFragment extends Fragment {
-    private static final String USERNAME = "com.example.overseasshopping.orderhistoryfragment.username";
+   // private static final String USERNAME = "com.example.overseasshopping.orderhistoryfragment.username";
     private RecyclerView mOrderHistoryRecyclerView;
     private OrderHisAdapter mAdapter;
     private String mUserName;
 
 
-
-    public static OrderHistoryFragment newInstance(String userName) {
-        Bundle bundle = new Bundle();
-        bundle.putString(USERNAME, userName);
-        OrderHistoryFragment fragment = new OrderHistoryFragment();
-        fragment.setArguments(bundle);
-        return fragment;
-    }
+//
+//    public static OrderHistoryFragment newInstance(String userName) {
+//        Bundle bundle = new Bundle();
+//        bundle.putString(USERNAME, userName);
+//        OrderHistoryFragment fragment = new OrderHistoryFragment();
+//        fragment.setArguments(bundle);
+//        return fragment;
+//    }
 
     private class OrderHistoryHolder extends RecyclerView.ViewHolder {
         private Order mOrder;
@@ -40,6 +40,7 @@ public class OrderHistoryFragment extends Fragment {
         private TextView mOrderPrice;
         private TextView mQuantity;
         private TextView mBuyer_Seller;
+        private TextView mDate;
 
         public OrderHistoryHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_orderhistory,parent, false));
@@ -48,6 +49,7 @@ public class OrderHistoryFragment extends Fragment {
             mOrderPrice = (TextView) itemView.findViewById(R.id.order_total_price);
             mQuantity = (TextView) itemView.findViewById(R.id.order_total_quantity);
             mBuyer_Seller = (TextView) itemView.findViewById(R.id.order_buyer_seller);
+            mDate = (TextView) itemView.findViewById(R.id.order_date);
         }
 
         public void bind(Order order){
@@ -61,6 +63,8 @@ public class OrderHistoryFragment extends Fragment {
                 mOrderPrice.setText(String.valueOf(mOrder.getTotalPrice()));
                 mQuantity.setText(String.valueOf(mOrder.getPurchaseQuantity()));
                 mBuyer_Seller.setText(mOrder.getSeller());
+                mDate.setText(mOrder.getTime());
+
             }
                 else if(mUserName.equals(mOrder.getSeller())){
                 mOrderID.setText(String.valueOf(mOrder.getOrderNo()));
@@ -68,6 +72,7 @@ public class OrderHistoryFragment extends Fragment {
                 mOrderPrice.setText(String.valueOf(mOrder.getTotalPrice()));
                 mQuantity.setText(String.valueOf(mOrder.getPurchaseQuantity()));
                 mBuyer_Seller.setText(mOrder.getBuyer());
+                mDate.setText(mOrder.getTime());
                 }
 
         }
@@ -87,9 +92,9 @@ public class OrderHistoryFragment extends Fragment {
         mOrderHistoryRecyclerView = (RecyclerView) view.findViewById(R.id.product_recycler_view);
         mOrderHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mUserName =  getArguments().getString(USERNAME);
-        Intent intent = OrderHistoryActivity.newIntent(getActivity().getBaseContext(),mUserName);
-        startActivity(intent);
+        mUserName =  (String) getActivity().getIntent().getStringExtra(MainActivity.EXTRA_USERNAME);
+      //  Intent intent = OrderHistoryActivity.newIntent(getActivity().getBaseContext(),mUserName);
+      //  startActivity(intent);
         updateUI();
         return view;
     }
