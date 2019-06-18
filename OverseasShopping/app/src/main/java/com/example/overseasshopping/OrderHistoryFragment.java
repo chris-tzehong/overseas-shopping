@@ -74,21 +74,21 @@ public class OrderHistoryFragment extends Fragment {
 
 
 
-                mOrderID.setText(String.valueOf(mOrder.getOrderNo()));
-                mOrderTitleTextView.setText(mOrder.getProductName());
-                mOrderPrice.setText(String.valueOf(mOrder.getTotalPrice()));
-                mQuantity.setText(String.valueOf(mOrder.getPurchaseQuantity()));
-                mBuyer_Seller.setText(mOrder.getSeller());
-                mDate.setText(mOrder.getTime());
+                mOrderID.setText(String.valueOf("Order ID: " + mOrder.getOrderNo()));
+                mOrderTitleTextView.setText("Product Name: " + mOrder.getProductName());
+                mOrderPrice.setText(String.valueOf("Total Price: " + " RM "+ mOrder.getTotalPrice()));
+                mQuantity.setText(String.valueOf("Total Quantity: " + mOrder.getPurchaseQuantity()));
+                mBuyer_Seller.setText("Owner: " + mOrder.getSeller());
+                mDate.setText("Date: " + mOrder.getTime());
 
             }
                 else if(mUserName.equals(mOrder.getSeller())){
-                mOrderID.setText(String.valueOf(mOrder.getOrderNo()));
-                mOrderTitleTextView.setText(mOrder.getProductName());
-                mOrderPrice.setText(String.valueOf(mOrder.getTotalPrice()));
-                mQuantity.setText(String.valueOf(mOrder.getPurchaseQuantity()));
-                mBuyer_Seller.setText(mOrder.getBuyer());
-                mDate.setText(mOrder.getTime());
+                mOrderID.setText(String.valueOf("Order ID: " + mOrder.getOrderNo()));
+                mOrderTitleTextView.setText("Product Name: " + mOrder.getProductName());
+                mOrderPrice.setText(String.valueOf("Total Price: " + " RM "+ mOrder.getTotalPrice()));
+                mQuantity.setText(String.valueOf("Total Quantity: " + mOrder.getPurchaseQuantity()));
+                mBuyer_Seller.setText("Owner: " + mOrder.getBuyer());
+                mDate.setText("Date: " + mOrder.getTime());
                 }
 
         }
