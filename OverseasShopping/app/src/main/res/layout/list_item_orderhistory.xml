@@ -20,7 +20,7 @@
         android:id="@+id/order_ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-     android:textStyle="bold"
+        android:textStyle="bold"
         android:textSize="18sp"
 
         android:text="Order ID"/>
@@ -29,10 +29,13 @@
         android:id="@+id/order_total_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-    android:layout_weight="1"
-      android:layout_alignParentRight="true"
-        android:textSize="12sp"
+        android:layout_weight="1"
+        android:layout_alignParentRight="true"
+
+        android:textStyle="bold"
+        android:textSize="18sp"
         android:text="Order Total Price"/>
+
         </RelativeLayout>
 
         <TextView

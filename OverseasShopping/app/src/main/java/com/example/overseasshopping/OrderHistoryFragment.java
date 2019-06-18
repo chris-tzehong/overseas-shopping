@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.overseasshopping.Model.Order;
 
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class OrderHistoryFragment extends Fragment {
@@ -68,7 +69,7 @@ public class OrderHistoryFragment extends Fragment {
 
         public void bind(Order order){
             mOrder = order;
-
+            final DecimalFormat formater = new DecimalFormat("0.00");
 
             if(mUserName.equals(mOrder.getBuyer())) {
 
@@ -76,7 +77,7 @@ public class OrderHistoryFragment extends Fragment {
 
                 mOrderID.setText(String.valueOf("Order ID: " + mOrder.getOrderNo()));
                 mOrderTitleTextView.setText("Product Name: " + mOrder.getProductName());
-                mOrderPrice.setText(String.valueOf("Total Price: " + " RM "+ mOrder.getTotalPrice()));
+                mOrderPrice.setText(String.valueOf("Total Price: " + " RM "+ formater.format(mOrder.getTotalPrice())));
                 mQuantity.setText(String.valueOf("Total Quantity: " + mOrder.getPurchaseQuantity()));
                 mBuyer_Seller.setText("Seller: " + mOrder.getSeller());
                 mDate.setText("Date: " + mOrder.getTime());
@@ -85,7 +86,7 @@ public class OrderHistoryFragment extends Fragment {
                 else if(mUserName.equals(mOrder.getSeller())){
                 mOrderID.setText(String.valueOf("Order ID: " + mOrder.getOrderNo()));
                 mOrderTitleTextView.setText("Product Name: " + mOrder.getProductName());
-                mOrderPrice.setText(String.valueOf("Total Price: " + " RM "+ mOrder.getTotalPrice()));
+                mOrderPrice.setText(String.valueOf("Total Price: " + " RM "+ formater.format(mOrder.getTotalPrice())));
                 mQuantity.setText(String.valueOf("Total Quantity: " + mOrder.getPurchaseQuantity()));
                 mBuyer_Seller.setText("Buyer: " + mOrder.getBuyer());
                 mDate.setText("Date: " + mOrder.getTime());
