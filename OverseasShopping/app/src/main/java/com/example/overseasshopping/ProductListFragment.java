@@ -228,8 +228,6 @@ public class ProductListFragment extends Fragment implements SearchView.OnQueryT
             notifyDataSetChanged();
         }
 
-
-
     }
     @Override
     public boolean onQueryTextSubmit(String s) {
