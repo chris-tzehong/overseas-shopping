@@ -78,7 +78,7 @@ public class OrderHistoryFragment extends Fragment {
                 mOrderTitleTextView.setText("Product Name: " + mOrder.getProductName());
                 mOrderPrice.setText(String.valueOf("Total Price: " + " RM "+ mOrder.getTotalPrice()));
                 mQuantity.setText(String.valueOf("Total Quantity: " + mOrder.getPurchaseQuantity()));
-                mBuyer_Seller.setText("Owner: " + mOrder.getSeller());
+                mBuyer_Seller.setText("Seller: " + mOrder.getSeller());
                 mDate.setText("Date: " + mOrder.getTime());
 
             }
@@ -87,7 +87,7 @@ public class OrderHistoryFragment extends Fragment {
                 mOrderTitleTextView.setText("Product Name: " + mOrder.getProductName());
                 mOrderPrice.setText(String.valueOf("Total Price: " + " RM "+ mOrder.getTotalPrice()));
                 mQuantity.setText(String.valueOf("Total Quantity: " + mOrder.getPurchaseQuantity()));
-                mBuyer_Seller.setText("Owner: " + mOrder.getBuyer());
+                mBuyer_Seller.setText("Buyer: " + mOrder.getBuyer());
                 mDate.setText("Date: " + mOrder.getTime());
                 }
 
