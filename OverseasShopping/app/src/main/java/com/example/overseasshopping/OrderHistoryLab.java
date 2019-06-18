@@ -29,7 +29,7 @@ public class OrderHistoryLab {
 
         List<Order> orders = new ArrayList<>();
         db = new DatabaseHelper(mContext);
-        orders = db.getAllOrder();
+        orders = db.getUserOrder(username);
         return orders;
     }
 

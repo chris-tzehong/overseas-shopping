@@ -986,6 +986,68 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // return order list
         return orderList;
     }
+    public List<Order> getUserOrder(String username) {
+        // array of columns to fetch
+        List<Order> orderList = new ArrayList<Order>();
+
+        String[] columns = {
+                COLUMN_ORDER_NO,
+                COLUMN_SELLER,
+                COLUMN_BUYER,
+                COLUMN_TIME,
+                COLUMN_PRODUCT_NAME,
+                COLUMN_PURCHASE_QUANTITY,
+                COLUMN_TOTAL_PRICE,
+        };
+        // sorting orders
+        String sortOrder =
+                COLUMN_TIME + " ASC";
+
+
+        String selection = COLUMN_SELLER + " = ?" + " OR " + COLUMN_BUYER + " = ?";
+
+        String[] selectionArgs ={String.valueOf(username),String.valueOf(username)};
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // query the order table
+        /**
+         * Here query function is used to fetch records from order table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT order_no,seller , FROM order_ ORDER BY seller;
+         */
+        Cursor cursor = db.query(TABLE_ORDERS, //Table to query
+                columns,
+                selection,
+                selectionArgs,
+                null,        //The values for the WHERE clause
+                null,       //group the rows//filter by row groups
+                sortOrder); //The sort order
+
+
+        // Traversing through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Order order = new Order();
+                order.setOrderNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_ORDER_NO))));
+                order.setSeller(cursor.getString(cursor.getColumnIndex(COLUMN_SELLER)));
+                order.setBuyer(cursor.getString(cursor.getColumnIndex(COLUMN_BUYER)));
+                order.setTime(cursor.getString(cursor.getColumnIndex(COLUMN_TIME)));
+                order.setProductName(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NAME)));
+                order.setPurchaseQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PURCHASE_QUANTITY))));
+                order.setTotalPrice(Double.parseDouble(cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_PRICE))));
+                //Product.setProductNo(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO)));
+                // Adding order record to list
+                orderList.add(order);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        // return order list
+        return orderList;
+    }
+
 
     /**
      * This method to update order record

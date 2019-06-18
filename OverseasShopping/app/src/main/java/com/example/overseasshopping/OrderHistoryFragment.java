@@ -21,8 +21,22 @@ public class OrderHistoryFragment extends Fragment {
     private RecyclerView mOrderHistoryRecyclerView;
     private OrderHisAdapter mAdapter;
     private String mUserName;
+    private DatabaseHelper mDatabaseHelper;
+    private List<Order> mOrderList;
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        View view = inflater.inflate(R.layout.fragment_order_list,container,false);
 
+        mOrderHistoryRecyclerView = (RecyclerView) view.findViewById(R.id.order_recycler_view);
+        mOrderHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mUserName =  (String) getActivity().getIntent().getStringExtra(MainActivity.EXTRA_USERNAME);
+        //  Intent intent = OrderHistoryActivity.newIntent(getActivity().getBaseContext(),mUserName);
+        //  startActivity(intent);
+        updateUI();
+        return view;
+    }
 //
 //    public static OrderHistoryFragment newInstance(String userName) {
 //        Bundle bundle = new Bundle();
@@ -43,7 +57,7 @@ public class OrderHistoryFragment extends Fragment {
         private TextView mDate;
 
         public OrderHistoryHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_orderhistory,parent, false));
+            super(inflater.inflate(R.layout.list_item_orderhistory, parent, false));
             mOrderID = (TextView) itemView.findViewById(R.id.order_ID);
             mOrderTitleTextView = (TextView) itemView.findViewById(R.id.order_title);
             mOrderPrice = (TextView) itemView.findViewById(R.id.order_total_price);
@@ -57,6 +71,8 @@ public class OrderHistoryFragment extends Fragment {
 
 
             if(mUserName.equals(mOrder.getBuyer())) {
+
+
 
                 mOrderID.setText(String.valueOf(mOrder.getOrderNo()));
                 mOrderTitleTextView.setText(mOrder.getProductName());
@@ -78,31 +94,13 @@ public class OrderHistoryFragment extends Fragment {
         }
 
     }
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
 
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_product_list,container,false);
 
-        mOrderHistoryRecyclerView = (RecyclerView) view.findViewById(R.id.product_recycler_view);
-        mOrderHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        mUserName =  (String) getActivity().getIntent().getStringExtra(MainActivity.EXTRA_USERNAME);
-      //  Intent intent = OrderHistoryActivity.newIntent(getActivity().getBaseContext(),mUserName);
-      //  startActivity(intent);
-        updateUI();
-        return view;
-    }
     private void updateUI(){
 
-        OrderHistoryLab orderhistoryLab = OrderHistoryLab.get(getActivity());
-
-        List<Order> orders = orderhistoryLab.getOrders(mUserName);
+        OrderHistoryLab orderLab = OrderHistoryLab.get(getActivity());
+        List<Order> orders = orderLab.getOrders(mUserName);
 
         if (mAdapter ==null){
             mAdapter = new OrderHisAdapter(orders);
