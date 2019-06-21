@@ -64,7 +64,10 @@ public class MainActivity extends AppCompatActivity {
         fm.beginTransaction().add(R.id.main_container, new ProductListFragment(), "1").commit();
     }
 
+    @Override
+    public void onBackPressed() {
 
+    }
 
     //   @Override
 //    protected Fragment createFragment(){

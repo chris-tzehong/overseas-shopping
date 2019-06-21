@@ -615,6 +615,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // array of columns to fetch
         String[] columns = {
+                COLUMN_PRODUCT_NO,
                 COLUMN_PRODUCT_NAME,
                 COLUMN_PHOTO,
                 COLUMN_PRICE
@@ -650,6 +651,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         Product product = new Product();
+        product.setProductNo(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NO))));
         product.setProductName(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NAME)));
         product.setPhoto(cursor.getString(cursor.getColumnIndex(COLUMN_PHOTO)));
         product.setPrice(Double.parseDouble(cursor.getString(cursor.getColumnIndex(COLUMN_PRICE))));
